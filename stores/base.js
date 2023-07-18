@@ -22,7 +22,9 @@ export const baseStore = defineStore('base', {
 			online: {
 				count: 0, 
 			}, 
-			msg: {}
+			msg: {},
+			home: {},
+			roomList: [],
 		};
 	},
 	getters: {
@@ -31,6 +33,18 @@ export const baseStore = defineStore('base', {
 	// 也可以这样定义
 	// state: () => ({ count: 0 })
 	actions: {
+		async getRoomList() {
+			try {
+				const res = await apis.yuyue_roomid_list() 
+				if(res.code == 1) { 
+					//获取搜索类型数据
+					this.home = res.home
+					this.roomList = res.list
+				}
+			} catch (error) { 
+				return error
+			}
+		},
 		getMsg(data) {
 			console.log('getMsg', data)
 			this.msg = data

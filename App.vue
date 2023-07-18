@@ -83,4 +83,7 @@
 	@import "uview-plus/index.scss";
 	@import '@/common/ext.scss';
 	@import '@/common/iconfont.css';
+	page {
+		background-color: #f8f8f8;
+	}
 </style>

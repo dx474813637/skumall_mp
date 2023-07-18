@@ -91,7 +91,7 @@ export default function($ws) {
 		}
 		
 		// 登录接口和刷新token接口绕过
-		if (config.url.indexOf('login_cancel') >= 0) {
+		if (config.url.indexOf('xcx_login') >= 0) {
 			return config
 		}
 		if (!token) {
