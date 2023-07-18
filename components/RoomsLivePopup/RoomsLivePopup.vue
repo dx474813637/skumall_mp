@@ -8,7 +8,7 @@
 				<view class="list-item item-left">
 					<u-list >
 						<u-list-item
-							v-for="(item, index) in list"
+							v-for="(item, index) in roomList"
 							:key="item.name"
 						> 
 							<view 
@@ -52,13 +52,10 @@
 		reactive, 
 		watch
 	} from 'vue' 
-	const props = defineProps({
-		list: {
-			type: Array,
-			default: () => {
-				return []
-			},
-		}, 
+	import { baseStore } from '@/stores/base'
+	const base = baseStore();
+	const { roomList, themeColor } = toRefs(base)
+	const props = defineProps({ 
 		current: {
 			type: Array,
 			default: () => {
@@ -68,8 +65,14 @@
 	}) 
 	const nav_current = ref(0) 
 	const mainList = computed(() => {
-		if(props.list.length == 0) return []
-		return props.list[nav_current.value].list
+		if(roomList.value.length == 0) return []
+		return roomList.value[nav_current.value].list
+	})
+	onMounted(async () => {
+		if(roomList.value.length == 0) {
+			uni.showLoading()
+			await base.getRoomList()
+		} 
 	})
 	watch(
 		() => props.current,

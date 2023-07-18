@@ -15,6 +15,7 @@ const base = baseStore(pinia)
  */ 
  const whiteList = [
  	'/pages/index/index',
+ 	'/pages/reservation/reservation',
  	// '/pages/user/index',
  	// {
  	// 	pattern: /^\/pages\/list.*/
@@ -24,7 +25,7 @@ const base = baseStore(pinia)
  	// 	pattern: /^\/pages\/baojia*/
  	// },
  	// {
- 	// 	pattern: /^\/pages\/index*/
+ 	// 	pattern: /^\/pages\/*/
  	// },
  	// {
  	// 	pattern: /^\/pages\/more*/

@@ -14,6 +14,19 @@ export const userStore = defineStore('user', {
 	getters: { 
 	}, 
 	actions: {
+		async sendDingyue() {
+			wx.getSetting({
+				withSubscriptions: true,
+				success: async res => {
+					console.log(res)
+					const r = await apis.get_tmp_id_time({
+						params: {
+							str: JSON.stringify(res)
+						}
+					});
+				}
+			})
+		},
 		async getUserInfo() {
 			this.user_loading = true
 			const res = await apis.my_info();
