@@ -16,6 +16,7 @@ const base = baseStore(pinia)
  const whiteList = [
  	'/pages/index/index',
  	'/pages/reservation/reservation',
+	'/pages_user/reservation_list/reservation_list'
  	// '/pages/user/index',
  	// {
  	// 	pattern: /^\/pages\/list.*/
@@ -64,7 +65,7 @@ export function permissionBase(e) {
 	 	// 不是白名单并且没有token
 		// console.log(user.user.login, user.user_info.login)
 		// console.log(!user.user.login, !user.user_info.login, pass)
-	 	if (!pass && (!user.user.login || !user.user_info.user)) {
+	 	if (!pass && (!user.user.login || !user.user_info.user )) {
 			
 	 		// uni.setStorageSync('prePage', e.url)
 			// user.clearLogout()

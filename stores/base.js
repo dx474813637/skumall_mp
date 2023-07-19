@@ -25,6 +25,7 @@ export const baseStore = defineStore('base', {
 			msg: {},
 			home: {},
 			roomList: [],
+			home_loading: false
 		};
 	},
 	getters: {
@@ -34,14 +35,18 @@ export const baseStore = defineStore('base', {
 	// state: () => ({ count: 0 })
 	actions: {
 		async getRoomList() {
+			if(this.home_loading) return
 			try {
+				this.home_loading = true
 				const res = await apis.yuyue_roomid_list() 
 				if(res.code == 1) { 
+					this.home_loading = false
 					//获取搜索类型数据
 					this.home = res.home
 					this.roomList = res.list
 				}
 			} catch (error) { 
+				this.home_loading = false
 				return error
 			}
 		},

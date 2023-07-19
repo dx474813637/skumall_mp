@@ -15,8 +15,7 @@
 		{
 			"path": "pages/reservation/reservation",
 			"style": {
-				"navigationBarTitleText": "预约管理",
-				"onReachBottomDistance": 80 
+				"navigationBarTitleText": "预约申请"
 			}
 		}
 	],
@@ -34,13 +33,20 @@
 				"style": {
 					"navigationBarTitleText": "我的信息"
 				}
+			},
+			{
+				"path": "reservation_list/reservation_list",
+				"style": {
+					"navigationBarTitleText": "我的预约",
+					"onReachBottomDistance": 80 
+				}
 			}
 		]
 	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
+		"navigationBarBackgroundColor": "#fff",
 		"backgroundColor": "#F8F8F8"
 	},
 	"uniIdRouter": {}

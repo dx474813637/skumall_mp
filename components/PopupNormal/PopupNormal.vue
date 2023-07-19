@@ -4,7 +4,7 @@
 			<view class="wrapper">
 				<view class="wrapper-header  u-p-20 "> 
 					<slot name="header">
-						<view class="u-flex u-flex-between">
+						<view class="u-flex u-flex-between u-flex-items-center">
 							<view class="item"></view>
 							<view class="u-text-center">
 								{{attrs.title}}
@@ -39,6 +39,7 @@
 	onMounted(() => {
 		console.log(attrs)
 	}) 
+	const emits = defineEmits(['open'])
 	const attrs = useAttrs()
 	// const visible = computed({
 	//     get() {
@@ -52,6 +53,10 @@
 		attrs.onUpdateShow(false)
 	}
 		 
+	function open () {
+		emits('open')
+	}
+		 	 
 </script>
 
 <style lang="scss" scoped>

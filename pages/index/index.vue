@@ -81,14 +81,14 @@
 		<u-safe-bottom></u-safe-bottom>
 		<TabBar :customStyle="{boxShadow: '0px -3px 10px rgba(0,0,0,0.1)' }">
 			<view class="u-flex u-flex-between u-flex-items-center u-p-l-20 u-p-r-20 u-font-28" style="height: 100%;">
-				<view class="item u-flex-column u-flex-items-center u-m-r-40">
+				<view class="item u-flex-column u-flex-items-center u-m-r-40" @click="base.handleGoto('/pages_user/index/index')">
 					<u-icon name="account-fill" :color="themeColor" size="22"></u-icon>
 					<view class="u-info">个人中心</view>
 				</view>
-				<view class="item u-flex-column u-flex-items-center u-m-r-40">
-					<u-icon name="order" :color="themeColor" size="22"></u-icon>
+				<view class="item u-flex-column u-flex-items-center u-m-r-40" @click="base.handleGoto('/pages_user/reservation_list/reservation_list')">
+					<u-icon name="list-dot" :color="themeColor" size="22"></u-icon>
 					<view class="u-info">我的预约</view>
-				</view>
+				</view> 
 				<view class="item u-flex-1">
 					<u-button type="primary" shape="circle" @click="dingyueEvent"  >
 						<view class="u-flex">
@@ -136,11 +136,14 @@
 			
 		}
 	}
-	function subApi(list) {
+	function subApi(list) { 
 		wx.requestSubscribeMessage({
 			tmplIds: list,
-			success: async (res)=>{
-				if(res.KIRbQmobnZlPo5OTgaMq6kHRI_zhpwVphn0mY42NeW8 == 'reject') return
+			success: async (res)=>{ 
+				if(res.tjSTqE0hZ0TxMCIerDlXLqhhHNxJ7MxMcB0741EtcFg == 'reject') {
+					base.handleGoto({url: '/pages/reservation/reservation', params: {noDingyue: '1'}})
+					return
+				}
 				uni.showLoading()
 				const res2 = await $api.tmp_id_back({
 					params: {
@@ -152,9 +155,10 @@
 						title: res2.msg,
 						icon: 'none'
 					})
-					base.handleGoto('/pages/reservation/reservation')
+					base.handleGoto({url: '/pages/reservation/reservation', params: {noDingyue: '1'}})
 				}
-			}
+			},
+			complete: () => {}
 		})
 	}
 </script>

@@ -12,11 +12,19 @@
 							:key="item.name"
 						> 
 							<view 
-								class="u-p-20 u-p-t-30 u-p-b-30 nav-item u-font-28"
+								class="u-p-20 u-p-t-30 u-p-b-30 nav-item u-font-28 u-flex-column u-flex-items-center"
 								 @click="handleNavClick(index)"
 								:class="{
 									'active-nav': index == nav_current 
-								}">{{item.name}}</view> 
+								}">
+									<u--image
+										showLoading
+										:src="item.img"
+										width="60px"
+										height="60px"
+									></u--image>
+									<view class="u-p-t-20">{{item.name}}</view>
+								</view> 
 							
 						</u-list-item>
 					</u-list>
@@ -31,6 +39,7 @@
 								}"
 								v-for="(item, index) in mainList"
 								:key="item.id"
+								@click="emits('onConfirm', {data: item, current: [nav_current, index]})"
 							>
 								<view class="u-line-1">{{item.name}}</view> 
 							</view>
@@ -63,6 +72,7 @@
 			},
 		}
 	}) 
+	const emits = defineEmits(['onConfirm'])
 	const nav_current = ref(0) 
 	const mainList = computed(() => {
 		if(roomList.value.length == 0) return []
@@ -103,12 +113,10 @@
 		}
 	}
 	.nav-item {
-		color: #666;
-		border-bottom: 1rpx solid $u-info-light;
+		color: #666; 
 		&.active-nav {
 			background-color: #f2f2f2;
-			color: $u-primary;
-			border-bottom: 0;
+			color: $u-primary; 
 		}
 	}
 	.main-list {
