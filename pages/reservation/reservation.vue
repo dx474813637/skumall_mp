@@ -31,7 +31,7 @@
 						<view class="u-p-t-30 u-font-28">{{item.name}}</view>
 					</view>
 			</view>
-			<view class="banner u-p-40 u-radius-8 u-m-b-30 text-white" :style="{backgroundImage: `url(${home.ad1})`}">
+			<view class="banner u-p-40 u-radius-8 u-m-b-30 text-white" :style="{backgroundImage: `url(${home.ad6})`}" @click="goto(home.ad6_url)">
 				<view class="u-flex banner-text u-m-b-20">
 					<u-icon name="home" color="#fff"></u-icon>
 					<view class="u-m-l-10 u-line-1 u-font-36">{{home.name}}</view>
@@ -105,49 +105,77 @@
 								</div>
 							</view>
 							<u-icon name="arrow-down-fill" color="#666" size="14"></u-icon>
-						</view>
-						<!-- <u--input
-							v-else
-							v-model="form.hour"
-							readonly 
-							placeholder="点击选择" 
-							suffixIcon="arrow-down-fill"
-							suffixIconStyle="color: #666; font-size: 14px; margin-left:10px"
-							border="none"
-							inputAlign="right"
-						></u--input> -->
+						</view> 
 					</u-form-item>
 				</u--form>
+			</view> 
+			
+			<view class="u-info u-font-24 u-m-b-30" v-if="editInfoShow">请完善用户信息</view>
+			<view class="u-p-10 u-p-l-30 u-p-r-30 bg-white u-radius-8 u-m-b-30" @click="showMyInfoPopup = true">
+				<u--form
+					labelPosition="left" 
+					labelWidth="80px"
+					:labelStyle="{color: '#000'}"   
+					>
+					<u-form-item
+						label="姓名" 
+						borderBottom 
+						>
+						<u--input
+							v-model="user_info.name" 
+							readonly 
+							placeholder="请编辑"  
+							border="none"
+							inputAlign="right"
+						></u--input> 
+					</u-form-item>
+					<u-form-item
+						label="手机" 
+						borderBottom 
+						>
+						<u--input
+							v-model="user_info.phone" 
+							readonly 
+							placeholder="请编辑"  
+							border="none"
+							inputAlign="right"
+						></u--input> 
+					</u-form-item>
+					<u-form-item
+						label="直播间名称" 
+						borderBottom 
+						>
+						<u--input
+							v-model="user_info.room_name" 
+							readonly 
+							placeholder="请编辑"  
+							border="none"
+							inputAlign="right"
+						></u--input> 
+					</u-form-item>
+					<view class="u-flex u-flex-center u-flex-items-center u-primary u-font-28 u-p-30">
+						<u-icon name="edit-pen" size="20" color="themeColor"></u-icon>
+						<view class="u-m-l-16">编辑我的信息</view>
+					</view>
+				</u--form>
 			</view>
-			<!-- <template v-if="tabs_current == 0"> -->
-				
-			<!-- </template>
-			<template v-if="tabs_current == 1">
-				
-				<template v-if="my_reservation_list.length == 0">
-					<u-empty mode="data" :icon="base.empty" />
-				</template>
-				<template v-else>
-					<u-loadmore :status="loadstatus" />
-				</template>
-			</template> -->
 			<u-safe-bottom></u-safe-bottom>
 		</view>	
 		
 		<TabBar :customStyle="{boxShadow: '0px -3px 10px rgba(0,0,0,0.1)' }">
 			<view class="u-flex u-flex-between u-flex-items-center u-p-l-20 u-p-r-20 u-font-28" style="height: 100%;">
-				<view class="item u-flex-column u-flex-items-center u-m-r-40" @click="base.handleGoto('/pages_user/index/index')">
-					<u-icon name="account-fill" :color="themeColor" size="22"></u-icon>
-					<view class="u-info">个人中心</view>
+				<view class="item u-flex-column u-flex-items-center u-m-r-40" @click="base.handleGoto('/pages/index/index')">
+					<u-icon name="home" :color="themeColor" size="22"></u-icon>
+					<view class="u-info">首页</view>
 				</view>
 				<view class="item u-flex-column u-flex-items-center u-m-r-40" @click="base.handleGoto('/pages_user/reservation_list/reservation_list')">
 					<u-icon name="list-dot" :color="themeColor" size="22"></u-icon>
 					<view class="u-info">我的预约</view>
 				</view>
-				<view class="item u-flex-column u-flex-items-center u-m-r-40" @click="base.handleGoto('/pages_user/info/info')">
-					<u-icon name="order" :color="themeColor" size="22"></u-icon>
-					<view class="u-info">我的信息</view>
-				</view>
+				<view class="item u-flex u-flex-items-center u-m-r-20 u-p-20" @click="showMyInfoPopup = true">
+					<u-icon name="plus"  size="14"></u-icon>
+					<view class="u-info u-font-30 u-m-l-10">完善信息</view>
+				</view> 
 				<view class="item u-flex-1">
 					<u-button type="primary" shape="circle" @click="submit"  >
 						<view class="u-flex">
@@ -169,6 +197,8 @@
 		<u-calendar 
 			:show="showCalendarShow"
 			closeOnClickOverlay
+			:minDate="home.ariqi"
+			:maxDate="home.briqi"
 			@confirm="calendarConfirm"
 			@close="showCalendarShow = false"
 		></u-calendar>
@@ -182,6 +212,11 @@
 			@onConfirm="handleChangeTime"
 			@onRefresh="handleRefreshTime"
 		></RoomsTimePopup>	
+		<MyInfoPopup
+			:show="showMyInfoPopup"   
+			title="我的信息编辑" 
+			:onUpdateShow="handleChangeShow3"  
+		></MyInfoPopup>	
 	</view>
 </template>
 
@@ -194,6 +229,7 @@
 	const user = userStore()
 	const base = baseStore();
 	const { home, roomList, themeColor } = toRefs(base)
+	const { user_info, tmp_id_list } = toRefs(user) 
 	const {
 		setOnlineControl,
 		onlineControl
@@ -231,6 +267,7 @@
 	const showCalendarShow = ref(false)
 	
 	const showTimePopup = ref(false)
+	const showMyInfoPopup = ref(false)
 	const time_loading = ref(false)
 	const timeList = ref([])
 	const timeData = ref([])
@@ -241,6 +278,9 @@
 	})
 	const timeInputDisabled = computed(() => {
 		return !form.value.roomid || !form.value.riqi 
+	})  
+	const editInfoShow = computed(() => {
+		return !user_info.value.name || !user_info.value.phone  || !user_info.value.room_name 
 	})  
 	watch(
 		() => [
@@ -257,26 +297,7 @@
 		{
 			deep: true
 		}
-	)
-	// const my_reservation_list = ref([])
-	// const curP = ref(1)
-	// const loadstatus = ref('loadmore')
-	// const params = computed(() => {
-	// 	return {
-	// 		p: curP.value, 
-	// 	}
-	// })
-	// watch(
-	// 	() => tabs_current.value,
-	// 	(n) => {
-	// 		if(n == 1) {
-	// 			initMyReservation()
-	// 		}
-	// 	},
-	// 	{
-	// 		immediate: true
-	// 	}
-	// )
+	) 
 	onLoad(async (options) => {
 		if(roomList.value.length == 0) { 
 			uni.showLoading()
@@ -290,7 +311,10 @@
 			noDingyue.value = options.noDingyue
 			
 		}
-		if(noDingyue.value == '0') user.sendDingyue()
+		if(noDingyue.value == '0') {
+			await user.sendDingyue()
+			user.gettmp_id_list()
+		}
 		
 	})
 	function showRoomListFunc(index) {
@@ -304,6 +328,9 @@
 	}
 	function handleChangeShow2(data) {
 		showTimePopup.value = data
+	}
+	function handleChangeShow3(data) {
+		showMyInfoPopup.value = data
 	}
 	function handleChangeRoom(obj) {
 		currentRoomData.value = obj.current
@@ -336,17 +363,14 @@
 		time_loading.value = false
 	}
 	async function submit() {
-		uForm.value.validate().then(async res => {
-			if(noDingyue.value == '0') {
-				dingyueEvent()
-			}
-			else {
-				submitApi()
-			}
-			
-		}).catch(errors => {
-			uni.$u.toast('请检查表单')
-		})
+		if(editInfoShow.value) {
+			showMyInfoPopup.value = true
+			return
+		}
+		if(noDingyue.value == '0') {
+			dingyueEvent()
+		}
+		
 	}
 	async function submitApi() {
 		uni.showLoading()
@@ -356,27 +380,26 @@
 				title: res.msg,
 				icon: 'none'
 			}) 
+			setTimeout(() => {
+				base.handleGoto('/pages_user/reservation_list/reservation_list')
+			}, 1500)
 		}
+	}
+	function checkForm() {
+		uForm.value.validate().then(async res => {
+			submitApi() 
+		}).catch(errors => {
+			uni.$u.toast('请检查表单')
+		})
 	}
 	async function dingyueEvent() {
-		uni.showLoading()
-		const res = await $api.tmp_id_list();
-		if(res.code == 1) {
-			// this.tmp_id_list = res.list ;
-			subApi(res.list)
-			
-		}
-	}
-	function subApi(list) { 
 		wx.requestSubscribeMessage({
-			tmplIds: list,
+			tmplIds: tmp_id_list.value,
 			success: async (res)=>{ 
-				console.log(res)
 				if(res.tjSTqE0hZ0TxMCIerDlXLqhhHNxJ7MxMcB0741EtcFg == 'reject') {
-					submitApi()
+					checkForm()
 					return
 				}
-				console.log('??')
 				uni.showLoading()
 				const res2 = await $api.tmp_id_back({
 					params: {
@@ -388,67 +411,29 @@
 						title: res2.msg,
 						icon: 'none'
 					}) 
-					submitApi()
+					checkForm()
 				}
 			},
-			complete: () => {}
+			fail: (err) => {
+				console.log(err)
+			}
 		})
 	}
-	// onReachBottom( () => {
-	// 	if(tabs_current.value != 1) return
-	// 	getMoreMyReservation()
-	// }) 
-	// async function getMoreMyReservation() {
-	// 	if(loadstatus.value != 'loadmore') return
-	// 	curP.value ++
-	// 	await getMyReservation()
-	// }
-	// async function getMyReservation() {
-	// 	const res = await $api.my_yuyue({params: params.value})
-	// 	if (res.code == 1) { 
-	// 		my_reservation_list.value = [...my_reservation_list.value, ...res.list]
-	// 		if(my_reservation_list.value.length >= res.total) {
-	// 			loadstatus.value = 'nomore'
-	// 		}
-	// 		else {
-	// 			loadstatus.value = 'loadmore'
-	// 		}
-	// 	}
-	// }
-	// function initMyReservationParams() {
-	// 	curP.value == 1;
-	// 	my_reservation_list.value = []
-	// }
-	// async function initMyReservation() {
-	// 	uni.showLoading()
-	// 	initMyReservationParams();
-	// 	await getMyReservation()
-	// } 
-	
-	// function handleTabsChange({index}) {
-	// 	tabs_current.value = index
-	// }
-	// async function submit() {
-	// 	console.log(form.value)
-	// 	const res = await $api.yuyue_add({
-	// 		params: {
-	// 			...form.value, 
-	// 		}
-	// 	})
-	// 	if(res.code == 1) { 
-	// 		uni.showToast({
-	// 			title: res.msg
-	// 		})  
-	// 	}
-	// }
+	function goto(url) {
+		if(!url) return;
+		uni.reLaunch({
+			url
+		})
+	}
 </script>
 
 <style scoped lang="scss">
 .w {
 	min-height: 100vh;
+	padding-bottom: 60px;
 }
 .banner {
-	background-size: 100%;
+	background-size: cover;
 	background-position: center center;
 	background-repeat: no-repeat;
 	position: relative;

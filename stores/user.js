@@ -9,6 +9,7 @@ export const userStore = defineStore('user', {
 			user: uni.getStorageSync('user') || {},
 			user_info: {},
 			user_loading: false,
+			tmp_id_list: []
 		};
 	},
 	getters: { 
@@ -27,12 +28,18 @@ export const userStore = defineStore('user', {
 				}
 			})
 		},
+		async gettmp_id_list() {
+			const res = await apis.tmp_id_list();
+			if(res.code == 1) {
+				this.tmp_id_list = res.list
+			}
+		},
 		async getUserInfo() {
 			this.user_loading = true
 			const res = await apis.my_info();
 			this.user_loading = false
 			if(res.code == 1) {
-				this.user_info = res.list
+				this.user_info = res.list || {}
 				
 			}else {
 				this.user_info = {}

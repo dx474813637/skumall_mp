@@ -17,7 +17,7 @@ export const baseStore = defineStore('base', {
 				'xcxappid': extConfig.attr.wxappid,
 			},
 			share_other: '',
-			themeColor: '#0070c5',
+			themeColor: '#007aff',
 			empty: 'https://wx.rawmex.cn/Public/memu/data1.png',
 			online: {
 				count: 0, 
@@ -44,6 +44,7 @@ export const baseStore = defineStore('base', {
 					//获取搜索类型数据
 					this.home = res.home
 					this.roomList = res.list
+					return res
 				}
 			} catch (error) { 
 				this.home_loading = false

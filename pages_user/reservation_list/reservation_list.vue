@@ -84,28 +84,36 @@
 	const params = computed(() => {
 		return {
 			p: curP.value, 
-			zt: tabs_list.value[tabs_current.value].value
+			cate: tabs_list.value[tabs_current.value].value
 		}
 	}) 
 	const tabs_current = ref(0)
 	const tabs_list = ref([
 		{
-			name: '待审核',
+			name: '全部',
 			disabled: false,
 			value: '0'
 		},
 		{
-			name: '通过',
+			name: '待审核',
 			disabled: false,
 			value: '1'
 		},
 		{
-			name: '拒绝',
+			name: '通过',
 			disabled: false,
 			value: '2'
+		},
+		{
+			name: '拒绝',
+			disabled: false,
+			value: '3'
 		}
 	])
 	onLoad(async (options) => {
+		if(options.hasOwnProperty('zt')) {
+			tabs_current.value = +tabs_list.value.findIndex(ele => ele.value == options.zt) 
+		}
 		initMyReservation() 
 	}) 
 	onReachBottom( () => {
