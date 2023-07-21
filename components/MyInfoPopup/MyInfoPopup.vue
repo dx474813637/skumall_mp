@@ -49,14 +49,14 @@
 						 		></u--input> 
 						 	</u-form-item>
 						 	<u-form-item
-						 		label="直播间标题"
+						 		label="直播号"
 						 		prop="room_name"  
 						 		borderBottom
 						 		required 
 						 		>
 						 		<u--input
 						 			v-model="form.room_name" 
-						 			placeholder="输入直播间标题"  
+									placeholder="直播平台 + 账号"  
 						 			border="none"
 						 			inputAlign="right"
 						 		></u--input> 

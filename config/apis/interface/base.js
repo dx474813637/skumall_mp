@@ -56,3 +56,7 @@ export const tmp_id_list = (data) => http.get('tmp_id_list', data)
 export const tmp_id_back = (data) => http.get('tmp_id_back', data)
 // get_tmp_id_time
 export const get_tmp_id_time = (data) => http.get('get_tmp_id_time', data)
+
+
+// web_danye
+export const web_danye = (data) => all_api({...data, params: {...data.params, api: 'web_danye'}})

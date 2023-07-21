@@ -17,6 +17,12 @@
 			"style": {
 				"navigationBarTitleText": "预约申请"
 			}
+		},
+		{
+			"path": "pages/web_danye/web_danye",
+			"style": {
+				"navigationBarTitleText": ""
+			}
 		}
 	],
 	"subPackages": [{

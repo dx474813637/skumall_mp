@@ -103,7 +103,7 @@
 <style lang="scss" scoped>
 	.list-w {
 		height: 60vh;
-		background-color: #f2f2f2;
+		background-color: #e8e8e8;
 		.list-item {
 			height: 100%;
 			&.item-left {
@@ -114,16 +114,18 @@
 	}
 	.nav-item {
 		color: #666; 
+		filter: grayscale(100%);
 		&.active-nav {
-			background-color: #f2f2f2;
+			background-color: #e8e8e8;
 			color: $u-primary; 
+			filter: none;
 		}
 	}
 	.main-list {
 		height: 100%;
 	}
 	.item-card { 
-		background-color: #e8e8e8;
+		background-color: #f8f8f8;
 		box-sizing: border-box;  
 		margin-bottom: 10px; 
 		padding: 10px;

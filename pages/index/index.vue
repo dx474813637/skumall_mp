@@ -12,20 +12,20 @@
 		</view>
 		<view class="wrapper-main u-p-l-20 u-p-r-20">
 			<view class="header-intro u-p-28 bg-white u-radius-8 u-m-b-20">
-				<view class="u-flex u-flex-between u-flex-items-start u-m-b-20">
+				<view class="u-flex u-flex-between u-flex-items-center u-m-b-20 ">
 					<view class="item">
-						<view class="intro-name u-m-b-16">
+						<view class="intro-name ">
 							{{home.name}}
 						</view>
-						<view class="intro-info u-font-24 u-flex">
+						<view class="intro-info u-font-24 u-flex u-m-t-20" v-if="home.info">
 							<view class=" intro-info-item u-p-6 u-p-l-10 u-p-r-10">{{home.info}}</view> 
 						</view>
 					</view>
 					<view class="item">
 						<button class="zhuanfa-btn" openType="share">
-							<view class="u-flex-column u-flex-items-center">
-								<u-icon name="share-square" color="#999" size="34"></u-icon>
+							<view class="u-flex  u-flex-items-center">
 								<view class="u-font-24 u-info" style="line-height: 1em;">转发分享</view>
+								<u-icon name="share-square" color="#999" size="30"></u-icon>
 							</view>
 							
 						</button>
@@ -50,7 +50,7 @@
 					</view> 
 				</view>
 			</view>
-			<view class="header-tabs u-p-28 u-p-t-50 u-p-b-50 bg-white u-radius-8 u-flex u-flex-around u-flex-items-start u-m-b-20">
+			<!-- <view class="header-tabs u-p-28 u-p-t-50 u-p-b-50 bg-white u-radius-8 u-flex u-flex-around u-flex-items-start u-m-b-20">
 				<view 
 					class="item-tabs u-flex-column u-flex-items-center"
 					v-for="(item, index) in roomList"
@@ -66,7 +66,7 @@
 							/>
 						<view class="u-p-t-30 u-font-28">{{item.name}}</view>
 					</view>
-			</view>
+			</view> -->
 			<view class="header-banner u-m-b-20" v-if="home.ad3">
 				<u--image 
 					showLoading 
@@ -95,6 +95,16 @@
 					height="auto" 
 					mode="widthFix"
 					@click="goto(home.ad5_url)"
+					></u--image>
+			</view>
+			<view class="header-banner u-m-b-20" v-if="home.ad7">
+				<u--image 
+					showLoading 
+					:src="home.ad7" 
+					width="100%" 
+					height="auto" 
+					mode="widthFix"
+					@click="goto(home.ad7_url)"
 					></u--image>
 			</view>
 		</view>

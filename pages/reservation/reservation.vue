@@ -14,7 +14,7 @@
 		
 		
 		<view class="list u-p-40">
-			<view class="header-tabs u-p-28 u-p-t-40 u-p-b-40 bg-white u-radius-8 u-flex u-flex-around u-flex-items-start u-m-b-30">
+			<!-- <view class="header-tabs u-p-28 u-p-t-40 u-p-b-40 bg-white u-radius-8 u-flex u-flex-around u-flex-items-start u-m-b-30">
 				<view 
 					class="item-tabs u-flex-column u-flex-items-center"
 					v-for="(item, index) in roomList"
@@ -30,15 +30,15 @@
 							/>
 						<view class="u-p-t-30 u-font-28">{{item.name}}</view>
 					</view>
-			</view>
+			</view> -->
 			<view class="banner u-p-40 u-radius-8 u-m-b-30 text-white" :style="{backgroundImage: `url(${home.ad6})`}" @click="goto(home.ad6_url)">
 				<view class="u-flex banner-text u-m-b-20">
 					<u-icon name="home" color="#fff"></u-icon>
 					<view class="u-m-l-10 u-line-1 u-font-36">{{home.name}}</view>
 				</view>
 				<view class="u-flex banner-text">
-					<u-icon name="info-circle" color="#fff"></u-icon>
-					<view class="u-m-l-10 u-font-24 u-line-2" style="font-weight: 400;">{{home.info}}</view>
+					<u-icon name="map" color="#fff"></u-icon>
+					<view class="u-m-l-10 u-font-24 u-line-2" style="font-weight: 400;">{{home.address}}</view>
 				</view>
 			</view>
 			<view class="u-p-10 u-p-l-30 u-p-r-30 bg-white u-radius-8 u-m-b-30">
@@ -142,13 +142,13 @@
 						></u--input> 
 					</u-form-item>
 					<u-form-item
-						label="直播间名称" 
+						label="直播号" 
 						borderBottom 
 						>
 						<u--input
 							v-model="user_info.room_name" 
 							readonly 
-							placeholder="请编辑"  
+							placeholder="直播平台 + 账号"  
 							border="none"
 							inputAlign="right"
 						></u--input> 
@@ -369,8 +369,10 @@
 		}
 		if(noDingyue.value == '0') {
 			dingyueEvent()
+			return
 		}
 		
+		checkForm()
 	}
 	async function submitApi() {
 		uni.showLoading()
