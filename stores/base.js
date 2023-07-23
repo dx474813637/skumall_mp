@@ -97,8 +97,51 @@ export const menusStore = defineStore('menus', {
 			this.currPage = data;
 		},
 		async getMenusData() {
-			try {
-				const res = await apis.memu() 
+			uni.$u.sleep(1000)
+			this.menus = [
+				{
+					name: "首页",
+					type: 1,
+					url: "/pages/home/home",
+					white_icon_1: "https://wx.rawmex.cn/Public/xzlmenu/menu1a.png",
+					white_icon_2: "https://wx.rawmex.cn/Public/xzlmenu/menu1b.png",
+				},
+				{
+					name: "分类",
+					type: 1,
+					url: "/pages/cateList/cateList",
+					white_icon_1: "https://wx.rawmex.cn/Public/xzlmenu/menu1a.png",
+					white_icon_2: "https://wx.rawmex.cn/Public/xzlmenu/menu1b.png",
+				}, 
+				{
+					name: "采购车",
+					type: 1,
+					url: "/pages/home/home",
+					white_icon_1: "https://wx.rawmex.cn/Public/xzlmenu/menu1a.png",
+					white_icon_2: "https://wx.rawmex.cn/Public/xzlmenu/menu1b.png",
+				},
+				{
+					name: "我的",
+					type: 1,
+					url: "/pages/home/home",
+					white_icon_1: "https://wx.rawmex.cn/Public/xzlmenu/menu1a.png",
+					white_icon_2: "https://wx.rawmex.cn/Public/xzlmenu/menu1b.png",
+				},
+			].map((ele, index) => {
+				let paramsStr = ele.url.split('?')[1] || ''
+				let paramsObj = {}
+				paramsStr && paramsStr.split('&').forEach(item => {
+					paramsObj[item.split('=')[0]] = item.split('=')[1]
+				})
+				 
+				return {
+					...ele,
+					route: ele.url.split('?')[0],
+					options: paramsObj
+				}
+			})  
+			try { 
+				const res = await apis.memu()  
 				if(res.code == 1) { 
 					//获取搜索类型数据
 					this.cpy_type_origin = [res.type]
@@ -135,6 +178,36 @@ export const menusStore = defineStore('menus', {
 			} catch (error) { 
 				return error
 			}
+		}
+	},
+});
+
+
+export const useCateStore = defineStore('cate', {
+	state: () => {
+		return {  
+			cate_list: [],  
+			cate_loading: false
+		};
+	},
+	getters: { 
+	}, 
+	actions: { 
+		async getCateData() { 
+			this.cate_loading = true
+			try {
+				const res = await apis.cate_list() 
+				this.cate_loading = false
+				if(res.code == 1) { 
+					//获取搜索类型数据
+					this.cate_list = res.list  
+				}
+			} catch (error) { 
+				console.log(error)
+				this.cate_loading = false
+				return error
+			}
+			
 		}
 	},
 });

@@ -5,8 +5,7 @@
 			"^u-(.*)": "uview-plus/components/u-$1/u-$1.vue"
 		}
 	},
-	"pages": [ 
-		{
+	"pages": [{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "首页"
@@ -23,12 +22,39 @@
 			"style": {
 				"navigationBarTitleText": ""
 			}
+		}, {
+			"path": "pages/cateList/cateList",
+			"style": {
+				"navigationBarTitleText": "分类",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/product/productList",
+			"style": {
+				"navigationBarTitleText": "商品分类",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/product/productDetail",
+			"style": {
+				"navigationBarTitleText": "商品详情",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/home/home",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"enablePullDownRefresh": false
+			}
+
 		}
 	],
 	"subPackages": [{
 		"root": "pages_user",
-		"pages": [
-			{
+		"pages": [{
 				"path": "index/index",
 				"style": {
 					"navigationBarTitleText": "个人中心"
@@ -44,8 +70,22 @@
 				"path": "reservation_list/reservation_list",
 				"style": {
 					"navigationBarTitleText": "我的预约",
-					"onReachBottomDistance": 80 
+					"onReachBottomDistance": 80
 				}
+			}, {
+				"path": "address/addressList",
+				"style": {
+					"navigationBarTitleText": "地址管理",
+					"enablePullDownRefresh": false
+				}
+
+			}, {
+				"path": "address/addressDetail",
+				"style": {
+					"navigationBarTitleText": "地址详情",
+					"enablePullDownRefresh": false
+				}
+
 			}
 		]
 	}],
