@@ -1,38 +1,49 @@
 <template>
-	<view class="w u-flex-column">
-		<view class="header bg-white u-p-20 u-flex u-flex-items-center"> 
-			<view class="item u-flex-1">
-				<u-search
-					placeholder="请输入关键字" 
-					v-model="terms" 
-					:showAction="false"
-					@search="handleSearch"
-				></u-search>
+	<view class="w ">
+		<u-sticky>
+			<view class="header bg-white u-p-10 u-p-l-20 u-p-r-20 u-flex u-flex-items-center">
+				<view class="item u-flex-1">
+					<u-search
+						placeholder="请输入关键字" 
+						v-model="terms" 
+						:showAction="false"
+						@search="handleSearch"
+					></u-search>
+				</view>
+				
 			</view>
-			
-		</view>
-		<view class="nav-w bg-white u-p-20 u-flex">
-			<view class="item item-cate u-flex u-flex-items-center" @click="showCateList = true">
-				<view class="u-info">筛选类别：</view>
-				<view class="u-primary u-p-r-10">全部</view>
-				<u-icon name="arrow-down-fill" color="#ccc" size="12"></u-icon>
-			</view> 
-		</view>
-		<view class="list "> 
-			 <view class="list-item card u-p-20 u-p-l-40 u-p-r-40 u-radius-6 bg-white uni-shadow-base u-m-b-20" v-for="item in dataList" :key="item.id">
-			 	<view> 
-					{{item.name}}
-			 	</view>
+			<view class="nav-w bg-white u-p-20 u-flex" v-if="!terms">
+				<view class="item item-cate u-flex u-flex-items-center u-font-28" @click="showCateList = true">
+					<view class="u-info">筛选类别：</view>
+					<view class="u-primary u-p-r-10">{{cate_label}}</view>
+					<u-icon name="arrow-down-fill" color="#ccc" size="12"></u-icon>
+				</view> 
+			</view>
+		</u-sticky>
+		
+		<view class="list u-flex u-flex-wrap u-flex-items-start u-p-10"> 
+			 <view 
+				class="list-item u-p-14" 
+				v-for="item in dataList" 
+				:key="item.id"
+				>
+			 	<ProductColCard
+					:origin="item"
+				></ProductColCard>
 			 		 
 			 </view>	
-			<template v-if="dataList.length == 0">
-				<u-empty mode="data" :icon="base.empty" />
-			</template>
-			<template v-else>
-				<u-loadmore :status="loadstatus" />
-			</template>  
+			
 			 		
 		</view>
+		<template v-if="dataList.length == 0">
+			<view class="u-flex u-flex-center u-p-40">
+				<u-empty mode="data" :icon="base.empty" />
+			</view>
+			
+		</template>
+		<template v-else>
+			<u-loadmore :status="loadstatus" />
+		</template>  
 		<u-safe-bottom></u-safe-bottom>
 	</view>
 	
@@ -62,14 +73,26 @@
 	const showCateList = ref(false)
 	const curP = ref(1)
 	const cateId = ref('')
+	const cate_label = ref('全部')
 	const dataList = ref([])
 	const loadstatus = ref('loadmore')
 	const params = computed(() => {
-		return {
-			p: curP.value,
-			cate: cateId.value,
-			terms: terms.value
+		if(terms.value) {
+			return {
+				p: curP.value, 
+				terms: terms.value
+			}
 		}
+		else {
+			return {
+				p: curP.value,
+				cate: cateId.value 
+			}
+		}
+		
+	})
+	const func = computed(() => {
+		return terms.value ? 'web_search' : 'web_product'
 	})
 	onLoad(async (options) => {
 		if(options.hasOwnProperty('terms')) {
@@ -82,8 +105,7 @@
 	})
 	
 	
-	onReachBottom( () => {
-		if(tabs_current.value != 1) return
+	onReachBottom( () => { 
 		getMoreData()
 	}) 
 	async function getMoreData() {
@@ -92,10 +114,12 @@
 		await getData()
 	}
 	async function getData() {
-		const res = await $api.web_product({params: params.value})
+		if(loadstatus.value == 'loading') return
+		loadstatus.value = 'loading'
+		const res = await $api[func.value]({params: params.value})
 		if (res.code == 1) { 
 			dataList.value = [...dataList.value, ...res.list]
-			if(dataList.value.length >= res.total) {
+			if(dataList.value.length >= +res.total) {
 				loadstatus.value = 'nomore'
 			}
 			else {
@@ -104,7 +128,7 @@
 		}
 	}
 	function initDataParams() {
-		curP.value == 1;
+		curP.value = 1;
 		dataList.value = []
 	}
 	async function initData() {
@@ -121,6 +145,7 @@
 	}
 	function handleChangeCate(obj) {
 		cateId.value = obj.data.id 
+		cate_label.value = obj.cate_label
 		handleChangeShow(false)
 		initData()
 	}
@@ -128,50 +153,17 @@
 	
 </script>
 
-<style >
-page {
-	height: 100vh;
-	padding-bottom: 50px;
-	box-sizing: border-box;
-}
+<style > 
 </style>
 <style lang="scss" scoped>
 	.w {
 		height: 100%;
+		padding-bottom: 50px;
 		.list {
-			height: 100%;
-			>.item {
-				height: 100%;
-				&.item-nav-w {
-					flex: 0 0 100px;
-					background-color: #fff;
-					.nav {
-						.nav-item {
-							font-size: 14px;
-							padding: 15px 10px;
-							border-bottom: 1rpx solid #f8f8f8;
-							box-sizing: border-box;
-							color: #666;
-							&.active {
-								background-color: #f8f8f8;
-								color: #000;
-							}
-						}
-					}
-				}
-				&.item-content-w {
-					background-color: #f8f8f8;
-					box-sizing: border-box;
-					.item-card {
-						flex: 0 0 48%;
-						margin-bottom: 4%;
-						margin-right: 4%;
-						box-sizing: border-box;
-						&:nth-of-type(2n) {
-							margin-right: 0;
-						}
-					}
-				}
+			box-sizing: border-box;
+			>.list-item {
+				flex: 0 0 50%;
+				box-sizing: border-box;
 			}
 		}
 	}

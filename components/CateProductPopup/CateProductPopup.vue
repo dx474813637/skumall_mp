@@ -8,7 +8,7 @@
 				<view class="list-item item-left">
 					<u-list >
 						<u-list-item
-							v-for="(item, index) in cate_list"
+							v-for="(item, index) in nav_left"
 							:key="item.name"
 						> 
 							<view 
@@ -33,7 +33,7 @@
 								}"
 								v-for="(item, index) in mainList"
 								:key="item.id"
-								@click="emits('onConfirm', {data: item, current: [nav_current, index]})"
+								@click="onConfirm(item, index)"
 							>
 								<view class="u-line-1">{{item.name}}</view> 
 							</view>
@@ -64,15 +64,22 @@
 		current: {
 			type: Array,
 			default: () => {
-				return [0, -1]
+				return [1, -1]
 			},
 		}
 	}) 
 	const emits = defineEmits(['onConfirm'])
-	const nav_current = ref(0) 
-	const mainList = computed(() => {
+	const nav_current = ref(1) 
+	const nav_left = computed(() => {
 		if(cate_list.value.length == 0) return []
-		return cate_list.value[nav_current.value].children
+		return [{
+			name: '全部',
+			id: ''
+		}, ...cate_list.value]
+	})
+	const mainList = computed(() => {
+		if(nav_left.value.length == 0) return []
+		return nav_left.value[nav_current.value].children
 	})
 	onMounted(async () => {
 		if(cate_list.value.length == 0 && !cate_loading) {
@@ -92,7 +99,14 @@
 	)
 	
 	function handleNavClick(index) {
+		if(index == 0) {
+			onConfirm(nav_left.value[0], -1)
+			return
+		}
 		nav_current.value = index
+	}
+	function onConfirm (item, index) {
+		emits('onConfirm', {data: item, cate_label: index > -1? `${nav_left.value[nav_current.value].name} - ${mainList.value[index].name}` : '全部' })
 	}
 </script>
 
