@@ -39,3 +39,5 @@ export const orderConfirm = (data) => http.get('orderConfirm', data)
 export const web_danye = (data = {}) => all_api({...data, params: {...data.params, api: 'web_danye'}})
 // cate_list 单页
 export const cate_list = (data = {}) => all_api({...data, params: {...data.params, api: 'cate_list'}})
+// web_product 单页
+export const web_product = (data = {}) => all_api({...data, params: {...data.params, api: 'web_product'}})

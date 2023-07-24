@@ -21,7 +21,8 @@
 							<view 
 								class="item-card"
 								:class="{
-									active: arr_value.includes(item.value)
+									active: arr_value.includes(item.value),
+									disabled: item.zt != 1
 								}"
 								v-for="(item, index) in list"
 								:key="item.value"
@@ -90,6 +91,7 @@
 		emits('onRefresh')
 	}
 	function selectLabel(item) {
+		if(item.zt != 1) return
 		let i = arr_value.value.indexOf(item.value)
 		if(i == -1) {
 			arr.value.push(item)
@@ -154,6 +156,12 @@
 			background-color: $u-primary-light;
 			color: $u-primary;
 			border-color: $u-primary;
+		}
+		&.disabled {
+			opacity: .4;
+			background-color: $u-error-light;
+			color: $u-error;
+			border-color: $u-error;
 		}
 	}
 </style>

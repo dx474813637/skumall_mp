@@ -109,36 +109,18 @@
 			</view>
 		</view>
 		<u-safe-bottom></u-safe-bottom>
-		<TabBar :customStyle="{boxShadow: '0px -3px 10px rgba(0,0,0,0.1)' }">
-			<view class="u-flex u-flex-between u-flex-items-center u-p-l-20 u-p-r-20 u-font-28" style="height: 100%;">
-				<!-- <view class="item u-flex-column u-flex-items-center u-m-r-40" @click="base.handleGoto('/pages/index/index')">
-					<u-icon name="home" :color="themeColor" size="22"></u-icon>
-					<view class="u-info">首页</view>
-				</view> -->
-				<view class="item u-flex-column u-flex-items-center u-m-r-40" @click="base.handleGoto('/pages_user/reservation_list/reservation_list')">
-					<u-icon name="list-dot" :color="themeColor" size="22"></u-icon>
-					<view >我的预约</view>
-				</view> 
-				<view class="item u-flex u-flex-items-center u-m-r-60 u-m-l-20 u-p-20" @click="showMyInfoPopup = true">
-					<u-icon name="plus"  size="14"></u-icon>
-					<view class="u-info u-font-30 u-m-l-10">完善信息</view>
-				</view> 
-				<view class="item u-flex-1">
-					<u-button type="primary" shape="circle" @click="dingyueEvent"  >
-						<view class="u-flex">
-							<u-icon name="clock" color="#fff" size="16"></u-icon>
-							<text class="u-m-l-8 u-p-b-5 u-font-32">马上预约</text>
-						</view>
-					</u-button>
-				</view>
-			</view>
-		</TabBar>
+		 
 	</view>
-		<MyInfoPopup
-			:show="showMyInfoPopup"   
-			title="我的信息编辑" 
-			:onUpdateShow="handleChangeShow3"  
-		></MyInfoPopup>	
+	<TabBarYuyue
+		hideHomeBtn
+		@onInfoShow="handleChangeShow3"
+		@onSubmit="dingyueEvent"
+	></TabBarYuyue>
+	<MyInfoPopup
+		:show="showMyInfoPopup"   
+		title="我的信息编辑" 
+		:onUpdateShow="handleChangeShow3"  
+	></MyInfoPopup>	
 </template>
 
 <script setup>

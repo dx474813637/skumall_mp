@@ -50,6 +50,13 @@
 				"enablePullDownRefresh": false
 			}
 
+		},
+		{
+			"path": "pages/reservation_list/reservation_list",
+			"style": {
+				"navigationBarTitleText": "预约列表",
+				"onReachBottomDistance": 80
+			}
 		}
 	],
 	"subPackages": [{

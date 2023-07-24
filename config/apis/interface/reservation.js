@@ -14,6 +14,8 @@ export const yuyue_add = (data) => http.get('yuyue_add', data)
 //	my_yuyue 我的预约列表 参数p   
 //	预约状态说明zt=0 待审核 1通过 2拒绝 
 export const my_yuyue = (data) => http.get('my_yuyue', data) 
+//	yuyue 预约列表 参数p   
+export const yuyue = (data) => http.get('yuyue_list', data) 
 // roomid_confirm 参数id zt=1 confirm=0
 export const roomid_confirm = (data) => http.get('roomid_confirm', data)
 

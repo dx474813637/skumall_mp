@@ -200,7 +200,15 @@ export const useCateStore = defineStore('cate', {
 				this.cate_loading = false
 				if(res.code == 1) { 
 					//获取搜索类型数据
-					this.cate_list = res.list  
+					this.cate_list = res.list.map(ele => {
+						ele.children.unshift({
+							name: '全部',
+							id: ele.id
+						})
+						return {
+							...ele
+						}
+					})  
 				}
 			} catch (error) { 
 				console.log(error)

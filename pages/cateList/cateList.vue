@@ -15,6 +15,12 @@
 			>
 				<view class="nav">
 					<view 
+						class="nav-item" 
+						@click="base.handleGoto('/pages/product/productList')"
+						>
+							<view class="u-line-2">全部</view> 
+						</view>
+					<view 
 						class="nav-item"
 						v-for="(item, index) in cate_list"
 						:key="item.id"
