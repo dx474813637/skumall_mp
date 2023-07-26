@@ -1,5 +1,5 @@
 <template>
-	<view class="card u-radius-8 uni-shadow-base bg-white">
+	<view class="card u-radius-8 uni-shadow-base bg-white" @click="gotoDetail">
 		<view class="img-w">
 			<view class="img">
 				<u--image
@@ -28,8 +28,9 @@
 </template>
 
 <script setup> 
-	import { ref, reactive, computed, toRefs, inject, watch, onMounted } from 'vue' 
-	
+	import { ref, reactive, computed, toRefs, inject, watch, onMounted } from 'vue'  
+	import {useCateStore, baseStore} from '@/stores/base.js'
+	const base = baseStore()
 	const props = defineProps({
 		origin: {
 			type: Object,
@@ -48,7 +49,14 @@
 			deep: true
 		}
 	)
-	
+	function gotoDetail() {
+		base.handleGoto({
+			url: '/pages/product/productDetail',
+			params: {
+				id: props.origin.id
+			}
+		})
+	}
 </script>
 
 <style lang="scss" scoped>

@@ -36,10 +36,12 @@ export const orderConfirm = (data) => http.get('orderConfirm', data)
  
 
 // web_danye 单页
-export const web_danye = (data = {}) => all_api({...data, params: {...data.params, api: 'web_danye'}})
+export const web_danye = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'web_danye'}}))
 // cate_list  
-export const cate_list = (data = {}) => all_api({...data, params: {...data.params, api: 'cate_list'}})
+export const cate_list = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'cate_list'}}))
 // web_product  
-export const web_product = (data = {}) => all_api({...data, params: {...data.params, api: 'web_product'}})
+export const web_product = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'web_product'}}))
 // web_search  
-export const web_search = (data = {}) => all_api({...data, params: {...data.params, api: 'web_search'}})
+export const web_search = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'web_search'}}))
+// web_product_detail  
+export const web_product_detail = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'web_product_detail'}}))
