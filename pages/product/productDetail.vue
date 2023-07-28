@@ -27,7 +27,7 @@
 			
 		</template>
 		<view class="u-p-20">
-			<view class="u-radius-8 u-primary-light-bg">
+			<view class="u-radius-8 u-primary-light-bg u-m-b-20">
 				<view class="u-p-20 u-flex u-flex-between u-flex-items-center">
 					<view class="item u-error-dark">
 						<text class="u-font-28">￥</text>
@@ -45,10 +45,36 @@
 							{{product_list.recommend_remark}}
 						</view>
 						<view class="item u-info u-p-l-30" style="white-space: nowrap;">
-							{{$u.timeFrom(new Date(product_list.uptime).getTime(), false)}}
+							{{$u.timeFrom(new Date(product_list.ctime).getTime(), false)}}
 						</view>
 					</view>
 				</view>
+			</view>
+			<view class="u-radius-8 bg-white u-m-b-20 u-p-20">   
+				<view class="u-flex u-flex-between u-flex-items-start u-p-10">
+					<view class="item u-info-dark">
+						发货
+					</view>
+					<view class="item u-info-dark u-p-l-30" style="white-space: nowrap;">
+						预计 {{product_list.delivery_delay_day}} 天发货
+					</view>
+				</view> 
+				<view class="u-flex u-flex-between u-flex-items-start u-p-10">
+					<view class="item u-info-dark">
+						发货
+					</view>
+					<view class="item u-info-dark u-p-l-30" style="white-space: nowrap;">
+						预计 {{product_list.delivery_delay_day}} 天发货
+					</view>
+				</view> 
+				<view class="u-flex u-flex-between u-flex-items-start u-p-10">
+					<view class="item u-info-dark">
+						发货
+					</view>
+					<view class="item u-info-dark u-p-l-30" style="white-space: nowrap;">
+						预计 {{product_list.delivery_delay_day}} 天发货
+					</view>
+				</view> 
 			</view>
 		</view>
 	</view>
