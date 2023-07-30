@@ -50,31 +50,44 @@
 					</view>
 				</view>
 			</view>
-			<view class="u-radius-8 bg-white u-m-b-20 u-p-20">   
-				<view class="u-flex u-flex-between u-flex-items-start u-p-10">
-					<view class="item u-info-dark">
+			<view class="u-radius-8 bg-white u-m-b-20 u-p-20 u-font-28">   
+				<view class="u-flex u-flex-items-center u-p-10 u-p-b-14 u-p-t-14">
+					<view class="item u-info-dark u-m-r-20">
 						发货
-					</view>
-					<view class="item u-info-dark u-p-l-30" style="white-space: nowrap;">
+					</view> 
+					<view class="item u-p-l-40">
 						预计 {{product_list.delivery_delay_day}} 天发货
 					</view>
 				</view> 
-				<view class="u-flex u-flex-between u-flex-items-start u-p-10">
-					<view class="item u-info-dark">
-						发货
+				<view class="u-flex u-flex-items-center u-p-10 u-p-b-14 u-p-t-14">
+					<view class="item u-info-dark u-m-r-20">
+						分类
+					</view>  
+					<view class="item u-p-l-40">
+						{{cate_active_name}}
 					</view>
-					<view class="item u-info-dark u-p-l-30" style="white-space: nowrap;">
-						预计 {{product_list.delivery_delay_day}} 天发货
+				</view>  
+				<u-line length="100%" margin="10px 0"></u-line>
+				<view class="u-flex u-flex-items-center u-p-10 u-p-b-14 u-p-t-14">
+					<view class="item u-info-dark u-m-r-30">
+						选择
 					</view>
-				</view> 
-				<view class="u-flex u-flex-between u-flex-items-start u-p-10">
-					<view class="item u-info-dark">
-						发货
+					<u-line direction="col" length="15px"></u-line> 
+					<view class="item u-p-l-30 u-flex-1">
+						{{cate_active_name}}
 					</view>
-					<view class="item u-info-dark u-p-l-30" style="white-space: nowrap;">
-						预计 {{product_list.delivery_delay_day}} 天发货
+					<u-icon name="arrow-right" color="#ccc"></u-icon>
+				</view>  
+				<view class="u-flex u-flex-items-center u-p-10 u-p-b-14 u-p-t-14">
+					<view class="item u-info-dark u-m-r-30">
+						参数
 					</view>
-				</view> 
+					<u-line direction="col" length="15px"></u-line>
+					<view class="item u-p-l-30 u-flex-1">
+						{{cate_active_name}}
+					</view>
+					<u-icon name="arrow-right" color="#ccc"></u-icon>
+				</view>  
 			</view>
 		</view>
 	</view>
@@ -89,9 +102,16 @@
 	
 	import {useCateStore, baseStore} from '@/stores/base.js'
 	const base = baseStore()
+	const cate = useCateStore()
+	const { cate_list, cate_loading } = toRefs(cate)
 	const product_id = ref('')
 	const product_list = ref({})
 	const swiper_index = ref(0)
+	
+	const cate_active_name = computed(() => {
+		if(!product_list.value.id || cate_list.value.length == 0) return '' 
+		return cate_list.value.map(ele => ele.children).flat().filter(ele => ele.id == product_list.value.cate)[0].name
+	})
 	
 	const swiperlist = computed(() => { 
 		return product_list.value.pic.split('|')
@@ -100,6 +120,9 @@
 	onLoad(async (options) => {
 		if(options.hasOwnProperty('id')) {
 			product_id.value = options.id
+		}
+		if(cate_list.value.length == 0) {
+			cate.getCateData()
 		}
 		uni.showLoading()
 		await getData()
