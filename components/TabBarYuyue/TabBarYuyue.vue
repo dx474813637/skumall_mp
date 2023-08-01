@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-	import { onMo } from "@dcloudio/uni-app";
+	// import { onMo } from "@dcloudio/uni-app";
 	import { ref, reactive, computed, toRefs, inject, watch, onMounted } from 'vue'
 	
 	import { baseStore } from '@/stores/base'

@@ -68,7 +68,7 @@
 					</view>
 				</view>  
 				<u-line length="100%" margin="10px 0"></u-line>
-				<view class="u-flex u-flex-items-center u-p-10 u-p-b-14 u-p-t-14">
+				<view class="u-flex u-flex-items-center u-p-10 u-p-b-14 u-p-t-14" @click="showProductSku = true">
 					<view class="item u-info-dark u-m-r-30">
 						选择
 					</view>
@@ -78,13 +78,24 @@
 					</view>
 					<u-icon name="arrow-right" color="#ccc"></u-icon>
 				</view>  
-				<view class="u-flex u-flex-items-center u-p-10 u-p-b-14 u-p-t-14">
+				<view class="u-flex u-flex-items-center u-p-10 u-p-b-14 u-p-t-14" @click="showProductAttr = true">
 					<view class="item u-info-dark u-m-r-30">
 						参数
 					</view>
 					<u-line direction="col" length="15px"></u-line>
-					<view class="item u-p-l-30 u-flex-1">
-						{{cate_active_name}}
+					<view class="item u-p-l-30 u-flex-1 u-line-1">
+						<view class="u-flex u-flex-items-center">
+							<view
+								class="u-flex u-flex-items-center u-m-r-12 text-nowrap"
+								v-for="(item, index) in product_attr"
+								:key="index"
+								>
+								<view class="u-info">{{item.name}}：</view>
+								<view>{{item.value}}</view>
+								<view class="u-info">；</view>
+							</view>
+						</view>
+						
 					</view>
 					<u-icon name="arrow-right" color="#ccc"></u-icon>
 				</view>  
@@ -176,6 +187,21 @@
 			</view>
 		</view>
 	</TabBar> 
+	<ProductAttrPopup
+		:show="showProductAttr" 
+		title="商品属性" 
+		:list="product_attr"
+		:onUpdateShow="handleChangeShow" 
+	></ProductAttrPopup>
+	<ProductSkuPopup
+		:show="showProductSku" 
+		title="商品规格" 
+		:list="product_list"
+		:sku="product_sku"
+		:spec_prices="spec_prices"
+		:onUpdateShow="handleChangeShow2" 
+		@onConfirm="sku2Cart"
+	></ProductSkuPopup>
 </template>
 
 <script setup>
@@ -195,6 +221,8 @@
 	const company_list = ref({})
 	const spec_prices = ref([])
 	const swiper_index = ref(0)
+	const showProductAttr = ref(false)
+	const showProductSku = ref(true)
 	
 	const cate_active_name = computed(() => {
 		if(!product_list.value.id || cate_list.value.length == 0) return '' 
@@ -209,6 +237,14 @@
 		if(!product_list.value.description  ) return [] 
 		return product_list.value.description.split('|')
 	})
+	const product_attr = computed(() => {
+		if(!product_list.value.attribute  ) return [] 
+		return product_list.value.attribute
+	})
+	const product_sku = computed(() => {
+		if(!product_list.value.sku  ) return '' 
+		return product_list.value.sku
+	})
 	
 	onLoad(async (options) => {
 		if(options.hasOwnProperty('id')) {
@@ -221,6 +257,15 @@
 		await getData()
 	}) 
 	
+	function handleChangeShow(data) {
+		showProductAttr.value = data
+	}
+	function handleChangeShow2(data) {
+		showProductSku.value = data
+	}
+	function sku2Cart(data) {
+		console.log(data)
+	}
 	async function getData() {
 		const res = await $api.web_product_detail({params: {id: product_id.value}})
 		if(res.code == 1) {
