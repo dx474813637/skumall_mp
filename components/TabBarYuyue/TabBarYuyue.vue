@@ -33,8 +33,8 @@
 </template>
 
 <script setup>
-	import { onLoad } from "@dcloudio/uni-app";
-	import { ref, reactive, computed, toRefs, inject, watch } from 'vue'
+	import { onMo } from "@dcloudio/uni-app";
+	import { ref, reactive, computed, toRefs, inject, watch, onMounted } from 'vue'
 	
 	import { baseStore } from '@/stores/base'
 	import {userStore} from '@/stores/user'
@@ -53,12 +53,20 @@
 		},
 	})
 	const user = userStore()
+	const { tmp_id_list } = toRefs(user)
 	const base = baseStore();
 	const { home, roomList, themeColor } = toRefs(base)
 	const showMyInfoPopup = ref(false)
 	
 	const emits = defineEmits(['onInfoShow', 'onSubmit'])
-	
+	onMounted(async () => { 
+		
+		await user.sendDingyue()
+		if(tmp_id_list.value.length == 0) {
+			user.gettmp_id_list()
+		}
+		
+	})
 	function showInfo() {
 		emits('onInfoShow', true)
 	}

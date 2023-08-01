@@ -67,6 +67,9 @@ $uni-shadow-lg:0px 1px 10px 10px rgba($color: $shadow, $alpha: .5) !default;
 .u-flex-x {
 	@include flex;
 }
+.text-nowrap {
+	white-space: nowrap
+}
 
 .u-flex-y,
 .u-flex-column {

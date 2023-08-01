@@ -140,8 +140,6 @@
 		uni.showLoading()
 		const res = await base.getRoomList()
 		setOnlineControl(res)
-		await user.sendDingyue()
-		user.gettmp_id_list()
 	})
 	function handleMakePhone() {
 		if(!home.value.phone) return

@@ -62,6 +62,15 @@
 			<u-safe-bottom></u-safe-bottom>
 		</view>	 
 	</view>
+	<TabBarYuyue 
+		@onInfoShow="handleChangeShow3"
+		@onSubmit="dingyueEvent"
+	></TabBarYuyue>
+	<MyInfoPopup
+		:show="showMyInfoPopup"   
+		title="我的信息编辑" 
+		:onUpdateShow="handleChangeShow3"  
+	></MyInfoPopup>	
 </template>
 
 <script setup>
@@ -69,8 +78,9 @@
 	import { ref, reactive, computed, toRefs, inject, watch } from 'vue'
 	// import { share } from '@/composition/share.js'
 	import { baseStore } from '@/stores/base'
-	import {userStore} from '@/stores/user'
+	import {userStore} from '@/stores/user' 
 	const user = userStore()
+	const { tmp_id_list } = toRefs(user)
 	const base = baseStore();
 	const { home, roomList, themeColor } = toRefs(base)
 	// const {
@@ -87,6 +97,7 @@
 			cate: tabs_list.value[tabs_current.value].value
 		}
 	}) 
+	const showMyInfoPopup = ref(false)
 	const tabs_current = ref(0)
 	const tabs_list = ref([
 		{
@@ -172,11 +183,43 @@
 			}
 		});
 	}
+	async function dingyueEvent() { 
+		wx.requestSubscribeMessage({
+			tmplIds: tmp_id_list.value,
+			success: async (res)=>{ 
+				if(res.tjSTqE0hZ0TxMCIerDlXLqhhHNxJ7MxMcB0741EtcFg == 'reject') {
+					base.handleGoto({url: '/pages/reservation/reservation', params: {noDingyue: '1'}})
+					return
+				}
+				uni.showLoading()
+				const res2 = await $api.tmp_id_back({
+					params: {
+						str: JSON.stringify(res)
+					}
+				})
+				if(res2.code == 1) {
+					uni.showToast({
+						title: res2.msg,
+						icon: 'none'
+					})
+					base.handleGoto({url: '/pages/reservation/reservation', params: {noDingyue: '1'}})
+				}
+			},
+			fail: (err) => {
+				console.log(err)
+			}
+		}) 
+		
+	}
+	function handleChangeShow3(data) {
+		showMyInfoPopup.value = data
+	}
 </script>
 
 <style scoped lang="scss">
 .w {
 	min-height: 100vh;
+	padding-bottom: 60px;
 } 
 .card {
 	

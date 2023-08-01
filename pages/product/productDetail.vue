@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="w">
 		<template v-if="product_list.pic">
 			<view class="swiper-w">
 				<view class="swiper-box">
@@ -89,8 +89,93 @@
 					<u-icon name="arrow-right" color="#ccc"></u-icon>
 				</view>  
 			</view>
+			
+			
+			<view class="u-radius-8 u-m-b-20 u-p-30 shop-card">  
+				<view class="u-flex u-flex-center u-flex-items-center u-font-36 u-m-b-20">
+					<view class="item u-m-r-20" v-if="company_list.img">
+						<u--image 
+							showLoading
+							:src="company_list.img"
+							width="34px"
+							height="34px"
+							shape="circle"
+							:customStyle="{
+								border: '2px solid #99d0ff'
+							}"
+						/>
+					</view>
+					<view class="item u-flex-1">
+						{{ company_list.company }}
+					</view>
+					<view class="item">
+						<u-button shape="circle" plain type="primary" size="small">进入店铺</u-button>
+					</view>
+				</view>
+				<view class="u-flex u-flex-center u-font-30 u-m-b-10">
+					<view class="item u-flex-1 u-flex u-flex-items-start">
+						<text class="u-info u-m-r-8 text-nowrap">联系人：</text>
+						<text>{{ company_list.contacts }}</text> 
+					</view>
+				</view>
+				<view class="u-flex u-flex-center u-font-30 u-m-b-10" v-if="company_list.address">
+					<view class="item u-flex-1 u-flex u-flex-items-start">
+						<text class="u-info u-m-r-8 text-nowrap">地址：</text>
+						<text class="u-line-1">{{ company_list.address }}</text> 
+					</view>
+				</view>
+				<view class="u-flex u-flex-center u-font-30 u-m-b-10">
+					<view class="item u-flex-1 u-flex u-flex-items-start">
+						<text class="u-info u-m-r-8 text-nowrap">介绍：</text>
+						<text class="u-line-2">{{ company_list.info }}</text> 
+					</view>
+				</view>
+			</view> 
+			
+			
+			
 		</view>
+		<view class="pro-desc">
+			<view class="item"
+				v-for="(item, index) in product_desc_arr"
+				:key="index"
+				>
+				<u--image
+					showLoading
+					:src="item"
+					width="100%"
+					height="auto"
+					mode="widthFix" 
+				/>
+			</view>
+			
+		</view>
+		<u-safe-bottom></u-safe-bottom>
 	</view>
+	<TabBar :customStyle="{boxShadow: '0px -3px 10px rgba(0,0,0,0.1)' }">
+		<view class="u-flex u-flex-between u-flex-items-center u-p-l-20 u-p-r-20 u-font-28" style="height: 100%;">
+			
+			<view class="item u-flex-column u-flex-items-center u-m-r-20" v-if="!hideHomeBtn" @click="base.handleGoto({type: 'reLaunch', url: '/pages/index/index'})">
+				<u-icon name="home" :color="themeColor" size="22"></u-icon>
+				<view class="u-info">首页</view>
+			</view>
+			<view class="item u-flex-column u-flex-items-center u-m-r-20" @click="base.handleGoto({type: 'reLaunch', url: '/pages_user/reservation_list/reservation_list'})">
+				<u-icon name="list-dot" :color="themeColor" size="22"></u-icon>
+				<view class="u-info">店铺</view>
+			</view>
+			<view class="item u-flex-column u-flex-items-center u-m-r-20" @click="base.handleGoto({type: 'reLaunch', url: '/pages/reservation_list/reservation_list'})">
+				<u-icon name="list-dot" :color="themeColor" size="22"></u-icon>
+				<view class="u-info">购物车</view>
+			</view> 
+			<view class="item u-flex-1 u-m-r-20">
+				<u-button type="primary" shape="circle" @click="addCartBtn"  >
+					<view class="u-flex"> 
+						<text class="u-m-l-8 u-p-b-5 u-font-32">加入采购车</text>
+					</view>
+				</u-button>
+			</view>
+		</view>
+	</TabBar> 
 </template>
 
 <script setup>
@@ -101,11 +186,14 @@
 	const $api = inject('$api')
 	
 	import {useCateStore, baseStore} from '@/stores/base.js'
-	const base = baseStore()
+	const base = baseStore() 
+	const { home, roomList, themeColor } = toRefs(base)
 	const cate = useCateStore()
 	const { cate_list, cate_loading } = toRefs(cate)
 	const product_id = ref('')
 	const product_list = ref({})
+	const company_list = ref({})
+	const spec_prices = ref([])
 	const swiper_index = ref(0)
 	
 	const cate_active_name = computed(() => {
@@ -115,6 +203,11 @@
 	
 	const swiperlist = computed(() => { 
 		return product_list.value.pic.split('|')
+	})
+	
+	const product_desc_arr = computed(() => {
+		if(!product_list.value.description  ) return [] 
+		return product_list.value.description.split('|')
 	})
 	
 	onLoad(async (options) => {
@@ -132,16 +225,25 @@
 		const res = await $api.web_product_detail({params: {id: product_id.value}})
 		if(res.code == 1) {
 			product_list.value = res.list
+			company_list.value = res.company
+			spec_prices.value = res.spec_prices
 		}
 	}
 	function swiperChange({current, currentItemId, source}) { 
 		swiper_index.value = current
 	}
 	
+	function addCartBtn() {
+		
+	}
+	
 	
 </script>
 
 <style lang="scss" scoped>
+	.w {
+		padding-bottom: 60px;
+	}
 	.swiper-w {
 		position: relative;
 		width: 100%;
@@ -166,5 +268,7 @@
 			}
 		}
 	}
-
+	.shop-card {
+		background: linear-gradient(to bottom, #e7e9ff, #f3f9ff);
+	}
 </style>
