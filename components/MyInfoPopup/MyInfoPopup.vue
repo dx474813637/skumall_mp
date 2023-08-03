@@ -67,7 +67,7 @@
 			</view> 
 			<template #footer>
 				<view class="u-p-20">
-					<u-button type="primary" shape="circle" @click="submit">提交</u-button>
+					<u-button type="primary" shape="circle" @click="submit" throttleTime="1000">提交</u-button>
 				</view>
 			</template>
 		</PopupNormal>
