@@ -4,6 +4,8 @@ import {
 import apis from '@/config/apis/index';
 const extConfig = uni.getExtConfigSync ? uni.getExtConfigSync():{}
 console.log(extConfig) 
+
+let pageRoute = uni.getStorageSync('noTokenNeedPermissionRoute') || {url: '', params: {}}
 export const baseStore = defineStore('base', {
 	state: () => {
 		return {
@@ -25,14 +27,10 @@ export const baseStore = defineStore('base', {
 			msg: {},
 			home: {},
 			roomList: [],
-			home_loading: false
+			home_loading: false,
+			noTokenNeedPermissionRoute: pageRoute
 		};
-	},
-	getters: {
-		// doubleCount: (state) => state.counter * 2,
-	},
-	// 也可以这样定义
-	// state: () => ({ count: 0 })
+	}, 
 	actions: {
 		async getRoomList() {
 			if(this.home_loading) return
@@ -67,6 +65,10 @@ export const baseStore = defineStore('base', {
 		}, 
 		handleGoto(data) {
 			uni.$u.route(data)
+		},
+		setNoTokenNeedPermissionRoute(data) {
+			this.noTokenNeedPermissionRoute = data;
+			uni.setStorageSync('noTokenNeedPermissionRoute', data)
 		},
 	},
 });

@@ -45,3 +45,5 @@ export const web_product = (data = {}) => all_api(uni.$u.deepMerge(data, {params
 export const web_search = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'web_search'}}))
 // web_product_detail  
 export const web_product_detail = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'web_product_detail'}}))
+// web_pid_sku1  
+export const web_pid_sku1 = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'web_pid_sku1'}}))

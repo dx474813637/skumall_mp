@@ -14,7 +14,7 @@
 						></u--image>
 					</view>
 					<view class="u-m-l-20">
-						<view>{{list.name}}</view>
+						<view>{{product_base_data.label}}</view>
 					</view>
 					
 				</view>
@@ -22,22 +22,22 @@
 					<view class="u-p-30">
 						<view class="item u-m-b-20"
 							v-for="(item) in sku_arr"
-							:key="item.name"
+							:key="item.label"
 						>
 							<view class="label u-m-b-30 ">
-								{{item.name}} ({{item.children.length}})
+								{{item.label}} ({{item.children.length}})
 							</view>
 							<view class="sku-items u-flex u-flex-wrap u-flex-items-start">
 								<view class="sku-items-tag u-font-28"
 									:class="{
-										active: sku_form[item.name] == ele.name,
-										disabled: false,
+										active: sku_form[item.label] == ele.label,
+										disabled: ele.disabled,
 									}"
 									v-for="ele in item.children"
-									:key="ele.name"
-									@click="onSelectSku(item.name, ele.name)"
+									:key="ele.label"
+									@click="onSelectSku(item.label, ele.label)"
 								>
-									{{ele.name}}
+									{{ele.label}}
 								</view>
 							</view>
 						</view>
@@ -49,6 +49,11 @@
 									v-if="product_num_disabled"
 									style="font-weight: normal;"
 								>请选择规格</text>
+								<text 
+									class="u-font-28 u-error-dark u-m-l-20" 
+									v-if="product_num_max == 0"
+									style="font-weight: normal;"
+								>库存缺货</text>
 							</view>
 							<view class=" ">
 								<u-number-box 
@@ -56,7 +61,7 @@
 									v-model="product_num" 
 									:disabled="product_num_disabled"
 									:max="product_num_max"
-									:min="1"
+									:min="0"
 									asyncChange
 									inputWidth="80" 
 									@change="numChange"
@@ -71,7 +76,16 @@
 			</view>  
 			<template #footer>
 				<view class="u-p-20">
-					<u-button type="primary" shape="circle" @click="submit">加入购物车</u-button>
+					<u-button  
+					shape="circle" 
+					@click="addCartBtn" 
+					:disabled="add_cart_disabled"
+					:type="add_cart_disabled? 'error' : 'primary'"
+					>
+						<template v-if="product_num_disabled">请选择规格</template>
+						<template v-else-if="add_cart_disabled">请选择数量</template>
+						<template v-else >加入购物车</template>
+					</u-button>
 				</view>
 			</template>
 		</PopupNormal>
@@ -90,6 +104,10 @@
 		useAttrs,
 		nextTick
 	} from 'vue' 
+	import useProductSku from '@/composition/useProductSku'
+	const {
+	    sku2treeData
+	} = useProductSku()
 	import {isObjectEqual} from '@/utils/base.js'
 	const attrs = useAttrs()
 	const $api = inject('$api')
@@ -99,9 +117,18 @@
 	import { userStore } from '@/stores/user'
 	const user = userStore();
 	const { user_info } = toRefs(user)
+	import { useCartStore } from '@/stores/cart'
+	const cart = useCartStore();
+	const { cart_list } = toRefs(cart)
 	 
 	const props = defineProps({  
-		list: {
+		product_base_data: {
+			type: Object,
+			default: () => {
+				return {}
+			},
+		},
+		product_shop_data: {
 			type: Object,
 			default: () => {
 				return {}
@@ -121,16 +148,19 @@
 	const countRef = ref()
 	const sku_form = ref({})
 	const sku_arr = ref([]) 
-	const product_num_max = ref(1)
+	const product_num_max = ref(Number.MAX_SAFE_INTEGER)
 	const product_num = ref(1)
 	const active_sku_preview_img = ref('')
 	const product_num_disabled = computed(() => {
 		return Object.values(sku_form.value).some(ele => !ele)
 	})
+	const add_cart_disabled = computed(() => {
+		return product_num_disabled.value || product_num.value == 0
+	})
 	const product_img_preview = computed(() => {
 		let img = '';
-		if(props.list.id) {
-			img = props.list.pic.split('|')[0]
+		if(props.product_base_data.id) {
+			img = props.product_base_data.pic.split('|')[0]
 		}
 		if(active_sku_preview_img.value){
 			img = active_sku_preview_img.value;
@@ -141,10 +171,10 @@
 	watch(
 		() => props.sku,
 		(n) => {
-			sku_arr.value = skustr2arr(n)  
+			sku_arr.value = sku2treeData(n)  
 			console.log(sku_arr.value)
 			sku_arr.value.forEach(ele => {
-				sku_form.value[ele.name] = ''
+				sku_form.value[ele.label] = ''
 			})
 			console.log(sku_form.value)
 		}
@@ -152,44 +182,31 @@
 	watch(
 		() => product_num_max.value,
 		(val, old) => {
-			console.log(val);
+			// console.log(val);
 			if(val < product_num.value) {
 				product_num.value = product_num_max.value
-				// countRef.value.blur()
+				nextTick(() => {
+					countRef.value.init()
+				})
 				
 			}
-		}
+		} 
 	)
 	watch(
 		() => product_num.value,
 		(val, old) => {
-			console.log(val); 
+			// console.log(val); 
 			if(val > product_num_max.value) {
 				product_num.value = product_num_max.value
-				// countRef.value.onBlur()
+				nextTick(() => {
+					countRef.value.init()
+				})
 			}
-		}
+		} 
 	)
-	onMounted(async () => { 
+	onMounted(async () => {  
 	})  
-	
-	function skustr2arr (skustr) {
-		if(!skustr) return []
-		return skustr.split('^').map((ele, i) => {
-			let children = ele.split('|')[1].split(',').map((item, index) => {
-				return {
-					id: index,
-					name: item,
-					value: item
-				}
-			})
-			return {
-				id: i,
-				name: ele.split('|')[0],
-				children
-			}
-		})
-	}
+	 
 	function onSelectSku(key, value) { 
 		if(sku_form.value[key] == value) {
 			value = ''
@@ -248,6 +265,33 @@
 				}
 			}
 		});
+	}
+	function findIndexby () {
+		return props.spec_prices.map(ele => ele.specs).findIndex(ele => isObjectEqual(ele, sku_form.value) );
+	}
+	function addCartBtn() {
+		let skuItem 
+		let i = findIndexby()  
+		if(i == -1) return
+		
+		skuItem = {
+			...props.spec_prices[i],
+			img: props.spec_prices[i].img ? props.spec_prices[i].img : props.spec_prices[i].pic?.split('|')[0],
+			shop: props.product_shop_data || {},
+			name: props.product_base_data.name,
+			freight_id: props.product_base_data.freight_id,
+			num: +product_num.value,
+			checked: false,
+		} 
+		let flag = cart.addProduct2Cart( skuItem )
+		// console.log(flag, skuItem)
+		if(flag) {
+			uni.showToast({
+				title: '成功加入购物车！',
+				icon: 'success'
+			})
+			attrs.onUpdateShow(false)
+		}
 	}
 	 
 </script>

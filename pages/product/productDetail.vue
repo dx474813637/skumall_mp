@@ -73,8 +73,12 @@
 						选择
 					</view>
 					<u-line direction="col" length="15px"></u-line> 
-					<view class="item u-p-l-30 u-flex-1">
-						{{cate_active_name}}
+					<view class="item u-p-l-30 u-flex-1 u-line-1 ">
+						<text class="u-m-r-25" v-for="(item, index) in sku_arr" :key="index">
+							<text class="u-info">{{item.children.length}}种</text>
+							<text class="u-info"> · </text>
+							<text>{{item.label}}</text>
+						</text>
 					</view>
 					<u-icon name="arrow-right" color="#ccc"></u-icon>
 				</view>  
@@ -83,21 +87,24 @@
 						参数
 					</view>
 					<u-line direction="col" length="15px"></u-line>
-					<view class="item u-p-l-30 u-flex-1 u-line-1">
-						<view class="u-flex u-flex-items-center">
-							<view
-								class="u-flex u-flex-items-center u-m-r-12 text-nowrap"
+					<template v-if="product_attr.length == 0">
+						<view class="item u-p-l-30 u-flex-1  u-p-r-10 u-info">暂无参数</view>
+					</template>
+					<template v-else>
+						<view class="item u-p-l-30 u-flex-1 u-line-1 ">
+							<text class="u-m-r-12"
 								v-for="(item, index) in product_attr"
 								:key="index"
 								>
-								<view class="u-info">{{item.name}}：</view>
-								<view>{{item.value}}</view>
-								<view class="u-info">；</view>
-							</view>
+								<text class="u-info">{{item.name}}：</text>
+								<text>{{item.value}}</text>
+								<text class="u-info">；</text>
+							</text> 
+							
 						</view>
-						
-					</view>
-					<u-icon name="arrow-right" color="#ccc"></u-icon>
+						<u-icon name="arrow-right" color="#ccc"></u-icon>
+					</template>
+					
 				</view>  
 			</view>
 			
@@ -123,19 +130,19 @@
 						<u-button shape="circle" plain type="primary" size="small">进入店铺</u-button>
 					</view>
 				</view>
-				<view class="u-flex u-flex-center u-font-30 u-m-b-10">
+				<view class="u-flex u-flex-center u-font-28 u-m-b-10">
 					<view class="item u-flex-1 u-flex u-flex-items-start">
 						<text class="u-info u-m-r-8 text-nowrap">联系人：</text>
 						<text>{{ company_list.contacts }}</text> 
 					</view>
 				</view>
-				<view class="u-flex u-flex-center u-font-30 u-m-b-10" v-if="company_list.address">
+				<view class="u-flex u-flex-center u-font-28 u-m-b-10" v-if="company_list.address">
 					<view class="item u-flex-1 u-flex u-flex-items-start">
 						<text class="u-info u-m-r-8 text-nowrap">地址：</text>
 						<text class="u-line-1">{{ company_list.address }}</text> 
 					</view>
 				</view>
-				<view class="u-flex u-flex-center u-font-30 u-m-b-10">
+				<view class="u-flex u-flex-center u-font-28 u-m-b-10">
 					<view class="item u-flex-1 u-flex u-flex-items-start">
 						<text class="u-info u-m-r-8 text-nowrap">介绍：</text>
 						<text class="u-line-2">{{ company_list.info }}</text> 
@@ -174,11 +181,12 @@
 				<u-icon name="list-dot" :color="themeColor" size="22"></u-icon>
 				<view class="u-info">店铺</view>
 			</view>
-			<view class="item u-flex-column u-flex-items-center u-m-r-20" @click="base.handleGoto({type: 'reLaunch', url: '/pages/reservation_list/reservation_list'})">
-				<u-icon name="list-dot" :color="themeColor" size="22"></u-icon>
-				<view class="u-info">购物车</view>
+			<view class="item u-flex-column u-flex-items-center u-m-r-20" @click="base.handleGoto({type: 'reLaunch', url: '/pages/reservation_list/reservation_list'})" style="position: relative;">
+				<u-icon name="shopping-cart" :color="themeColor" size="22"></u-icon>
+				<view class="u-info">选品车</view>
+				<up-badge :offset="[-5,-3]" numberType="overflow"  max="99" :value="cart_list_num" absolute></up-badge>
 			</view> 
-			<view class="item u-flex-1 u-m-r-20">
+			<view class="item u-flex-1">
 				<u-button type="primary" shape="circle" @click="addCartBtn"  >
 					<view class="u-flex"> 
 						<text class="u-m-l-8 u-p-b-5 u-font-32">加入采购车</text>
@@ -196,7 +204,8 @@
 	<ProductSkuPopup
 		:show="showProductSku" 
 		title="商品规格" 
-		:list="product_list"
+		:product_base_data="product_list"
+		:product_shop_data="company_list"
 		:sku="product_sku"
 		:spec_prices="spec_prices"
 		:onUpdateShow="handleChangeShow2" 
@@ -208,9 +217,16 @@
 	import { onLoad, onReady, onShareTimeline, onShareAppMessage, onReachBottom } from "@dcloudio/uni-app";
 	import { ref, reactive, computed, toRefs, inject, watch, onMounted } from 'vue'
 	import { share } from '@/composition/share.js'
+	import useProductSku from '@/composition/useProductSku'
+	const {
+	    sku2treeData
+	} = useProductSku()
 	const { setOnlineControl } = share()
 	const $api = inject('$api')
 	
+	import {useCartStore} from '@/stores/cart.js'
+	const cart = useCartStore()
+	const { cart_list_num } = toRefs(cart)
 	import {useCateStore, baseStore} from '@/stores/base.js'
 	const base = baseStore() 
 	const { home, roomList, themeColor } = toRefs(base)
@@ -222,7 +238,7 @@
 	const spec_prices = ref([])
 	const swiper_index = ref(0)
 	const showProductAttr = ref(false)
-	const showProductSku = ref(true)
+	const showProductSku = ref(false)
 	
 	const cate_active_name = computed(() => {
 		if(!product_list.value.id || cate_list.value.length == 0) return '' 
@@ -245,6 +261,10 @@
 		if(!product_list.value.sku  ) return '' 
 		return product_list.value.sku
 	})
+	const sku_arr = computed(() => {
+		if(!product_sku.value  ) return [] 
+		return sku2treeData(product_sku.value)
+	})
 	
 	onLoad(async (options) => {
 		if(options.hasOwnProperty('id')) {
@@ -255,6 +275,7 @@
 		}
 		uni.showLoading()
 		await getData()
+		console.log(cart_list_num.value)
 	}) 
 	
 	function handleChangeShow(data) {
@@ -277,9 +298,11 @@
 	function swiperChange({current, currentItemId, source}) { 
 		swiper_index.value = current
 	}
-	
+	// function findIndexby () {
+	// 	return spec_prices_data.value.map(ele => ele.specs).findIndex(ele => isObjectEqual(ele, product_sku.form) );
+	// }
 	function addCartBtn() {
-		
+		 showProductSku.value = true
 	}
 	
 	
