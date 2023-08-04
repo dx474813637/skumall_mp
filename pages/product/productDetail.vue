@@ -2,7 +2,7 @@
 	<view class="w">
 		<template v-if="product_list.pic">
 			<view class="swiper-w">
-				<view class="swiper-box">
+				<view class="swiper-box" @click="swiperClick">
 					<view class="swiper-bg" :style="{
 						backgroundImage: `url(${swiperlist[swiper_index]})`
 					}"></view>
@@ -303,6 +303,22 @@
 	// }
 	function addCartBtn() {
 		 showProductSku.value = true
+	}
+	
+	function swiperClick() {
+		uni.previewImage({
+			urls: [product_img_preview.value],
+			current: 0,
+			longPressActions: {
+				itemList: ['发送给朋友', '保存图片', '收藏'],
+				success: function(data) {
+					console.log('选中了第' + (data.tapIndex + 1) + '个按钮,第' + (data.index + 1) + '张图片');
+				},
+				fail: function(err) {
+					console.log(err.errMsg);
+				}
+			}
+		});
 	}
 	
 	
