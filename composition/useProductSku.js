@@ -1,4 +1,4 @@
-import { ref, onMounted, onUnmounted, Ref, inject } from 'vue';
+import { ref, onMounted, onUnmounted, inject } from 'vue';
 import {isNumber} from '@/utils/base';
 const $api = inject('$api')
 

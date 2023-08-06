@@ -4,7 +4,7 @@
 		"custom": {
 			"^u--(.*)": "uview-plus/components/u-$1/u-$1.vue",
 			"^up-(.*)": "uview-plus/components/u-$1/u-$1.vue",
-	        "^u-([^-].*)": "uview-plus/components/u-$1/u-$1.vue"
+			"^u-([^-].*)": "uview-plus/components/u-$1/u-$1.vue"
 		}
 	},
 	"pages": [{
@@ -94,6 +94,14 @@
 				"style": {
 					"navigationBarTitleText": "地址详情",
 					"enablePullDownRefresh": false
+				}
+
+			}, {
+				"path": "cart/cart",
+				"style": {
+					"navigationBarTitleText": "选品车",
+					"enablePullDownRefresh": false,
+					"navigationBarBackgroundColor": "#f8f8f8"
 				}
 
 			}

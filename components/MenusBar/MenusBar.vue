@@ -56,11 +56,11 @@
 			route: uni.$u.page(),
 			options: routeObj.options
 		})
-		console.log(menusActive)
+		// console.log(menusActive)
 	})
 	function tabsClick(index) {
 		const item = menus.value[index]
-		console.log(item)
+		// console.log(item)
 		if(item.type == 1 ){
 			uni.reLaunch({
 				url: item.url

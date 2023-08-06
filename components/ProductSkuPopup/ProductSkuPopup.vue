@@ -273,18 +273,17 @@
 		let skuItem 
 		let i = findIndexby()  
 		if(i == -1) return
-		
+		let img = props.spec_prices[i].img ? props.spec_prices[i].img : props.product_base_data.pic?.split('|')[0]
 		skuItem = {
 			...props.spec_prices[i],
-			img: props.spec_prices[i].img ? props.spec_prices[i].img : props.spec_prices[i].pic?.split('|')[0],
+			img,
 			shop: props.product_shop_data || {},
 			name: props.product_base_data.name,
 			freight_id: props.product_base_data.freight_id,
 			num: +product_num.value,
 			checked: false,
 		} 
-		let flag = cart.addProduct2Cart( skuItem )
-		// console.log(flag, skuItem)
+		let flag = cart.addProduct2Cart( skuItem ) 
 		if(flag) {
 			uni.showToast({
 				title: '成功加入购物车！',

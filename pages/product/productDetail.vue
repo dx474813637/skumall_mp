@@ -174,17 +174,17 @@
 		<view class="u-flex u-flex-between u-flex-items-center u-p-l-20 u-p-r-20 u-font-28" style="height: 100%;">
 			
 			<view class="item u-flex-column u-flex-items-center u-m-r-20" v-if="!hideHomeBtn" @click="base.handleGoto({type: 'reLaunch', url: '/pages/index/index'})">
-				<u-icon name="home" :color="themeColor" size="22"></u-icon>
+				<u-icon name="home" :color="themeColor" size="24"></u-icon>
 				<view class="u-info">首页</view>
 			</view>
 			<view class="item u-flex-column u-flex-items-center u-m-r-20" @click="base.handleGoto({type: 'reLaunch', url: '/pages_user/reservation_list/reservation_list'})">
-				<u-icon name="list-dot" :color="themeColor" size="22"></u-icon>
+				<u-icon name="list-dot" :color="themeColor" size="24"></u-icon>
 				<view class="u-info">店铺</view>
 			</view>
-			<view class="item u-flex-column u-flex-items-center u-m-r-20" @click="base.handleGoto({type: 'reLaunch', url: '/pages/reservation_list/reservation_list'})" style="position: relative;">
-				<u-icon name="shopping-cart" :color="themeColor" size="22"></u-icon>
+			<view class="item u-flex-column u-flex-items-center u-m-r-20" @click="base.handleGoto({type: 'reLaunch', url: '/pages_user/cart/cart'})" style="position: relative;">
+				<u-icon name="shopping-cart" :color="themeColor" size="24"></u-icon>
 				<view class="u-info">选品车</view>
-				<up-badge :offset="[-5,-3]" numberType="overflow"  max="99" :value="cart_list_num" absolute></up-badge>
+				<up-badge :offset="[-5,2]" numberType="overflow"  max="99" :value="cart_list_num" absolute></up-badge>
 			</view> 
 			<view class="item u-flex-1">
 				<u-button type="primary" shape="circle" @click="addCartBtn"  >
