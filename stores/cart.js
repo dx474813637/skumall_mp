@@ -15,7 +15,7 @@ let cart_list = [];
 if(uni.getStorageSync('cart_list')) {
 	cart_list = uni.getStorageSync('cart_list')[user.value.login] || []
 }
-console.log(cart_list)
+// console.log(cart_list)
 
 export const useCartStore = defineStore('cart', {
 	state: () => {
@@ -82,6 +82,7 @@ export const useCartStore = defineStore('cart', {
 			let { id: shopId } = data.shop;
 			data = {
 				...data, 
+				stock: +data.stock,
 				loading: false, 
 				checked: false
 			} 
@@ -137,7 +138,7 @@ export const useCartStore = defineStore('cart', {
 						item = {
 							...item,
 							img: itemObj.img? itemObj.img : item.img,
-							stock: itemObj.stock,
+							stock: +itemObj.stock,
 							num: +(itemObj.stock > item.num? item.num : itemObj.stock),
 							price: itemObj.price
 						} 
@@ -185,7 +186,7 @@ export const useCartStore = defineStore('cart', {
 				}) 
 			})
 			this.cart_list = data.map(ele =>( {...ele, products: ele.products.filter(item => item)})).filter(ele => ele.products.length != 0)
-			console.log(this.cart_list)
+			console.log(this.cart_list) 
 		}
 	},
 });

@@ -36,6 +36,7 @@
 		width: 100%;
 		box-sizing: border-box;
 		background-color: #fff;
+		z-index: 50;
 		// border-top: 1rpx solid #eee;
 	}
 	.c-w {

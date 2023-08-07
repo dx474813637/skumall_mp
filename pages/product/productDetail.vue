@@ -242,7 +242,7 @@
 	
 	const cate_active_name = computed(() => {
 		if(!product_list.value.id || cate_list.value.length == 0) return '' 
-		return cate_list.value.map(ele => ele.children).flat().filter(ele => ele.id == product_list.value.cate)[0].name
+		return cate_list.value.map(ele => ele.children).flat().filter(ele => ele.id == product_list.value.cate)[0]?.name
 	})
 	
 	const swiperlist = computed(() => { 

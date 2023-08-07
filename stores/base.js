@@ -116,9 +116,16 @@ export const menusStore = defineStore('menus', {
 					white_icon_2: "https://wx.rawmex.cn/Public/xzlmenu/menu1b.png",
 				}, 
 				{
+					name: "商品",
+					type: 1,
+					url: "/pages/product/productList",
+					white_icon_1: "https://wx.rawmex.cn/Public/xzlmenu/menu1a.png",
+					white_icon_2: "https://wx.rawmex.cn/Public/xzlmenu/menu1b.png",
+				}, 
+				{
 					name: "采购车",
 					type: 1,
-					url: "/pages/home/home",
+					url: "/pages_user/cart/cart",
 					white_icon_1: "https://wx.rawmex.cn/Public/xzlmenu/menu1a.png",
 					white_icon_2: "https://wx.rawmex.cn/Public/xzlmenu/menu1b.png",
 				},

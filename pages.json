@@ -60,6 +60,14 @@
 				"navigationBarTitleText": "预约列表",
 				"onReachBottomDistance": 80
 			}
+		}, {
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#f8f8f8"
+			}
+
 		}
 	],
 	"subPackages": [{
@@ -102,6 +110,41 @@
 					"navigationBarTitleText": "选品车",
 					"enablePullDownRefresh": false,
 					"navigationBarBackgroundColor": "#f8f8f8"
+				}
+
+			}, {
+				"path": "info/user_info",
+				"style": {
+					"navigationBarTitleText": "个人名片",
+					"enablePullDownRefresh": false
+				}
+
+			}, {
+				"path": "info/cpy_info",
+				"style": {
+					"navigationBarTitleText": "企业信息",
+					"enablePullDownRefresh": false
+				}
+
+			}, {
+				"path": "order/orderDetail",
+				"style": {
+					"navigationBarTitleText": "订单详情",
+					"enablePullDownRefresh": false
+				}
+
+			}, {
+				"path": "order/orderList",
+				"style": {
+					"navigationBarTitleText": "订单列表",
+					"enablePullDownRefresh": false
+				}
+
+			}, {
+				"path": "order/orderCreate",
+				"style": {
+					"navigationBarTitleText": "创建订单",
+					"enablePullDownRefresh": false
 				}
 
 			}
