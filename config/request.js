@@ -119,10 +119,10 @@ export default function($ws) {
 					})
 					
 					// }
-					if(res.login == 0) { 
-						getCurrentPages().length > 0 && uni.setStorageSync('prePage', getCurrentPages()[getCurrentPages().length - 1].$page.fullPath)  
-						base.handleGoto({url: '/pages/index/index', type: 'redirectTo'})
-					}
+					// if(res.login == 0) { 
+					// 	getCurrentPages().length > 0 && uni.setStorageSync('prePage', getCurrentPages()[getCurrentPages().length - 1].$page.fullPath)  
+					// 	base.handleGoto({url: '/pages/login/login', type: 'redirectTo'}) 
+					// }
 					console.log('刷新token成功，执行队列')
 					requests.forEach(cb => cb(userid))
 					// 执行完成后，清空队列

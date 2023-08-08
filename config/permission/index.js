@@ -13,10 +13,12 @@ const base = baseStore(pinia)
 /**
  * @description 自定义路由拦截
  */ 
- const whiteList = [
- 	'/pages/index/index',
- 	'/pages/reservation/reservation',
+ const whiteList = [ 
+ 	'/pages_user/index/index', 
 	'/pages_user/reservation_list/reservation_list',
+ 	{
+ 		pattern: /^\/pages\//
+ 	},
  	// '/pages/user/index',
  	// {
  	// 	pattern: /^\/pages\/list.*/
@@ -25,12 +27,9 @@ const base = baseStore(pinia)
  	// {
  	// 	pattern: /^\/pages\/baojia*/
  	// },
- 	{
- 		pattern: /^\/pages\/*/
- 	},
- 	{
- 		pattern: /^\/pages_user\/*/
- 	},
+ 	// {
+ 	// 	pattern: /^\/pages_user\/*/
+ 	// },
  	// {
  	// 	pattern: /^\/pages\/more*/
  	// },
@@ -58,21 +57,22 @@ export function permissionBase(e) {
 	 	// 判断当前窗口是白名单，如果是则不重定向路由
 	 	let pass 
 	 	if (whiteList) {
-	 		pass = whiteList.some((item) => {
-	 			if (typeof(item) === 'object' && item.pattern) {
+	 		pass = whiteList.some((item) => { 
+	 			if (typeof(item) === 'object' && item.pattern) { 
 	 				return item.pattern.test(url)
 	 			}
 	 			return url === item
-	 		})
+	 		}) 
 	 	}
 	 	// 不是白名单并且没有token
 		// console.log(user.user.login, user.user_info.login)
 		// console.log(!user.user.login, !user.user_info.login, pass)
-	 	if (!pass && (!user.user.login || !user.user_info.user )) {
+	 	// if (!pass && (!user.user.login || !user.user_info.user )) {
+	 	if (!pass && (!user.user.login || user.user.login == '0' )) {
 			
-	 		// uni.setStorageSync('prePage', e.url)
+	 		uni.setStorageSync('prePage', e.url)
 			// user.clearLogout()
-			base.handleGoto({url: '/pages/index/index', type: 'redirectTo'}) 
+			base.handleGoto({url: '/pages/login/login'})  
 	 		return false
 	 	}
 	 	

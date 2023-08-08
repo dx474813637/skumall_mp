@@ -2,6 +2,8 @@
 	<view>
 		
 	</view>
+	<u-safe-bottom></u-safe-bottom>
+	<MenusBar ></MenusBar>
 </template>
 
 <script>

@@ -32,6 +32,10 @@ export const regional_list = (data) => http.get('regional_list', data)
 export const address_change = (data) => http.get('address_change', data)
 // orderConfirm
 export const orderConfirm = (data) => http.get('orderConfirm', data)
+// my_card
+export const my_card = (data) => http.get('my_card', data)
+// edit_card
+export const edit_card = (data) => http.get('edit_card', data)
 
  
 
@@ -47,3 +51,4 @@ export const web_search = (data = {}) => all_api(uni.$u.deepMerge(data, {params:
 export const web_product_detail = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'web_product_detail'}}))
 // web_pid_sku1  
 export const web_pid_sku1 = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'web_pid_sku1'}}))
+ 

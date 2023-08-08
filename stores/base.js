@@ -95,7 +95,7 @@ export const menusStore = defineStore('menus', {
 	}, 
 	actions: {
 		saveCurPage(data) {
-			console.log('saveCurPage', data)
+			// console.log('saveCurPage', data)
 			this.currPage = data;
 		},
 		async getMenusData() {
@@ -132,7 +132,7 @@ export const menusStore = defineStore('menus', {
 				{
 					name: "我的",
 					type: 1,
-					url: "/pages/home/home",
+					url: "/pages_user/index/index",
 					white_icon_1: "https://wx.rawmex.cn/Public/xzlmenu/menu1a.png",
 					white_icon_2: "https://wx.rawmex.cn/Public/xzlmenu/menu1b.png",
 				},

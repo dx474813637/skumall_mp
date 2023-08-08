@@ -48,7 +48,7 @@
 			});
 		}
 		routingIntercept()  
-		 await user.getUserInfo()
+		 // await user.getMallUserInfo()
 		
 	});
 	onShow(async (options) => {
@@ -58,9 +58,9 @@
 		} 
 		// if(uni.getStorageSync('WebSocketInfo')) $ws.init()
 		 
-		 if(options.query?.route && options.query.route != '/pages/index/index' && !user.user_info.user) {
+		 if(options.query?.route && options.query.route != '/pages/home/home' && user.user.login == 0) {
 		 	uni.redirectTo({
-		 		url: '/pages/index/index', 
+		 		url: '/pages/home/home', 
 		 	})
 		 }
 		// if(!user.user_info.user) {
