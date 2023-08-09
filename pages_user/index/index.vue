@@ -4,30 +4,43 @@
 		<u-status-bar></u-status-bar>
 		<!-- <u-notify ref="notify"></u-notify> -->
 		<view class="step3 user u-flex u-flex-items-start u-p-20 u-p-t-50 u-m-b-26">
-			<view class="u-m-r-20" v-if="user.mall_user_info.mem_pic">
-				<up-image 
-					show-loading
-					:src="user.mall_user_info.mem_pic" 
-					width="50px" 
-					height="50px"  
-					shape="circle"
-					></up-image>
-			</view>
-			<view class="user-img u-flex u-flex-items-center u-flex-center"  v-else @click="base.handleGoto('/pages_user/info/user_info')">
-				<i class="custom-icon-myfill custom-icon"></i>
-			</view>
-			<view class="user-info u-flex-1" @click="base.handleGoto('/pages_user/info/user_info')"> 
-				<view class="item u-flex u-flex-items-center"> 
-					<view class="name u-line-1 u-font-38 step7">{{user.mall_user_info.name}}</view> 
+			<template v-if="user.user.login == '0' || !user.user.login">
+				<view class="user-img u-flex u-flex-items-center u-flex-center" @click="base.handleGoto('/pages/login/login')">
+					<i class="custom-icon-myfill custom-icon"></i>
 				</view>
-				<view class="item">
-					<view class="sub2 u-font-28 step9 text-light u-flex u-flex-items-center">
-						<text >{{user.mall_user_info.phone}}</text> 
-						<i class="custom-icon-edit custom-icon u-font-28 text-light u-m-l-10"></i>
-					</view>
+				<view class="user-info u-flex-1" @click="base.handleGoto('/pages/login/login')"> 
+					<view class="item u-flex u-flex-items-center"> 
+						<view class="name u-line-1 u-font-38 step7">点击登录/注册</view> 
+					</view>  
 				</view> 
-				
-			</view> 
+			</template>
+			<template v-else> 
+				<view class="u-m-r-20" v-if="user.mall_user_info.mem_pic">
+					<up-image 
+						show-loading
+						:src="user.mall_user_info.mem_pic" 
+						width="50px" 
+						height="50px"  
+						shape="circle"
+						></up-image>
+				</view>
+				<view class="user-img u-flex u-flex-items-center u-flex-center"  v-else @click="base.handleGoto('/pages_user/info/user_info')">
+					<i class="custom-icon-myfill custom-icon"></i>
+				</view>
+				<view class="user-info u-flex-1" @click="base.handleGoto('/pages_user/info/user_info')"> 
+					<view class="item u-flex u-flex-items-center"> 
+						<view class="name u-line-1 u-font-38 step7">{{user.mall_user_info.name}}</view> 
+					</view>
+					<view class="item">
+						<view class="sub2 u-font-28 step9 text-light u-flex u-flex-items-center">
+							<text >{{user.mall_user_info.phone}}</text> 
+							<i class="custom-icon-edit custom-icon u-font-28 text-light u-m-l-10"></i>
+						</view>
+					</view> 
+					
+				</view> 
+			</template>
+			
 		</view>
 		 
 		<view class="u-flex u-flex-wrap">

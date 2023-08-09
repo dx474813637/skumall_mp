@@ -5,7 +5,7 @@ import apis from '@/config/apis/index';
 const extConfig = uni.getExtConfigSync ? uni.getExtConfigSync():{}
 console.log(extConfig) 
 
-let pageRoute = uni.getStorageSync('noTokenNeedPermissionRoute') || {url: '', params: {}}
+let pageRoute = uni.getStorageSync('noTokenNeedPermissionRoute') || ''
 export const baseStore = defineStore('base', {
 	state: () => {
 		return {
@@ -28,7 +28,9 @@ export const baseStore = defineStore('base', {
 			home: {},
 			roomList: [],
 			home_loading: false,
-			noTokenNeedPermissionRoute: pageRoute
+			noTokenNeedPermissionRoute: pageRoute,
+			regional_list: [],
+			regional_list_loading: false
 		};
 	}, 
 	actions: {
@@ -65,11 +67,28 @@ export const baseStore = defineStore('base', {
 		}, 
 		handleGoto(data) {
 			uni.$u.route(data)
-		},
+		}, 
 		setNoTokenNeedPermissionRoute(data) {
 			this.noTokenNeedPermissionRoute = data;
 			uni.setStorageSync('noTokenNeedPermissionRoute', data)
 		},
+		async get_regional_list() {
+			if(this.regional_list_loading) return
+			try {
+				this.regional_list_loading = true
+				const res = await apis.addressDetail() 
+				if(res.code == 1) { 
+					this.regional_list_loading = false
+					//获取搜索类型数据
+					this.regional_list = exchangeData(JSON.parse(res.regional_list))
+					// console.log(this.regional_list)
+					return true
+				}
+			} catch (error) { 
+				this.regional_list_loading = false
+				return error
+			}
+		}
 	},
 });
  
@@ -228,3 +247,19 @@ export const useCateStore = defineStore('cate', {
 		}
 	},
 });
+
+
+function exchangeData(data) {
+	let arr = []
+	arr = data.map(ele => {
+		let base = {
+			text: ele.value,
+			value: ele.id, 
+		}
+		if(ele.childs) {
+			base.children = exchangeData(ele.childs)
+		}
+		return base
+	})  
+	return arr
+}

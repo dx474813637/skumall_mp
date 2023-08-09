@@ -47,6 +47,7 @@
 								v-model="form.passwd" 
 								placeholder="密码" 
 								border="bottom"
+								password
 								clearable
 								suffixIcon="lock-fill"
 								suffixIconStyle="color: #ccc;" 
@@ -57,11 +58,11 @@
 					<template v-if="login_mode == 'code'">
 						<u-form-item
 							label="手机"
-							prop="phone"   
+							prop="login"   
 							required 
 							>
 							<u--input
-								v-model="form.phone" 
+								v-model="form.login" 
 								placeholder="手机" 
 								border="bottom"
 								clearable
@@ -84,7 +85,7 @@
 										ref="uCode"
 										@change="codeChange"
 										seconds="20"
-										changeText="X秒重新获取哈哈哈"
+										changeText="X秒重新获取"
 									></up-code>
 									<up-button
 										@tap="getCode"
@@ -141,10 +142,25 @@
 		} 
 	])
 	const form = reactive({
-		login: "sktsyh",
-		passwd: "123456aa",
-		phone: "",
+		login: "",
+		passwd: "", 
 		code: "",
+	})
+	const params = computed(() => {
+		let obj = { login: form.login };
+		if(login_mode.value == 'pwd'){
+			obj = {
+				...obj,
+				passwd: form.passwd,
+			}
+		}
+		else if(login_mode.value == 'code') {
+			obj = {
+				...obj, 
+				msgcode: form.code,
+			}
+		}
+		return obj
 	})
 	const rules = computed(() => {
 		let obj = {}
@@ -170,7 +186,7 @@
 		else {
 			obj = {
 				...obj,
-				phone: [
+				login: [
 					{
 						validator: (rule, value, callback) => { 
 							return uni.$u.test.mobile(value);
@@ -197,20 +213,21 @@
 		return obj
 	})
 	
-	const login_mode = computed(() => {
+	const login_mode = computed(() => {  
 		return login_mode_list.value[login_mode_current.value].value
 	})
 	
 	
-	function handleTabsChange(data) {
+	function handleTabsChange(data) { 
+		uForm.value.resetFields()
 		login_mode_current.value = +data.index 
 	}
 	function codeChange(text) {
         tips.value = text;
     }
 	async function getCode() {
-		if(!uni.$u.test.mobile(form.phone)) {
-			uForm.value.validateField('phone')
+		if(!uni.$u.test.mobile(form.login)) {
+			uForm.value.validateField('login')
 			return
 		} 
         if (uCode.value.canGetCode) {
@@ -218,7 +235,7 @@
 			uni.showLoading({
 				title: '正在获取验证码'
 			}) 
-			const res = await $api.msgcode({params: {login: form.phone}}) 
+			const res = await $api.msgcode({params: {login: form.login}}) 
 			if(res.code == 1) {
 				uCode.value.start();
 			}
@@ -232,13 +249,13 @@
 	
 	function submit() {
 		uForm.value.validate().then(async () => {
-			const res = await $api.syblogin({params: {...form}})
+			const res = await $api.syblogin({params: params.value})
 			if(res.code == 1) {
 				uni.$u.toast(res.msg);
 				uni.showLoading()
 				const new_user = await user.refreshToken()
 				user.saveUserInfo(new_user)
-				let prePage = uni.getStorageSync('prePage')
+				let prePage = base.noTokenNeedPermissionRoute
 				if(prePage) {
 					uni.showLoading()
 					try{
@@ -246,7 +263,7 @@
 					}catch(e){
 						//TODO handle the exception
 					} 
-					uni.removeStorageSync('prePage')
+					base.setNoTokenNeedPermissionRoute('')
 					uni.redirectTo({
 						url: prePage
 					})

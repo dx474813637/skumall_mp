@@ -70,7 +70,8 @@ export function permissionBase(e) {
 	 	// if (!pass && (!user.user.login || !user.user_info.user )) {
 	 	if (!pass && (!user.user.login || user.user.login == '0' )) {
 			
-	 		uni.setStorageSync('prePage', e.url)
+	 		// uni.setStorageSync('prePage', e.url)
+			base.setNoTokenNeedPermissionRoute(e.url)
 			// user.clearLogout()
 			base.handleGoto({url: '/pages/login/login'})  
 	 		return false

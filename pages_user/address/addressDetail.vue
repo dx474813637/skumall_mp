@@ -1,22 +1,208 @@
 <template>
-	<view>
+	<view class="u-p-20 u-p-l-40 u-p-r-40">
+		<u--form
+			labelPosition="left"
+			:model="addressData"
+			ref="uForm"
+			labelWidth="80"
+		> 
+			<u-form-item
+				label="联系人"
+				prop="name"
+				ref="addressData_name"
+				required
+			>
+				<u--input
+					v-model="addressData.name"
+					clearable
+				></u--input>
+			</u-form-item>
+			<u-form-item
+				label="手机号"
+				prop="mobile"
+				ref="addressData_mobile"
+				required
+			>
+				<u--input
+					v-model="addressData.mobile"
+					clearable
+					type="number"
+				></u--input>
+			</u-form-item>
+			<u-form-item
+				label="地区"
+				prop="regional"
+				ref="addressData_regional"
+				required
+			> 
+				<view style="width: 100%;">
+					<uni-data-picker
+						placeholder="所在地" 
+						popup-title="请选择所在地区" 
+						:localdata="regional_list" 
+						v-model="addressData.regional"  
+						@change="handleValArea"
+					></uni-data-picker>
+				</view>
+				
+			</u-form-item>
+			<u-form-item
+				label="详细地址"
+				prop="address"
+				ref="addressData_address"
+				required
+			>
+				<u--textarea
+					v-model="addressData.address" 
+					placeholder="详细地址" 
+					height="90"
+				></u--textarea>
+			</u-form-item>
+			
+			<u-form-item
+				label="设为默认" 
+			>
+				<u-switch 
+				v-model="addressData.auto" 
+				:activeValue="1"
+				:inactiveValue="0"
+				></u-switch>
+			</u-form-item>
+			<u-form-item
+				label="备注"
+				prop="remark"
+				ref="addressData_remark"
+			>
+				<u--textarea
+					v-model="addressData.remark" 
+					placeholder="备注" 
+					height="90"
+				></u--textarea>
+			</u-form-item>
+		</u--form>
 		
+		<view class="u-p-t-20">
+			<u-button type="primary" @click="submit">提交</u-button>
+		</view>
+		<!-- <view class="u-p-t-20 u-m-b-40" v-if="addressData.address_id">
+			<u-button type="error" @click="delAddrClick">删除地址</u-button>
+		</view> -->
 	</view>
 </template>
 
-<script>
-	export default {
-		data() {
-			return {
-				
+<script setup>
+	import { onLoad, onUnload, onReady, onReachBottom } from "@dcloudio/uni-app";
+	import { ref, reactive, computed, toRefs, inject, watch, onMounted } from 'vue'  
+	const $api = inject('$api') 
+	import { baseStore } from '@/stores/base.js'
+	const base = baseStore() 
+	const { themeColor, regional_list, regional_list_loading } = toRefs(base) 
+	
+	const uForm = ref()
+	const addressData = ref({
+		address_id: '',
+		name: '',
+		mobile: '',
+		regional: '',
+		address: '',
+		remark: '',
+		auto: 0,  
+	})
+	const rules = {
+		name: [
+			{
+				required: true,
+				message: '联系人不得为空',
+				trigger: ['change', 'blur'],
 			}
-		},
-		methods: {
-			
+		],
+		mobile: [
+			{
+				validator: (rule, value, callback) => { 
+					return uni.$u.test.mobile(value);
+				},
+				message: '输入正确的手机号',
+				trigger: ['change', 'blur'],
+			}
+		],
+		regional: [
+			{
+				required: true,
+				message: '地区不得为空',
+				trigger: ['change', 'blur'],
+			}
+		],
+		address: [
+			{
+				required: true,
+				message: '详细地址不得为空',
+				trigger: ['change', 'blur'],
+			}
+		],
+	}
+	onLoad(async (options) => {
+		if(regional_list.value.length == 0 && !regional_list_loading.value ) {
+			base.get_regional_list()
+		}
+		if(options.hasOwnProperty('id')) {
+			addressData.value.address_id = options.id
+			await getData()
+		} 
+	})
+	onReady(() => {
+		uForm.value.setRules(rules)
+	})
+	
+	async function getData() {
+		const res = await $api.address_detail({
+			params: {
+				address_id: addressData.value.address_id
+			}
+		})
+		if(res.code == 1 ) {
+			addressData.value = {
+				...addressData.value,
+				...res.list,
+				regional: res.list.regional+'',
+				autoCheck: res.list.auto == 1? true: false
+			}
 		}
 	}
+	
+	function submit() {
+		uForm.value.validate().then(async () => {
+			uni.showLoading()
+			const res = await $api.address_change({params: {
+				...addressData.value
+			}})
+			if(res.code == 1) { 
+				uni.showToast({
+					title: res.msg
+				})
+				let data = {data: addressData.value, type: 'add'}
+				if(addressData.value.address_id) {
+					data.type = 'edit'
+				}
+				uni.$emit('address_update', data )
+				setTimeout(() => {
+					base.handleGoto({type: 'navigateBack'})
+				}, 800)
+				
+			}
+			
+		}).catch(errors => {
+			console.log(errors)
+			uni.$u.toast('检查表单')
+		})
+	}
+	
+	
 </script>
-
 <style>
+	page {
+		background-color: #fff;
+	}
+</style>
+<style lang="scss" scoped>
 
 </style>

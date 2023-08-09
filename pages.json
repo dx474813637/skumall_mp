@@ -95,7 +95,8 @@
 				"path": "address/addressList",
 				"style": {
 					"navigationBarTitleText": "地址管理",
-					"enablePullDownRefresh": false
+					"enablePullDownRefresh": false,
+					"onReachBottomDistance": 80
 				}
 
 			}, {
