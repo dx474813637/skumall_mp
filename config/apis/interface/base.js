@@ -40,14 +40,21 @@ export const regional_list = (data) => http.get('regional_list', data)
 // 		auto  0 1
 // address_change
 export const address_change = (data) => http.get('address_change', data)
-// orderConfirm
-export const orderConfirm = (data) => http.get('orderConfirm', data)
 // my_card
 export const my_card = (data) => http.get('my_card', data)
 // edit_card
 export const edit_card = (data) => http.get('edit_card', data)
 
- 
+  
+// `create_order` 生成订单 参数pid_array  address_id
+// json格式，每一条记录包含： cid表示旺铺ID，pid商品ID，num表示购买的商品数量
+export const create_order = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'create_order'}}))
+// `order_list` 订单列表  参数type 1待付款 2待收货 3已完成 role=1 买家的订单列表 不传或传其他值 卖家的订单列表 p页数
+export const order_list = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'order_list'}}))
+// `order_detail` 订单详情 参数order_id
+export const order_detail = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'order_detail'}}))
+// orderConfirm 订单详情 参数order_id
+export const orderConfirm = (data) => http.get('orderConfirm', data)
 
 // web_danye 单页
 export const web_danye = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'web_danye'}}))

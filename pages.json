@@ -139,7 +139,8 @@
 				"path": "order/orderList",
 				"style": {
 					"navigationBarTitleText": "订单列表",
-					"enablePullDownRefresh": false
+					"enablePullDownRefresh": false,
+					"onReachBottomDistance": 80
 				}
 
 			}, {
