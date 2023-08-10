@@ -64,7 +64,7 @@
 			})
 			return
 		}
-		emits('emits', {data: props.origin})
+		emits('cardClick', {data: props.origin})
 	}
 	
 </script>

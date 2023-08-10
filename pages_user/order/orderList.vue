@@ -1,25 +1,28 @@
 <template>
 	<view class="w">
-		<view class="tabs-w">
-			<u-tabs
-				:list="tabs_list"  
-				lineWidth="0"
-				:current="tabs_current" 
-				:activeStyle="{
-					color: themeColor
-				}"
-				@change="handleTabsChange"
-			></u-tabs>	
-		</view> 
+		<u-sticky bgColor="#f8f8f8">
+			<view class="tabs-w">
+				<u-tabs
+					:list="tabs_list"  
+					lineWidth="0"
+					:current="tabs_current" 
+					:activeStyle="{
+						color: themeColor
+					}"
+					@change="handleTabsChange"
+				></u-tabs>	
+			</view> 
+		</u-sticky>
+		
 		
 		
 		<view class="list u-p-10">  
-			<view class="list-item u-p-10" v-for="item in my_order_list" :key="item.id">
+			<view class="list-item u-p-10" v-for="item in dataList" :key="item.id">
 				<OrderCard
 					:origin="item"
 				></OrderCard>
 			</view>
-			<template v-if="my_order_list.length == 0">
+			<template v-if="dataList.length == 0">
 				<u-empty mode="data" :icon="base.empty" />
 			</template>
 			<template v-else>
@@ -36,6 +39,7 @@
 <script setup>
 	import { onLoad, onReady, onReachBottom } from "@dcloudio/uni-app";
 	import { ref, reactive, computed, toRefs, inject, watch } from 'vue'
+	import useDataList from '@/composition/useDataList.js'
 	// import { share } from '@/composition/share.js'
 	import { baseStore } from '@/stores/base'
 	import {userStore} from '@/stores/user'
@@ -47,18 +51,8 @@
 	// 	setOnlineControl,
 	// 	onlineControl
 	// } = share()
-	const $api = inject('$api')  
-	const my_order_list = ref([])
-	const role = ref('1')
-	const curP = ref(1)
-	const loadstatus = ref('loadmore')
-	const params = computed(() => {
-		return {
-			p: curP.value, 
-			role: role.value,
-			type: tabs_list.value[tabs_current.value].value
-		}
-	})  
+	const $api = inject('$api')   
+	const role = ref('1') 
 	const tabs_current = ref(0)
 	const tabs_list = ref([
 		{
@@ -81,7 +75,27 @@
 			disabled: false,
 			value: '3'
 		}
-	])
+	]) 
+	
+	const options = computed(() => {
+		return {
+			params: {
+				role: role.value,
+				type: tabs_list.value[tabs_current.value].value
+			},
+			api: 'order_list'
+		}
+	})
+	
+	const { 
+		dataList,
+		curP,
+		loadstatus,
+		params,
+		getDataList,
+		initDataList, 
+	} = useDataList(options)
+	
 	onLoad(async (options) => {
 		if(options.hasOwnProperty('role')) {
 			role.value = options.role
@@ -89,41 +103,11 @@
 		if(options.hasOwnProperty('zt')) {
 			tabs_current.value = +tabs_list.value.findIndex(ele => ele.value == options.zt) 
 		}
-		initMyOrder() 
+		initDataList() 
 	}) 
-	onReachBottom( () => {
-		if(tabs_current.value != 1) return
-		getMoreMyOrder()
-	}) 
-	async function getMoreMyOrder() {
-		if(loadstatus.value != 'loadmore') return
-		curP.value ++
-		await getMyOrder()
-	}
-	async function getMyOrder() {
-		const res = await $api.order_list({params: params.value})
-		if (res.code == 1) { 
-			my_order_list.value = [...my_order_list.value, ...res.list]
-			if(my_order_list.value.length >= res.total) {
-				loadstatus.value = 'nomore'
-			}
-			else {
-				loadstatus.value = 'loadmore'
-			}
-		}
-	}
-	function initMyOrderParams() {
-		curP.value == 1;
-		my_order_list.value = []
-	}
-	async function initMyOrder() {
-		uni.showLoading()
-		initMyOrderParams();
-		await getMyOrder()
-	} 
 	function handleTabsChange(data) {
 		tabs_current.value = +data.index
-		initMyOrder()
+		initDataList()
 	} 
 </script>
 

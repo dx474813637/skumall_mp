@@ -28,6 +28,20 @@ export const useCartStore = defineStore('cart', {
 			if(!this.cart_list || this.cart_list.length == 0) return 0
 			return this.cart_list.map(ele => ele.products.reduce((sum, item) => sum += +item.num, 0)).reduce((sum, item) => sum += item, 0)
 		},
+		cart_list_checked() {
+			if(!this.cart_list || this.cart_list.length == 0) return []
+			let arr = this.cart_list.map(ele => {
+				let products_checked = ele.products.filter(item => item.checked);
+				console.log(products_checked)
+				if(products_checked.length == 0) return false;
+				return {
+					...ele,
+					products: products_checked
+				}
+			}).filter(ele => ele !== false)
+			console.log(arr)
+			return arr
+		},
 		cart_list_checked_num() {
 			if(!this.cart_list || this.cart_list.length == 0) return 0
 			return this.cart_list.map(ele => ele.products.filter(item => item.checked).reduce((sum, item) => sum += Number(item.num), 0)).reduce((sum, item) => sum += item, 0) 

@@ -143,7 +143,7 @@
 						</view>
 					</view>
 					<view style="width: 100px">
-						<u-button type="primary" shape="circle" @click="gotoOrderBtn"  >
+						<u-button type="primary" shape="circle" @click="gotoOrderBtn" :disabled="cart_list_checked_num == 0"  >
 							<text class="u-font-32">结算</text> 
 						</u-button>
 					</view>
@@ -320,8 +320,11 @@
 	async function checkPidSku() {
 		await cart.getPidSku(sku_ids.value)
 	}
-	function gotoOrderBtn() {
-		
+	function gotoOrderBtn() { 
+		if(cart_list_checked_num.value == 0) return
+		base.handleGoto({
+			url: '/pages_user/order/orderCreate'
+		})
 	}
 	
 	function removeProductBtn() {

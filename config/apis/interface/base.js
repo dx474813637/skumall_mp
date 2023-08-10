@@ -56,6 +56,21 @@ export const order_detail = (data = {}) => all_api(uni.$u.deepMerge(data, {param
 // orderConfirm 订单详情 参数order_id
 export const orderConfirm = (data) => http.get('orderConfirm', data)
 
+// 订单状态  0 待付款 1付款成功 2待收货 3订单完成 
+// 4评分完成 5支付中 6支付失败
+// 状态0或6的时候能发起支付 
+// 1的时候在卖家端出现发货 
+// 2的时候在买家端出现确认收货 
+// 3的时候买家端出现评分
+//0 待付款pay 1付款成功 2待收货 3订单完成 4评分完成 5支付中 6支付失败 7待审核 8审核拒绝edit
+ 
+// change_order_status  改变订单状态（收货/发货） 参数order_id 
+export const change_order_status =  (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'change_order_status'}}))
+
+// order_score 订单评分 参数order_id score 1-5
+export const order_score = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'order_score'}}))
+
+
 // web_danye 单页
 export const web_danye = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'web_danye'}}))
 // cate_list  
