@@ -59,13 +59,19 @@
 		refreshList() 
 		uni.$on('address_update',function({data, type}){ 
 			console.log(type)
+			uni.$emit('create_order_address_update', data )
 			if(type == 'edit') {
 				let i = indexList.value.findIndex(ele => ele.id == data.address_id) 
 				if(i != -1) {
-				   indexList.value[i] = {
-					   ...data,
-					   id: data.address_id
-				   }
+					if(data.auto == '1') {
+						indexList.value.forEach(ele => {
+							ele.auto = 0
+						})
+					}
+				    indexList.value[i] = {
+						...data,
+						id: data.address_id
+				    }
 				}
 			} 
 			else if(type == 'add') {

@@ -1,8 +1,17 @@
-import { ref, onMounted, onUnmounted, inject } from 'vue';
+import { ref, onMounted, onUnmounted, inject, computed, toRefs } from 'vue';
 import {isNumber} from '@/utils/base';
-const $api = inject('$api')
+
+const $api = inject('$api') 
+import {useCartStore} from '@/stores/cart.js'
+const cart = useCartStore()
+const { cart_list, cart_list_num, cart_list_checked, cart_list_checked_num, cart_list_checked_price } = toRefs(cart)
 
 function useProductSku(){
+	const sku_ids = computed(() => cart_list.value.map(ele => {
+		return ele.products.filter(item => !item.disabled)
+							.map(item => item.id)
+							.join(',')
+	}).filter(ele => ele).join(','))
     const sku2treeData = (skuStr) => {
         let arr = []
         arr = skuStr.split('^').map(ele => {
@@ -74,6 +83,7 @@ function useProductSku(){
     }
 
     return {
+		sku_ids,
         sku2treeData,
         skuTable2domains,
         sku2domains,

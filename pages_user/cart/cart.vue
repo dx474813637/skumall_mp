@@ -169,7 +169,8 @@
 	// import { share } from '@/composition/share.js'
 	import useProductSku from '@/composition/useProductSku'
 	const {
-	    sku2treeData
+	    sku2treeData,
+		sku_ids
 	} = useProductSku()
 	// const { setOnlineControl } = share()
 	const $api = inject('$api')
@@ -258,11 +259,11 @@
 		background: 'transparent' 
 	}) 
 	const startVal = ref(0)
-	const sku_ids = computed(() => cart_list.value.map(ele => {
-		return ele.products.filter(item => !item.disabled)
-							.map(item => item.id)
-							.join(',')
-	}).filter(ele => ele).join(','))
+	// const sku_ids = computed(() => cart_list.value.map(ele => {
+	// 	return ele.products.filter(item => !item.disabled)
+	// 						.map(item => item.id)
+	// 						.join(',')
+	// }).filter(ele => ele).join(','))
 	watch(
 		() => cart_list.value,
 		(val) => {

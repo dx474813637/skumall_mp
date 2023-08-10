@@ -11,9 +11,9 @@
 					<text class="u-m-l-10">{{origin.mobile}}</text> 
 				</view>
 			</view>
-			<view class="item text-nowrap u-m-l-20">
+			<!-- <view class="item text-nowrap u-m-l-20">
 				<u-tag type="primary" size="mini" text="默认" v-if="origin.auto == '1'"></u-tag>
-			</view>
+			</view> -->
 		</view>
 		<view class="card-row u-flex u-flex-items-center u-flex-between u-m-b-20">
 			<u-icon name="map-fill" size="16" color="#afd2ff"></u-icon>
@@ -25,8 +25,8 @@
 					{{origin.address}}
 				</text> 
 			</view>
-			<view class="item u-p-l-20 u-p-10 u-p-r-20" v-if="cardClickToEdit">
-				<u-icon name="edit-pen-fill" size="16" color="#999"></u-icon>
+			<view class="item u-p-l-20 u-p-10 u-p-r-20" >
+				<u-icon name="arrow-right" size="16" color="#999"></u-icon>
 			</view>
 		</view>
 	</view>
@@ -46,25 +46,12 @@
 			default: () => {
 				return {}
 			}
-		},
-		cardClickToEdit: {
-			type: Boolean,
-			default: true
-		}
+		} 
 	})
 	 
 	const emits = defineEmits(['cardClick'])
-	function cardClick() {
-		if(props.cardClickToEdit) {
-			base.handleGoto({
-				url: '/pages_user/address/addressDetail',
-				params: {
-					id: props.origin.id
-				}
-			})
-			return
-		}
-		emits('cardClick', {data: props.origin})
+	function cardClick() { 
+		emits('cardClick')
 	}
 	
 </script>
@@ -72,5 +59,5 @@
 <style lang="scss" scoped>
 	.name {
 		font-weight: bold;
-	} 
+	}
 </style>

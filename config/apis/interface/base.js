@@ -53,7 +53,7 @@ export const create_order = (data = {}) => all_api(uni.$u.deepMerge(data, {param
 export const order_list = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'order_list'}}))
 // `order_detail` 订单详情 参数order_id
 export const order_detail = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'order_detail'}}))
-// orderConfirm 订单详情 参数order_id
+// orderConfirm 创建订单 地址参数 
 export const orderConfirm = (data) => http.get('orderConfirm', data)
 
 // 订单状态  0 待付款 1付款成功 2待收货 3订单完成 
