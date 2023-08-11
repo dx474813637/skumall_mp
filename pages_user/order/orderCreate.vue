@@ -26,7 +26,6 @@
 						class="product-item u-flex u-flex-items-start u-p-15"
 						v-for="product in item.products"
 						:key="product.id"
-						 @click="base.handleGoto({url: '/pages/product/productDetail', params: {id: product.pid}})"
 						> 
 						<view class="item" >
 							<up-image 

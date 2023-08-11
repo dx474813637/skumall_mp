@@ -153,6 +153,124 @@
 
 			}
 		]
+	},{
+		"root": "pages_finance",
+		"pages": [
+			{
+				"path": "account/account",
+				"style": {
+					"navigationBarTitleText": "认证信息",
+					"navigationBarBackgroundColor": "#326dbd",
+					"navigationBarTextStyle": "white",
+					"enablePullDownRefresh": false
+				} 
+			},
+			{
+				"path": "user_apply/user_apply",
+				"style": {
+					"navigationBarTitleText": "融资个人认证表单",
+					"enablePullDownRefresh": false
+				} 
+			},
+			{
+				"path": "user_verify/user_verify",
+				"style": {
+					"navigationBarTitleText": "融资个人验证",
+					"enablePullDownRefresh": false
+				} 
+			},
+			{
+				"path": "company_apply/company_apply",
+				"style": {
+					"navigationBarTitleText": "融资企业认证表单",
+					"enablePullDownRefresh": false
+				} 
+			},
+			{
+				"path": "company_verify/company_verify",
+				"style": {
+					"navigationBarTitleText": "融资企业验证",
+					"enablePullDownRefresh": false
+				} 
+			},
+			{
+				"path": "no_order_buyer/no_order_buyer",
+				"style": {
+					"navigationBarTitleText": "无订单融资借款人信息",
+					"enablePullDownRefresh": false
+				} 
+			},
+			{
+				"path": "no_order_white_sell_list/no_order_white_sell_list",
+				"style": {
+					"navigationBarTitleText": "无订单卖家白名单列表",
+					"enablePullDownRefresh": false
+				} 
+			},
+			{
+				"path": "no_order_white_sell/no_order_white_sell",
+				"style": {
+					"navigationBarTitleText": "无订单卖家白名单编辑",
+					"enablePullDownRefresh": false
+				} 
+			},
+			{
+				"path": "query_product_list/query_product_list",
+				"style": {
+					"navigationBarTitleText": "融资产品列表",
+					"enablePullDownRefresh": false
+				} 
+			},
+			{
+				"path": "query_product/query_product",
+				"style": {
+					"navigationBarTitleText": "融资产品详情",
+					"enablePullDownRefresh": false
+				} 
+			},
+			{
+				"path": "pacc_query/pacc_query",
+				"style": {
+					"navigationBarTitleText": "预授信申请表单",
+					"enablePullDownRefresh": false
+				} 
+			},
+			{
+				"path": "pacc_query_list/pacc_query_list",
+				"style": {
+					"navigationBarTitleText": "预授信申请列表",
+					"enablePullDownRefresh": false
+				} 
+			},
+			{
+				"path": "order_rz_pay_list/order_rz_pay_list",
+				"style": {
+					"navigationBarTitleText": "融资记录",
+					"enablePullDownRefresh": false
+				} 
+			},
+			{
+				"path": "order_rz_pay/order_rz_pay",
+				"style": {
+					"navigationBarTitleText": "融资记录详情",
+					"enablePullDownRefresh": false
+				} 
+			},
+			{
+				"path": "order_new_list/order_new_list",
+				"style": {
+					"navigationBarTitleText": "融资订单",
+					"enablePullDownRefresh": false
+				} 
+			},
+			{
+				"path": "order_new/order_new",
+				"style": {
+					"navigationBarTitleText": "融资订单详情",
+					"enablePullDownRefresh": false
+				} 
+			}
+		]
 	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

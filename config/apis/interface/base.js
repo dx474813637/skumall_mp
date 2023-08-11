@@ -83,4 +83,21 @@ export const web_search = (data = {}) => all_api(uni.$u.deepMerge(data, {params:
 export const web_product_detail = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'web_product_detail'}}))
 // web_pid_sku1  
 export const web_pid_sku1 = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'web_pid_sku1'}}))
- 
+  
+ // web_help 帮助中心
+export const web_help = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'web_help'}}))
+ // web_help_detail 帮助页详情 参数id
+export const web_help_detail = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'web_help_detail'}}))
+
+// web_news 公告/资讯列表 p cate num默认20 这个cate是中文的
+export const web_news = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'web_news'}}))
+// web_news_detail 公告/资讯详情 id
+export const web_news_detail = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'web_news_detail'}}))
+// web_tuijian 优选店铺 login 空默认返回列表第一个数据的信息。
+export const web_tuijian = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'web_tuijian'}}))
+// web_tuijian2 推荐店铺 num获取几个数据
+export const web_tuijian2 = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'web_tuijian2'}}))
+// web_login_shop 店铺数据 p cate num login必填
+export const web_login_shop = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'web_login_shop'}}))
+// web_home 首页推荐里的一些数据
+export const web_home = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'web_home'}}))
