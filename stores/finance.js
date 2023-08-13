@@ -14,23 +14,23 @@ export const useFinanceStore = defineStore('finance', {
 			transfer_process_loading: false, 
 			idTypeList: [
 				{
-					label: '中国大陆身份证',
+					name: '中国大陆身份证',
 					value: 'CRED_PSN_CH_IDCARD'
 				},
 				{
-					label: '台湾来往大陆通行证',
+					name: '台湾来往大陆通行证',
 					value: 'CRED_PSN_CH_TWCARD'
 				},
 				{
-					label: '澳门来往大陆通行证',
+					name: '澳门来往大陆通行证',
 					value: 'CRED_PSN_CH_MACAO'
 				},
 				{
-					label: '香港来往大陆通行证',
+					name: '香港来往大陆通行证',
 					value: 'CRED_PSN_CH_HONGKONG'
 				},
 				{
-					label: '护照',
+					name: '护照',
 					value: 'CRED_PSN_PASSPORT'
 				},
 			],
@@ -42,7 +42,21 @@ export const useFinanceStore = defineStore('finance', {
 			bank_buy_all_loading: false, 
 			no_order_buyer: {},
 			no_order_buyer_loading: false, 
-			tooclePic: 'https://img-i-album.toocle.com/0-0/'
+			tooclePic: 'https://img-i-album.toocle.com/0-0/',
+			numList: [
+				{
+					name: '信息填写'
+				}, 
+				{
+					name: '个人认证'
+				}, 
+				{
+					name: '企业认证'
+				}, 
+				{
+					name: '完成',
+				},
+			]
 		};
 	},
 	getters: { 
@@ -123,7 +137,7 @@ export const useFinanceStore = defineStore('finance', {
 		},  
 		async getRegionalData() {
 			this.regional_loading = true 
-			const res = await apis.get_regional({needLoading});
+			const res = await apis.get_regional();
 			this.regional_loading = false
 			if(res.code == 1) { 
 				this.regional_list = exchangeRegionalData( 'items', res.list)   

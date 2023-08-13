@@ -91,6 +91,10 @@ export const userStore = defineStore('user', {
 		},
 		saveUserInfo(data) {
 			this.user = data;
+			
+			uni.setStorageSync('poster', data.poster) 
+			uni.setStorageSync('user', data) 
+			uni.setStorageSync('userid', data.userid) 
 		},
 		get_xcx_code() {
 			return new Promise((resolve, rejected) => {

@@ -34,10 +34,10 @@ export default function($ws) {
 			...obj
 		}
 		// http.config.header['userid'] = token
-		if(!md5flag) {
-			// 不存在md5时保存userid
-			uni.setStorageSync('userid', obj.userid) 
-		}
+		// if(!md5flag) {
+		// 	// 不存在md5时保存userid
+		// 	uni.setStorageSync('userid', obj.userid) 
+		// }
 		
 	}
 	// function get_xcx_code() {
@@ -106,8 +106,6 @@ export default function($ws) {
 					// tim_online_login()
 					// console.log($ws)
 					// $ws.init()
-					uni.setStorageSync('poster', res.poster) 
-					uni.setStorageSync('user', res) 
 					let userid = ""
 					// if(res.errMsg != "request:ok") {
 					// 	userid = md5Libs.md5(formatDate(new Date()) + 'wsdz')

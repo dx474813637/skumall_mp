@@ -6,26 +6,26 @@
 					<view class="u-flex u-flex-between u-p-20 u-p-l-30 u-p-r-30">
 						<view class="item">认证信息</view>
 						<view class="item">
-							<u-icon name="more-dot-fill" color="#467f92" size="34"></u-icon>
+							<u-icon name="more-dot-fill" color="#467f92" size="17"></u-icon>
 						</view>
 					</view>
 				</view>
 				<view class="card-desc bg-white">
 					<template v-if="index != '2'">
-						<template v-if="accountLoading">
+						<template v-if="account_loading">
 							<view class="u-flex u-flex-column u-flex-items-center u-flex-center " style="height: 200px;" >
-								<u-loading 
+								<u-loading-icon 
 									mode="flower" 
 									size="40"  
 									color="#56c2e6"   
-									></u-loading>
+									></u-loading-icon>
 									<view class="u-m-t-30 u-font-28 text-desc">获取最新数据中...</view>
 							</view>
 						</template>
 						<!-- 未创建 个人账户信息 -->
-						<template v-else-if="!account || !account.hasOwnProperty('state') || account.state == 0">
+						<template v-else-if="!account_info || !account_info.hasOwnProperty('state') || account_info.state == 0">
 							<view class="u-flex u-flex-column u-flex-items-center u-p-40">
-								<u-image :src="empty" width="50vw" mode="widthFix"></u-image>
+								<up-image :src="base.empty" width="50vw" mode="widthFix"></up-image>
 								<view class="text-desc u-m-t-30">您还未创建办理人信息</view>
 							</view>
 						</template>
@@ -34,71 +34,68 @@
 							<view class="card-header u-p-b-10">
 								<view class="card-title u-flex u-flex-items-center">
 									<view class="item">
-										<u-icon name="account-fill" size="34" color="#8898e8"></u-icon>
+										<u-icon name="account-fill" size="17" color="#8898e8"></u-icon>
 									</view>
-									<view class="item u-font-34 u-m-l-15">{{account.name}}</view>
+									<view class="item u-font-34 u-m-l-15">{{account_info.name}}</view>
 								</view>
 								<view class="card-menu u-flex u-flex-items-center">
 									<view class="item u-flex u-flex-items-center u-font-28 text-desc">
-										{{account.ctime}}
+										{{account_info.ctime}}
 									</view> 
 								</view>
 							</view>
 							<view class="card-rows u-p-15 u-p-l-30 u-p-r-30 u-radius-5 u-m-t-12" >
 								<view class="u-flex u-flex-items-center u-m-b-5">
 									<view class="item">
-										<u-icon name="mingpian2" custom-prefix="custom-icon" size="38" color="#8898e8"></u-icon>
+										<u-icon name="mingpian2" custom-prefix="custom-icon" size="19" color="#8898e8"></u-icon>
 									</view>
-									<view class="item u-m-l-15 u-font-28 text-desc">{{ account.idType | userId2str}}</view>
+									<view class="item u-m-l-15 u-font-28 text-desc">{{ account_info.idType | userId2str}}</view>
 								</view>
-								<view class="u-font-40">{{account.idNumber}}</view>
+								<view class="u-font-40">{{account_info.idNumber}}</view>
 							</view>
 							<view class="card-rows u-p-15 u-p-l-30 u-p-r-30 u-radius-5 u-m-t-12" >
 								<view class="u-flex u-flex-items-center u-m-b-5">
 									<view class="item">
-										<u-icon name="phone-fill" size="34" color="#8898e8"></u-icon>
+										<u-icon name="phone-fill" size="17" color="#8898e8"></u-icon>
 									</view>
 									<view class="item u-m-l-15 u-font-28 text-desc">手机</view>
 								</view>
-								<view class="u-font-40">{{account.mobile}}</view>
+								<view class="u-font-40">{{account_info.mobile}}</view>
 							</view>
-							<view class="card-rows u-p-15 u-p-l-30 u-p-r-30 u-radius-5 u-m-t-12" v-if="account.email">
+							<view class="card-rows u-p-15 u-p-l-30 u-p-r-30 u-radius-5 u-m-t-12" v-if="account_info.email">
 								<view class="u-flex u-flex-items-center u-m-b-5">
 									<view class="item">
-										<u-icon name="email" size="34" color="#8898e8"></u-icon>
+										<u-icon name="email" size="17" color="#8898e8"></u-icon>
 									</view>
 									<view class="item u-m-l-15 u-font-28 text-desc">电子邮箱</view>
 								</view>
-								<view class="u-font-40">{{account.email}}</view>
+								<view class="u-font-40">{{account_info.email}}</view>
 							</view>
 							<view class="card-rows u-p-15 u-p-l-30 u-p-r-30 u-radius-5 u-m-t-12" >
 								<view class="u-flex u-flex-items-center u-m-b-5">
 									<view class="item">
-										<u-icon name="info-circle" size="34" color="#8898e8"></u-icon>
+										<u-icon name="info-circle" size="17" color="#8898e8"></u-icon>
 									</view>
 									<view class="item u-m-l-15 u-font-28 text-desc">个人认证状态</view>
 								</view>
 								<view class="u-font-36 u-flex u-flex-items-center u-flex-between">
 									<view class="item " :class="{
-										'text-success': account.state == 2,
-										'text-error': account.state != 2
-									}">{{account.state | rzUser}}</view>
+										'text-success': account_info.state == 2,
+										'text-error': account_info.state != 2
+									}">{{account_info.state }}</view>
 									<view class="item"> 
 										<u-button 
-											v-if="account.state == 1"
+											v-if="account_info.state == 1"
 											:customStyle="{
+												...customStyle,
 												background: '#1c204b', 
-												border: '0', 
-												padding: '0 15px',
-												color: '#fff'
 											}"
-											shape="circle"
-											size="medium" 
+											shape="circle" 
 											hoverClass="none"
 											ripple
 											rippleBgColor="rgba(255,255,255,.2)"
 											:hairLine="false"
-											@click="navto('/pages/account/user_verify')"
+											@click="base.handleGoto('/pages_finance/user_verify/user_verify')"
 										 >
 											去认证
 										 </u-button> 
@@ -108,38 +105,30 @@
 						</template>
 						
 						<view class="card-btns u-flex u-flex-wrap u-flex-items-start u-m-t-25">
-							<view class="item u-m-r-20 u-m-b-20" v-if="account.hasOwnProperty('state') && account.state != 2">
+							<view class="item u-m-r-20 u-m-b-20" v-if=" account_info.state != 2">
 								<u-button 
 									:customStyle="{
-										background: '#589cfb', 
-										border: '0', 
-										padding: '0 15px',
-										color: '#fff'
+										...customStyle
 									}"
 									shape="circle"
-									size="medium" 
 									hoverClass="none"
 									ripple
 									rippleBgColor="rgba(255,255,255,.2)"
 									:hairLine="false"
-									@click="navto('/pages/account/user_apply')"
+									@click="base.handleGoto('/pages_finance/user_apply/user_apply')"
 								 >
 									<view class="u-flex u-flex-items-center">
-										<u-icon name="plus" ></u-icon>
-										<view class="u-m-l-10 u-font-28">{{account.state == "1" ?"更新": "新建"}}个人账户</view>
+										<u-icon name="edit-pen" size="17" color="#fff" ></u-icon>
+										<view class="u-m-l-10 u-font-28">{{account_info.state == "1" ?"更新": "新建"}}个人账户</view>
 									</view>
 								 </u-button>
 							</view>
 							<!-- <view class="item u-m-r-20 u-m-b-20" v-if="account.state == 2 ">
 								<u-button 
 									:customStyle="{
-										background: '#589cfb', 
-										border: '0', 
-										padding: '0 15px',
-										color: '#fff'
+										...customStyle
 									}"
 									shape="circle"
-									size="medium" 
 									hoverClass="none"
 									ripple
 									rippleBgColor="rgba(255,255,255,.2)"
@@ -155,13 +144,9 @@
 							<view class="item u-m-r-20 u-m-b-20" >
 								<u-button 
 									:customStyle="{
-										background: '#589cfb', 
-										border: '0', 
-										padding: '0 15px',
-										color: '#fff'
+										...customStyle
 									}"
 									shape="circle"
-									size="medium" 
 									hoverClass="none"
 									ripple
 									rippleBgColor="rgba(255,255,255,.2)"
@@ -169,7 +154,7 @@
 									@click="updateDataUser"
 								 >
 									<view class="u-flex u-flex-items-center">
-										<u-icon name="shuaxin" custom-prefix="custom-icon" size="30"></u-icon>
+										<u-icon name="reload" size="15" color="#fff"></u-icon>
 										<view class="u-m-l-10 u-font-28">刷新</view>
 									</view>
 								 </u-button>
@@ -177,24 +162,24 @@
 						</view>
 					</template>
 					
-					<template v-if="index != '1' && account.hasOwnProperty('state') && account.state == 2"> 
+					<template v-if="index != '1' && account_info.hasOwnProperty('state') && account_info.state == 2"> 
 						 
 						<view class="line" v-if="index != '2'"></view>
 						
-						<template v-if="organizationsLoading">
+						<template v-if="organizations_loading">
 							<view class="u-flex u-flex-column u-flex-items-center u-flex-center " style="height: 200px;" >
-								<u-loading 
+								<u-loading-icon 
 									mode="flower" 
 									size="40"  
 									color="#56c2e6"   
-									></u-loading>
+									></u-loading-icon>
 									<view class="u-m-t-30 u-font-28 text-desc">获取最新数据中...</view>
 							</view>
 						</template>
 						<!-- 未创建 企业账户信息 -->
-						<template v-else-if="!organizations || !organizations.hasOwnProperty('auth_record_state') || organizations.auth_record_state == 0">
+						<template v-else-if="!organizations_info || !organizations_info.hasOwnProperty('auth_record_state') || organizations_info.auth_record_state == 0">
 							<view class="u-flex u-flex-column u-flex-items-center u-p-40">
-								<u-image :src="empty" width="50vw" mode="widthFix"></u-image>
+								<u-image :src="base.empty" width="50vw" mode="widthFix"></u-image>
 								<view class="text-desc u-m-t-30">您还未创建企业信息</view>
 							</view>
 						</template>
@@ -203,14 +188,14 @@
 							<view class="u-m-t-25 u-p-b-10" style="width: 100%;">
 								<view class="card-menu u-flex u-flex-items-center u-flex-between u-m-b-12"> 
 									<view class="item u-flex u-flex-items-center u-font-28 text-desc">
-										{{organizations.ctime}}
+										{{organizations_info.ctime}}
 									</view> 
 								</view>
 								<view class="card-title u-flex u-flex-items-start">
 									<view class="item u-p-t-5">
 										<u-icon name="gongsi" custom-prefix="custom-icon" size="32" color="#8898e8"></u-icon>
 									</view>
-									<view class="item u-font-34 u-m-l-15">{{organizations.name}}</view>
+									<view class="item u-font-34 u-m-l-15">{{organizations_info.name}}</view>
 								</view>
 							</view>
 							
@@ -221,7 +206,7 @@
 									</view>
 									<view class="item u-m-l-15 u-font-28 text-desc">统一社会信用代码</view>
 								</view>
-								<view class="u-font-40">{{organizations.idNumber}}</view>
+								<view class="u-font-40">{{organizations_info.idNumber}}</view>
 							</view>
 							<view class="card-rows u-p-15 u-p-l-30 u-p-r-30 u-radius-5 u-m-t-12" >
 								<view class="u-flex u-flex-items-center u-m-b-5">
@@ -232,25 +217,22 @@
 								</view>
 								<view class="u-font-36 u-flex u-flex-items-center u-flex-between">
 									<view class="item" :class="{
-										'text-success': organizations.auth_record_state == 2,
-										'text-error': organizations.auth_record_state != 2,
-									}">{{organizations.auth_record_state | rzCpy2}}</view>
+										'text-success': organizations_info.auth_record_state == 2,
+										'text-error': organizations_info.auth_record_state != 2,
+									}">{{organizations_info.auth_record_state}}</view>
 									<view class="item"> 
 										<u-button 
-											v-if="organizations.auth_record_state != 2"
+											v-if="organizations_info.auth_record_state != 2"
 											:customStyle="{
-												background: '#1c204b', 
-												border: '0', 
-												padding: '0 15px',
-												color: '#fff'
+												...customStyle,
+												background: '#1c204b',
 											}"
-											shape="circle"
-											size="medium" 
+											shape="circle" 
 											hoverClass="none"
 											ripple
 											rippleBgColor="rgba(255,255,255,.2)"
 											:hairLine="false"
-											@click="navto('/pages/account/cpy_verify')"
+											@click="base.handleGoto('/pages_finance/cpy_verify/cpy_verify')"
 										 >
 											去认证
 										 </u-button> 
@@ -261,38 +243,30 @@
 						
 						</template>
 						<view class="card-btns u-flex u-flex-wrap u-flex-items-start u-m-t-25">
-							<view class="item u-m-r-20 u-m-b-20" v-if="organizations.hasOwnProperty('state') && organizations.auth_record_state != 2">
+							<view class="item u-m-r-20 u-m-b-20" v-if="organizations_info.hasOwnProperty('state') && organizations_info.auth_record_state != 2">
 								<u-button 
 									:customStyle="{
-										background: '#589cfb', 
-										border: '0', 
-										padding: '0 15px',
-										color: '#fff'
+										...customStyle,
 									}"
 									shape="circle"
-									size="medium" 
 									hoverClass="none"
 									ripple
 									rippleBgColor="rgba(255,255,255,.2)"
 									:hairLine="false"
-									@click="navto('/pages/account/company_apply')"
+									@click="base.handleGoto('/pages_finance/company_apply/company_apply')"
 								 >
 									<view class="u-flex u-flex-items-center">
-										<u-icon name="plus" ></u-icon>
-										<view class="u-m-l-10 u-font-28">{{organizations.state == "1" ?"更新": "新建"}}企业账户</view>
+										<u-icon name="edit-pen" size="17" color="#fff" ></u-icon>
+										<view class="u-m-l-10 u-font-28">{{organizations_info.state == "1" ?"更新": "新建"}}企业账户</view>
 									</view>
 								 </u-button>
 							</view> 
-							<view class="item u-m-r-20 u-m-b-20" v-if="account.organizations_id">
+							<view class="item u-m-r-20 u-m-b-20" v-if="account_info.organizations_id">
 								<u-button 
 									:customStyle="{
-										background: '#589cfb', 
-										border: '0', 
-										padding: '0 15px',
-										color: '#fff'
+										...customStyle
 									}"
 									shape="circle"
-									size="medium" 
 									hoverClass="none"
 									ripple
 									rippleBgColor="rgba(255,255,255,.2)"
@@ -334,6 +308,13 @@
 	} = toRefs(finance) 
 	const $api = inject('$api')
 	const index = ref('')
+	const customStyle = ref({
+		border: '0',
+		padding: '0 15px',
+		color: '#fff',
+		background: '#589cfb',
+		height: '35px'
+	})
 	onLoad((options) => {
 		if(options.hasOwnProperty('index')) {
 			this.index = options.index
@@ -344,14 +325,14 @@
 	async function refresh() {
 		await updateDataUser()
 		if(this.index != '1') {
-			await this.updateDataCpy()
+			await updateDataCpy()
 		}
 		
 	}
 	
 	async function updateDataUser() {
 		await finance.getAccountData()
-	},
+	}
 	async function updateDataCpy() {
 		await finance.getCpyData()
 	}
@@ -392,6 +373,7 @@
 	}
 	.card-desc {
 		width: 100%;
+		box-sizing: border-box;
 		border-radius: 10px;
 		padding: 15px;
 		position: relative;
