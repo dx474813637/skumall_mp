@@ -107,7 +107,7 @@
 		idTypeList,
 		numList,
 	} = toRefs(finance)  
-	const loading = false
+	const loading = ref(false)
 	const step = ref(2)
 	const model = ref({
 		amount: '', 

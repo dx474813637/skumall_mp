@@ -11,17 +11,30 @@
 					
 				</view>
 			</template>
+			<view class="search bg-white u-p-20">
+				<u-search
+					placeholder="请输入关键字" 
+					v-model="keyword" 
+					:showAction="false"
+					clearabled
+				></u-search>
+			</view>
 			<view class="list-w u-flex">
 				<view class="list-item item-right u-flex-1"> 
 					<scroll-view class="main-list" scroll-y >
 						<view class="u-p-20">
 							<view 
-								class="item-card" 
-								v-for="(item, index) in bank_list"
+								class="item-card bg-white" 
+								v-for="(item, index) in list"
 								:key="item.id"
-								@click="emits('onConfirm', { data: item })"
+								@click="emits('onConfirm', item)"
 							>
-								<view class="u-line-1">{{item.name}}</view> 
+								<view class="u-line-1" v-if="item.hasOwnProperty('pp')">
+									<text>{{item.name.slice(0, item.pp[0])}}</text>
+									<text class="u-error">{{item.name.slice(item.pp[0], item.pp[0]+item.pp[1])}}</text>
+									<text>{{item.name.slice(item.pp[0]+item.pp[1])}}</text> 
+								</view> 
+								<view class="u-line-1" v-else>{{item.name}}</view> 	
 							</view>
 						</view>
 					</scroll-view>
@@ -33,7 +46,7 @@
 
 <script setup>
 	import { onLoad, onReady, onReachBottom } from "@dcloudio/uni-app";
-	import { ref, reactive, computed, toRefs, inject, watch } from 'vue' 
+	import { ref, reactive, computed, toRefs, inject, watch, onMounted } from 'vue' 
 	import { baseStore } from '@/stores/base'
 	import { userStore } from '@/stores/user'
 	import { useFinanceStore } from '@/stores/finance'  
@@ -52,12 +65,28 @@
 		numList,
 	} = toRefs(finance)   
 	const emits = defineEmits(['onConfirm'])
-	
+	const keyword = ref('')
 	onMounted(async () => {
 		if(bank_list.value.length == 0) {
 			uni.showLoading()
 			await finance.getBankListData()
 		} 
+	})
+	const list = computed(() => {
+		let str = keyword.value.trim().toUpperCase()
+		if(!str) return bank_list.value
+		let arr = []
+		let k = str.toUpperCase() 
+		let name = ''
+		bank_list.value.forEach(ele => { 
+			name = ele.name.toUpperCase()
+			let i = name.indexOf(k)
+			if(i > -1) {
+				ele.pp = [i, k.length]
+				arr.push(ele)
+			}
+		}) 
+		return arr
 	})
 	
 	async function handleRefresh() {
@@ -91,7 +120,7 @@
 		height: 100%;
 	}
 	.item-card { 
-		background-color: #f8f8f8;
+		// background-color: #f8f8f8;
 		box-sizing: border-box;  
 		margin-bottom: 10px; 
 		padding: 10px;

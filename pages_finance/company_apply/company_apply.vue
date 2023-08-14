@@ -7,7 +7,8 @@
 			>
 				<u-steps-item 
 					:title="item.name" 
-					v-for="item in numList"
+					v-for="(item, index) in numList"
+					:key="index"
 				>
 				</u-steps-item>
 			</u-steps>
@@ -38,6 +39,7 @@
 					<up-input 
 						v-model="model.name"
 						placeholder="企业名称"
+						clearable
 						></up-input>
 				</u-form-item> 
 				<u-form-item
@@ -50,6 +52,7 @@
 					<up-input 
 						v-model="model.idNumber"
 						placeholder="社会统一信用代码"
+						clearable
 						></up-input>
 				</u-form-item> 
 				<u-form-item
@@ -62,6 +65,7 @@
 					<up-input 
 						v-model="model.orgLegalName"
 						placeholder="法人姓名"
+						clearable
 						></up-input>
 				</u-form-item> 
 				<u-form-item
@@ -74,6 +78,7 @@
 					<up-input 
 						v-model="model.orgLegalIdNumber"
 						placeholder="法人身份证号"
+						clearable
 						></up-input>
 				</u-form-item> 
 				<u-form-item
@@ -148,6 +153,7 @@
 					<up-input 
 						v-model="model.cardNo"
 						placeholder="银行卡号"
+						clearable
 						></up-input>
 				</u-form-item> 
 				<u-form-item
@@ -160,6 +166,7 @@
 					<up-input 
 						v-model="model.mobile"
 						placeholder="通知短信手机号"
+						clearable
 						></up-input>
 				</u-form-item>
 			</u--form>
@@ -184,10 +191,14 @@
 		</view>
 		<BankNamePopup
 			:show="bankShow"
+			title="收款方银行总行名称"
+			:onUpdateShow="handleChangeShow"
 			@onConfirm="bankConfirm"
 		></BankNamePopup>
 		<BankSubNamePopup
 			:show="bankDetailShow"
+			title="对公账号开户行支行名称全称"
+			:onUpdateShow="handleChangeShow2"
 			@onConfirm="bankDetailConfirm"
 		></BankSubNamePopup>
 		<!-- <menusPopup 
@@ -236,7 +247,7 @@
 	const bankShow = ref(false)
 	const areaShow = ref(false)
 	const bankDetailShow = ref(false) 
-	const loading = false
+	const loading = ref(false)
 	const model = ref({
 		name: '',
 		idType: 'CRED_ORG_USCC',
@@ -268,7 +279,7 @@
 		}, 
 		orgLegalIdNumber: {
 			validator: (rule, value, callback) => {
-				return this.$u.test.idCard(value);
+				return uni.$u.test.idCard(value);
 			},
 			message: '输入正确的法人身份证号',
 			trigger: ['blur', 'change']
@@ -295,7 +306,7 @@
 		}, 
 		mobile: {
 			validator: (rule, value, callback) => {
-				return this.$u.test.mobile(value);
+				return uni.$u.test.mobile(value);
 			},
 			message: '输入正确的通知短信手机号',
 			trigger: ['blur', 'change']
@@ -324,8 +335,15 @@
 	onReady(() => {
 		uForm.value.setRules(rules)
 	})
-	function bankConfirm(data) {
+	function handleChangeShow(data) {
+		bankShow.value = data
+	}
+	function handleChangeShow2(data) {
+		bankDetailShow.value = data
+	}
+	function bankConfirm(data) { 
 		model.value.bank = data.name  
+		handleChangeShow(false)
 	}
 	function areaConfirm(e) {
 		// console.log(e);
@@ -334,9 +352,11 @@
 	}
 	function bankDetailConfirm(data) {
 		model.value.subbranch = data.bank_name  
+		handleChangeShow2(false)
 	}
 	function submit() {
 		uForm.value.validate().then(async () => {
+			if(loading.value) return
 			loading.value = true
 			uni.showLoading()
 			const res = await $api[config.value.func]({params: config.value.params});
@@ -357,6 +377,7 @@
 				}) 
 			}
 		}).catch(errors => {
+			console.log(errors)
 			uni.$u.toast('请检查表单')
 		}) 
 	}

@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="w">
 		<view class="u-flex u-flex-center u-p-30">
 			<view class="card work">
 				<view class="img-section">
@@ -47,9 +47,9 @@
 							<view class="card-rows u-p-15 u-p-l-30 u-p-r-30 u-radius-5 u-m-t-12" >
 								<view class="u-flex u-flex-items-center u-m-b-5">
 									<view class="item">
-										<u-icon name="mingpian2" custom-prefix="custom-icon" size="19" color="#8898e8"></u-icon>
+										<u-icon name="list" size="17" color="#8898e8"></u-icon>
 									</view>
-									<view class="item u-m-l-15 u-font-28 text-desc">{{ account_info.idType | userId2str}}</view>
+									<view class="item u-m-l-15 u-font-28 text-desc">{{ idTypeList2str }}</view>
 								</view>
 								<view class="u-font-40">{{account_info.idNumber}}</view>
 							</view>
@@ -82,7 +82,7 @@
 									<view class="item " :class="{
 										'text-success': account_info.state == 2,
 										'text-error': account_info.state != 2
-									}">{{account_info.state }}</view>
+									}">{{ finance_account_status }}</view>
 									<view class="item"> 
 										<u-button 
 											v-if="account_info.state == 1"
@@ -193,7 +193,7 @@
 								</view>
 								<view class="card-title u-flex u-flex-items-start">
 									<view class="item u-p-t-5">
-										<u-icon name="gongsi" custom-prefix="custom-icon" size="32" color="#8898e8"></u-icon>
+										<u-icon name="account-fill"  size="16" color="#8898e8"></u-icon>
 									</view>
 									<view class="item u-font-34 u-m-l-15">{{organizations_info.name}}</view>
 								</view>
@@ -202,7 +202,7 @@
 							<view class="card-rows u-p-15 u-p-l-30 u-p-r-30 u-radius-5 u-m-t-12" >
 								<view class="u-flex u-flex-items-center u-m-b-5">
 									<view class="item">
-										<u-icon name="mingpian2" custom-prefix="custom-icon" size="38" color="#8898e8"></u-icon>
+										<u-icon name="list" size="19" color="#8898e8"></u-icon>
 									</view>
 									<view class="item u-m-l-15 u-font-28 text-desc">统一社会信用代码</view>
 								</view>
@@ -211,7 +211,7 @@
 							<view class="card-rows u-p-15 u-p-l-30 u-p-r-30 u-radius-5 u-m-t-12" >
 								<view class="u-flex u-flex-items-center u-m-b-5">
 									<view class="item">
-										<u-icon name="info-circle" size="34" color="#8898e8"></u-icon>
+										<u-icon name="info-circle" size="17" color="#8898e8"></u-icon>
 									</view>
 									<view class="item u-m-l-15 u-font-28 text-desc">企业认证状态</view>
 								</view>
@@ -219,7 +219,7 @@
 									<view class="item" :class="{
 										'text-success': organizations_info.auth_record_state == 2,
 										'text-error': organizations_info.auth_record_state != 2,
-									}">{{organizations_info.auth_record_state}}</view>
+									}">{{ finance_organizations_status}}</view>
 									<view class="item"> 
 										<u-button 
 											v-if="organizations_info.auth_record_state != 2"
@@ -243,7 +243,7 @@
 						
 						</template>
 						<view class="card-btns u-flex u-flex-wrap u-flex-items-start u-m-t-25">
-							<view class="item u-m-r-20 u-m-b-20" v-if="organizations_info.hasOwnProperty('state') && organizations_info.auth_record_state != 2">
+							<view class="item u-m-r-20 u-m-b-20" v-if="organizations_info.auth_record_state != 2">
 								<u-button 
 									:customStyle="{
 										...customStyle,
@@ -274,7 +274,7 @@
 									@click="updateDataCpy"
 								 >
 									<view class="u-flex u-flex-items-center">
-										<u-icon name="shuaxin" custom-prefix="custom-icon" size="30"></u-icon>
+										<u-icon name="reload" size="15" color="#fff"></u-icon>
 										<view class="u-m-l-10 u-font-28">刷新</view>
 									</view>
 								 </u-button>
@@ -294,6 +294,7 @@
 	import { baseStore } from '@/stores/base'
 	import {userStore} from '@/stores/user'
 	import {useFinanceStore} from '@/stores/finance'
+	import useFilter from '@/composition/useFilter.js'
 	const user = userStore()
 	const { tmp_id_list, user:u  } = toRefs(user)
 	const base = baseStore();
@@ -306,6 +307,18 @@
 		organizations_loading,
 		idTypeList,
 	} = toRefs(finance) 
+	const zt2str = computed(() => {
+		return {
+			idType: account_info.value.idType,
+			finance_account_status: account_info.value.state,
+			finance_organizations_status: organizations_info.value.auth_record_state,
+		}
+	})
+	const {
+		idTypeList2str,
+		finance_account_status,
+		finance_organizations_status
+	} = useFilter(zt2str)
 	const $api = inject('$api')
 	const index = ref('')
 	const customStyle = ref({
@@ -342,13 +355,16 @@
 
 <style lang="scss">
 	page {
-		// background-color: #e8e8e8;
-		background: linear-gradient(to bottom, #326dbd 10%, #f7f7f7 25%);
-		background-image: linear-gradient(to bottom, #326dbd 10%, #f7f7f7 25%);
+		
 		min-height: 100vh;
 	}
 </style>
 <style lang="scss" scoped>
+	.w {
+		background-color: #f7f7f7;
+		background: linear-gradient(to bottom, #326dbd 10%, #f7f7f7 25%);
+		background-image: linear-gradient(to bottom, #326dbd 10%, #f7f7f7 25%);
+	}
 	.card {
 		--primary-clr: #1c204b;
 		--dot-clr: #BBC0FF;
@@ -368,7 +384,7 @@
 		color: #999;
 	}
 	.card-rows {
-		width: 100%;
+		// width: 100%;
 		background-color: #ecf4ff;
 	}
 	.card-desc {

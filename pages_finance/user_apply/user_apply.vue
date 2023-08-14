@@ -38,6 +38,7 @@
 					<up-input 
 						v-model="model.name"
 						placeholder="姓名"
+						clearable
 						></up-input>
 				</u-form-item>
 				<u-form-item
@@ -68,6 +69,7 @@
 					<up-input 
 						v-model="model.idNumber"
 						placeholder="证件号"
+						clearable
 						></up-input>
 				</u-form-item>
 				<u-form-item
@@ -75,10 +77,12 @@
 					label="手机号码" 
 					prop="mobile"  
 					ref="mobile" 
+					required
 				>
 					<up-input 
 						v-model="model.mobile"
 						placeholder="手机号码"
+						clearable
 						></up-input>
 				</u-form-item>
 				<u-form-item
@@ -90,6 +94,7 @@
 					<up-input 
 						v-model="model.email"
 						placeholder="电子邮箱"
+						clearable
 						></up-input>
 				</u-form-item>
 			</u--form>
@@ -144,10 +149,10 @@
 		idTypeList,
 		numList,
 	} = toRefs(finance)  
-	const loading = false
+	const loading = ref(false)
 	const model = ref({
 		name: '',
-		idType: '',
+		idType: 'CRED_PSN_CH_IDCARD',
 		idNumber: '',
 		mobile: '',
 		email: ''
@@ -171,6 +176,13 @@
 			message: '证件号不能为空',
 			trigger: ['blur', 'change']
 		},
+		mobile: {
+			validator: (rule, value, callback) => {
+				return uni.$u.test.mobile(value);
+			},
+			message: '输入正确的通知短信手机号',
+			trigger: ['blur', 'change']
+		}, 
 	}
 	const show = ref(false)
 	const idType = computed(() => {

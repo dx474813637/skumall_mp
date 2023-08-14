@@ -255,21 +255,7 @@
 					"navigationBarTitleText": "融资记录详情",
 					"enablePullDownRefresh": false
 				} 
-			},
-			{
-				"path": "order_new_list/order_new_list",
-				"style": {
-					"navigationBarTitleText": "融资订单",
-					"enablePullDownRefresh": false
-				} 
-			},
-			{
-				"path": "order_new/order_new",
-				"style": {
-					"navigationBarTitleText": "融资订单详情",
-					"enablePullDownRefresh": false
-				} 
-			}
+			} 
 		]
 	}],
 	"globalStyle": {

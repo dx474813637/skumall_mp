@@ -65,9 +65,10 @@
 	const base = baseStore();
 	const { home, roomList, themeColor } = toRefs(base)
 	import useFilter from '@/composition/useFilter.js'
-	const zt = computed(() => {
-		if(!list.value.list) return ''
-		return list.value.list.status
+	const zt = computed(() => { 
+		return {
+			order_zt: !list.value.list ? '' : list.value.list.status
+		}
 	})
 	const $api = inject('$api')   
 	const id = ref('')

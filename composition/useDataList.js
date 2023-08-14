@@ -9,7 +9,7 @@ import {
 	onLoad,
 	onReachBottom
 } from '@dcloudio/uni-app'
-export default function useDataList(data = { value: {params: {}, api: ''} }) { 
+export default function useDataList(data = { value: {params: {}, api: '', noReach: false} }) { 
 	const $api = inject('$api')   
 	const dataList = ref([])
 	const curP = ref(1)
@@ -23,20 +23,21 @@ export default function useDataList(data = { value: {params: {}, api: ''} }) {
 	}) 
 	
 	onReachBottom(() => {  
+		if(data.value.noReach) return
 		getMoreDataList()
 	}) 
-	async function getMoreDataList() {
-		if(loadstatus.value != 'loadmore') return
-		curP.value ++
-		await getDataList()
-	} 
-	function initDataListParams() {
-		curP.value == 1;
+	function initDataListParams() { 
+		curP.value = 1;
 		dataList.value = []
 	}
 	async function initDataList() {
 		uni.showLoading()
 		initDataListParams();
+		await getDataList()
+	} 
+	async function getMoreDataList() {
+		if(loadstatus.value != 'loadmore') return
+		curP.value ++
 		await getDataList()
 	} 
 	async function getDataList() { 
@@ -61,6 +62,8 @@ export default function useDataList(data = { value: {params: {}, api: ''} }) {
 		loadstatus,
 		params,
 		getDataList,
+		initDataListParams,
 		initDataList, 
+		getMoreDataList
 	}
 }

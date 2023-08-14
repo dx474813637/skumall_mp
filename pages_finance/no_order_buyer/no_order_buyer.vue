@@ -27,11 +27,11 @@
 					required 
 					>
 					<u-upload
-						:fileList="fileList1"
+						:fileList="form.filesList"
 						@afterRead="afterRead"
 						@delete="deletePic"
 						name="1"
-						multiple
+						limit="1"
 						:maxCount="10"
 					></u-upload>
 				</u-form-item> 
@@ -99,6 +99,7 @@
 		() => no_order_buyer.value,
 		(n) => {
 			if(n.hasOwnProperty('id')) { 
+				console.log(n)
 				form.value.company = n.company
 				form.value.platform_reg = n.platform_reg
 				form.value.remark = n.remark
@@ -111,6 +112,7 @@
 			deep: true
 		}
 	) 
+	const loading = ref(false)
 	const rules = {
 		company: [
 			{
@@ -146,7 +148,7 @@
 	})
 	
 	function deletePic(event) {
-		form.value.fileList.splice(event.index, 1)
+		form.value.filesList.splice(event.index, 1)
 		
 		// this.model.pic1 = ''
 		// this.model.pic1_base64 = ''
@@ -154,14 +156,14 @@
 	}
 	async function afterRead(event) {
 		console.log(event)
-		form.value.fileList = [{
+		form.value.filesList = [{
 			url:  event.file.thumb,
 			status: 'uploading',
 			message: '上传中'
 		}]
 		const base64 = await getImageBase64_readFile(event.file.thumb)
 		
-		form.value.fileList = [{
+		form.value.filesList = [{
 			url: event.file.thumb,
 			status: 'success'
 		}]

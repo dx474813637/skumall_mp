@@ -104,7 +104,9 @@
 		}
 	})
 	const zt = computed(() => {
-		return props.origin.status
+		return {
+			order_zt: props.origin.status
+		}
 	})
 	const { 
 		order_zt2str

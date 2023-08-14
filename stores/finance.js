@@ -42,7 +42,7 @@ export const useFinanceStore = defineStore('finance', {
 			bank_buy_all_loading: false, 
 			no_order_buyer: {},
 			no_order_buyer_loading: false, 
-			tooclePic: 'https://img-i-album.toocle.com/0-0/',
+			tooclePic: 'https://img-i-album.toocle.com/200-200/',
 			numList: [
 				{
 					name: '信息填写'
@@ -140,8 +140,22 @@ export const useFinanceStore = defineStore('finance', {
 			const res = await apis.get_regional();
 			this.regional_loading = false
 			if(res.code == 1) { 
-				this.regional_list = exchangeRegionalData( 'items', res.list)   
+				this.regional_list = exchangeRegionalData( 'items', res.list)  
 			} 
 		},  
 	},
 });
+
+function exchangeRegionalData(keyname, origin) {
+    let arr = uni.$u.deepClone(origin[keyname]).map(ele => ({ text: ele.name, value: ele.code }));
+    arr.forEach(ele => {
+        let key = 'items' + ele.value
+        let item = origin[key]
+        if (item) {
+            ele.children = exchangeRegionalData(key, origin)
+        }
+    });
+
+    return arr
+
+}

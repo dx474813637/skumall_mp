@@ -13,6 +13,7 @@ export const baseStore = defineStore('base', {
 			configBaseURL: 'https://wx3.y.netsun.com/Xuanpin/',
 			configHeader: {
 				'content-type': 'application/x-www-form-urlencoded',
+				// 'content-type': 'application/json',
 				'appid': 10004,
 				'appsecret': '809cMktOZRdhVUf2zDMI28NdXmrWOqV1F97ev571sbigR6EA6KNlQvM',
 				'xcxlogin': extConfig.attr.login,
