@@ -217,7 +217,9 @@
 			{
 				"path": "query_product_list/query_product_list",
 				"style": {
-					"navigationBarTitleText": "融资产品列表",
+					"navigationBarTitleText": "",
+					"navigationBarBackgroundColor": "#326dbd",
+					"navigationBarTextStyle": "white",
 					"enablePullDownRefresh": false
 				} 
 			},
@@ -230,6 +232,13 @@
 			},
 			{
 				"path": "pacc_query/pacc_query",
+				"style": {
+					"navigationBarTitleText": "预授信申请详情",
+					"enablePullDownRefresh": false
+				} 
+			},
+			{
+				"path": "pacc_query_edit/pacc_query_edit",
 				"style": {
 					"navigationBarTitleText": "预授信申请表单",
 					"enablePullDownRefresh": false

@@ -42,15 +42,20 @@ export default function useDataList(data = { value: {params: {}, api: '', noReac
 	} 
 	async function getDataList() { 
 		const res = await $api[data.value.api]({params: params.value})
-		if (res.code == 1) { 
-			dataList.value = [...dataList.value, ...res.list]
-			if(dataList.value.length >= res.total) {
-				loadstatus.value = 'nomore'
-			}
-			else {
-				loadstatus.value = 'loadmore'
+		if(data.value.hasOwnProperty('getDataCallBack')) {
+			data.value.getDataCallBack(res)
+		}else {
+			if (res.code == 1) {
+				dataList.value = [...dataList.value, ...res.list]
+				if(dataList.value.length >= res.total) {
+					loadstatus.value = 'nomore'
+				}
+				else {
+					loadstatus.value = 'loadmore'
+				}
 			}
 		}
+		
 	}
 	
 	

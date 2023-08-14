@@ -19,7 +19,7 @@
 								class="item-card" 
 								v-for="(item, index) in list"
 								:key="item.id"
-								@click="emits('onConfirm', { data: item })"
+								@click="emits('onConfirm', item)"
 							>
 								<view class="u-line-1">{{item.name}}</view> 
 							</view>

@@ -17,7 +17,7 @@
 					>
 					<view @click="bankProductShow = true">
 						<up-input 
-							v-model="form.product_id" 
+							v-model="form.product_name" 
 							readonly
 							placeholder="请选择" 
 							suffixIcon="arrow-down"
@@ -66,7 +66,7 @@
 					>
 					<view @click="bankShow = true">
 						<up-input 
-							v-model="model.bank" 
+							v-model="form.bank_name" 
 							readonly
 							placeholder="请选择" 
 							suffixIcon="arrow-down"
@@ -93,7 +93,7 @@
 					>
 					<view @click="bankDetailShow = true">
 						<up-input
-							v-model="model.subbranch" 
+							v-model="form.subbranch" 
 							readonly
 							placeholder="请选择" 
 							suffixIcon="arrow-down"
@@ -119,7 +119,11 @@
 					:borderBottom="false"
 					required 
 					>
-					
+					<u-switch 
+						v-model="form.state" 
+						activeValue="1"
+						inactiveValue="0"
+					></u-switch>
 				</u-form-item> 
 				<u-form-item
 					label="借款人ID"
@@ -143,11 +147,10 @@
 						:fileList="form.fileList"
 						@afterRead="afterRead"
 						@delete="deletePic"
-						name="1"
-						multiple
+						name="1" 
 						:maxCount="1"
 					></u-upload>
-				</u-form-item>  
+				</u-form-item> 
 				<u-form-item
 					label="备注"
 					prop="remark"  
@@ -174,17 +177,21 @@
 	<BankProductPopup
 		:show="bankProductShow"
 		title="融资产品"
+		:list="product_list"
+		:onUpdateShow="handleChangeShow3"
 		@onConfirm="bankProductConfirm"
 		@onRefresh="getBankProduct"
 	></BankProductPopup>
 	<BankNamePopup
 		:show="bankShow"
 		title="收款方银行总行名称"
+		:onUpdateShow="handleChangeShow"
 		@onConfirm="bankConfirm"
 	></BankNamePopup>
 	<BankSubNamePopup
 		:show="bankDetailShow"
-		title="收款方银行账户开户行名称"
+		title="对公账号开户行支行名称全称"
+		:onUpdateShow="handleChangeShow2"
 		@onConfirm="bankDetailConfirm"
 	></BankSubNamePopup>
 </template>
@@ -294,6 +301,7 @@
 	const bankDetailShow = ref(false) 
 	const form = ref({
 		product_id: "", 
+		product_name: "", 
 		company: "", 
 		company_reg: "", 
 		name: "",
@@ -311,7 +319,7 @@
 		pic4: "",
 		pic5: "",
 	}) 
-	
+	const loading = ref(false)
 	onReady(() => {
 		uForm.value.setRules(rules)
 	})
@@ -341,18 +349,31 @@
 			url: event.file.thumb,
 			status: 'success'
 		}]
-		form.value.reg_pic = base64 
+		form.value.pic1 = base64 
 		
 	} 
 	function bankProductConfirm(data) {
-		// form.value.bank = data.name  
+		form.value.product_id = data.product_id 
+		form.value.product_name = data.name  
+		handleChangeShow3(false)
 	}
-	function bankConfirm(data) {
-		form.value.bank = data.name  
+	function handleChangeShow(data) {
+		bankShow.value = data
+	}
+	function handleChangeShow2(data) {
+		bankDetailShow.value = data
+	}
+	function handleChangeShow3(data) {
+		bankProductShow.value = data
+	}
+	function bankConfirm(data) { 
+		form.value.bank_name = data.name  
+		handleChangeShow(false)
 	}
 	function bankDetailConfirm(data) {
 		form.value.subbranch = data.bank_name  
-	}
+		handleChangeShow2(false)
+	} 
 	async function getBankProduct() {
 		const res = await $api.query_product_list()
 		if (res.code == 1) {
@@ -362,11 +383,12 @@
 	async function getDetail() {
 		const res = await $api.no_order_white_sell_detail({params: {id: form.value.id}})
 		if(res.code == 1) {
-			form.value.product_id = [res.list.product_id]
+			form.value.product_id = res.list.product_id
+			form.value.product_name = res.list.product_name
 			form.value.company = res.list.company 
 			form.value.company_reg = res.list.company_reg 
 			form.value.name = res.list.name
-			form.value.bank_name = [res.list.bank_name]
+			form.value.bank_name = res.list.bank_name
 			form.value.cardNo = res.list.cardNo
 			form.value.subbranch = res.list.subbranch
 			form.value.cnapsCode = res.list.cnapsCode
@@ -387,10 +409,7 @@
 			loading.value = true
 			uni.showLoading()
 			const res = await $api.no_order_white_sell_change({
-				...form.value,
-				product_id: form.value.product_id[0],
-				bank_name: form.value.bank_name[0], 
-				pic1: form.value.fileList[0].url, 
+				...form.value,   
 			});
 			loading.value = false
 			if(res.code == 1) {

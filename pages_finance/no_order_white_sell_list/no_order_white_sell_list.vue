@@ -17,7 +17,10 @@
 		
 		
 		<view class="list u-p-10">  
-			<view class="list-item u-p-10" v-for="item in 5" :key="item.id">
+			<view 
+				class="list-item u-p-10" 
+				v-for="item in dataList" 
+				:key="item.id">
 				<NoOrderWhiteSellerCard
 					:origin="item"
 				></NoOrderWhiteSellerCard>
@@ -66,7 +69,19 @@
 			params: {  
 				state: tabs_list.value[tabs_current.value].value
 			},
-			api: 'no_order_white_sell_list'
+			api: 'no_order_white_sell_list',
+			getDataCallBack: (res) => {
+				console.log(res)
+				if (res.code == 1) {
+					dataList.value = [...dataList.value, ...res.list.list]
+					if(curP.value >= res.list.pw_page_total) {
+						loadstatus.value = 'nomore'
+					}
+					else {
+						loadstatus.value = 'loadmore'
+					}
+				}
+			}
 		}
 	})
 	
@@ -88,7 +103,7 @@
 	function handleTabsChange(data) {
 		tabs_current.value = +data.index
 		initDataList()
-	} 
+	}  
 </script>
 
 <style scoped lang="scss">

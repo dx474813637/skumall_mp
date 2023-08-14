@@ -1,49 +1,49 @@
 <template>
 	<view class="card bg-white u-radius-12 u-p-20" @click="cardClick">
-		<view class="card-header u-flex u-flex-items-center u-flex-between u-m-b-20">
+		<view class="card-header u-flex u-flex-items-center u-flex-between u-m-b-20 u-font-30">
 			<view class="item u-flex u-flex-items-end">
 				<view class="name u-flex u-flex-items-center">
 					<u-icon name="account-fill" size="16" color="#afd2ff"></u-icon>
 					<text class="u-m-l-10 u-line-1">{{origin.company}}</text> 
 				</view>
-				<view class="u-m-l-20 u-flex u-flex-items-center">
+				<!-- <view class="u-m-l-20 u-flex u-flex-items-center">
 					<u-icon name="phone-fill" size="16" color="#afd2ff"></u-icon>
 					<text class="u-m-l-10">{{origin.mobile}}</text> 
-				</view>
+				</view> -->
 			</view>
 			<view class="item text-nowrap u-m-l-20">
-				<u-tag type="primary" size="mini" text="默认" v-if="origin.auto == '1'"></u-tag>
+				<u-tag type="primary" size="mini" text="已激活" v-if="origin.state == '1'"></u-tag>
 			</view>
 		</view>
-		<view class="card-row u-flex u-flex-items-start u-flex-between u-m-b-20">
+		<view class="card-row u-font-28 u-flex u-flex-items-start u-flex-between u-m-b-10">
 			<view class="item  u-m-l-10 u-info">
 				融资产品
 			</view>
-			<view class="item u-p-l-20 u-p-10 u-p-r-20 u-line-2 u-flex-1 u-text-right" >
+			<view class="item u-m-l-20 u-line-2 u-flex-1 u-text-right" >
 				{{origin.product_name}}
 			</view>
 		</view>
-		<view class="card-row u-flex u-flex-items-start u-flex-between u-m-b-20">
+		<view class="card-row u-font-28 u-flex u-flex-items-start u-flex-between u-m-b-10">
 			<view class="item  u-m-l-10 u-info">
 				收款方银行账户名称
 			</view>
-			<view class="item u-p-l-20 u-p-10 u-p-r-20 u-line-2 u-flex-1 u-text-right" >
+			<view class="item u-m-l-20 u-line-2 u-flex-1 u-text-right" >
 				{{origin.name}}
 			</view>
 		</view>
-		<view class="card-row u-flex u-flex-items-start u-flex-between u-m-b-20">
+		<view class="card-row u-font-28 u-flex u-flex-items-start u-flex-between u-m-b-10">
 			<view class="item  u-m-l-10 u-info">
 				收款方银行卡号
 			</view>
-			<view class="item u-p-l-20 u-p-10 u-p-r-20 u-line-2 u-flex-1 u-text-right" >
+			<view class="item u-m-l-20 u-line-2 u-flex-1 u-text-right" >
 				{{origin.cardNo}}
 			</view>
 		</view>
-		<view class="card-row u-flex u-flex-items-start u-flex-between u-border-top u-info">
+		<view class="card-row u-font-28 u-flex u-flex-items-start u-flex-between u-info">
 			<view class="item  u-m-l-10 u-info">
 				创建时间
 			</view>
-			<view class="item u-p-l-20 u-p-10 u-p-r-20 u-line-2 u-flex-1 u-text-right" >
+			<view class="item u-m-l-20 u-line-2 u-flex-1 u-text-right" >
 				{{origin.ctime}}
 			</view>
 		</view>
