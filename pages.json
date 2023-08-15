@@ -275,6 +275,13 @@
 					"navigationBarTitleText": "融资记录详情",
 					"enablePullDownRefresh": false
 				} 
+			} ,
+			{
+				"path": "order_rz_pay_edit/order_rz_pay_edit",
+				"style": {
+					"navigationBarTitleText": "发起无订单融资提款请求",
+					"enablePullDownRefresh": false
+				} 
 			} 
 		]
 	}],

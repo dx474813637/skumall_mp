@@ -31,10 +31,10 @@
 				class="list-item u-p-10" 
 				v-for="item in dataList" 
 				:key="item.id">
-				<PaccQueryCard
+				<NoOrderRzPayCard
 					:origin="item"
 					@detailClick="detailClick"
-				></PaccQueryCard>
+				></NoOrderRzPayCard>
 			</view>
 			<template v-if="dataList.length == 0">
 				<u-empty mode="data" :icon="base.empty" />
@@ -91,6 +91,7 @@
 			},
 			api: 'no_order_rz_pay_list',
 			getDataCallBack: (res) => { 
+				console.log(res)
 				if (res.code == 1) {
 					dataList.value = [...dataList.value, ...res.list.list]
 					if(curP.value >= res.list.pw_page_total) {
