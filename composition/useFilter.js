@@ -59,25 +59,56 @@ export default function useFilter(zt) {
 	const pacc_query_status = computed(() => {
 		let value = zt?.value.pacc_query_status
 		let text = value 
-		if(status == '1') text = '授信申请中'
-		else if(status == '2') text = '授信已递交'
-		else if(status == '4') text = '授信失败'
-		else if(status == '5') text = '授信通过，签约中'
-		else if(status == '6') text = '授信通过，贷款企业已签约'
-		else if(status == '7') text = '授信通过，签约通过'
-		else if(status == '8') text = '授信通过，贷款账户已激活'
+		if(value == '1') text = '授信申请中'
+		else if(value == '2') text = '授信已递交'
+		else if(value == '4') text = '授信失败'
+		else if(value == '5') text = '授信通过，签约中'
+		else if(value == '6') text = '授信通过，贷款企业已签约'
+		else if(value == '7') text = '授信通过，签约通过'
+		else if(value == '8') text = '授信通过，贷款账户已激活'
 		return text
 	}) 
 	
 	const order_pay_status = computed(() => {
 		let value = zt?.value.order_pay_status
 		let text = value 
-		if(status == '1') text = '等待支付' 
-		else if(status == '5') text = '支付成功'
-		else if(status == '6') text = '支付失败' 
+		if(value == '1') text = '等待支付' 
+		else if(value == '5') text = '支付成功'
+		else if(value == '6') text = '支付失败' 
 		return text
-	}) 
-	
+	})  
+	const sign_file_status1 = computed(() => {
+		let value = zt?.value.sign_file_status1
+		let text = value 
+		if(value == 0) text = '未提交'
+		else if(value == 1) text = '已创建'
+		else if(value == 2) text = '已开启'
+		else if(value == 3) text = '已归档'
+		else if(value == 4) text = '已撤销' 
+		return text
+	})   
+	const sign_file_status2 = computed(() => {
+		let value = zt?.value.sign_file_status2
+		let text = value 
+		if(value == 0) text = '未提交'
+		else if(value == 1) text = '已创建'
+		else if(value == 2) text = '已开启'
+		else if(value == 3) text = '已归档'
+		else if(value == 4) text = '已撤销' 
+		return text
+	})   
+	const order_rz_status = computed(() => {
+		let value = zt?.value.order_rz_status
+		let text = value 
+		if(value == '1') text = '融资申请中'
+		else if(value == '2') text = '流程暂停'
+		else if(value == '3') text = '财务已拒绝'
+		else if(value == '4') text = '放款机构已同意'
+		else if(value == '5') text = '放款机构已拒绝'
+		else if(value == '6') text = '提款成功'
+		else if(value == '7') text = '提款失败'
+		return text
+	})   
 	
 	return {
 		order_zt2str,
@@ -86,6 +117,9 @@ export default function useFilter(zt) {
 		finance_account_status,
 		finance_organizations_status,
 		pacc_query_status,
-		order_pay_status
+		order_pay_status,
+		sign_file_status1,
+		sign_file_status2,
+		order_rz_status
 	}
 }

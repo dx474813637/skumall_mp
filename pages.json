@@ -227,6 +227,17 @@
 				"path": "query_product/query_product",
 				"style": {
 					"navigationBarTitleText": "融资产品详情",
+					"navigationBarBackgroundColor": "#326dbd",
+					"navigationBarTextStyle": "white",
+					"enablePullDownRefresh": false
+				} 
+			},
+			{
+				"path": "pacc_type_detail/pacc_type_detail",
+				"style": {
+					"navigationBarTitleText": "预授信申请详情",
+					"navigationBarBackgroundColor": "#326dbd",
+					"navigationBarTextStyle": "white",
 					"enablePullDownRefresh": false
 				} 
 			},
