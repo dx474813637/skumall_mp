@@ -13,12 +13,12 @@
 		</view>
 	</view>
 	<u-safe-bottom></u-safe-bottom>
-	<TabBar :customStyle="{boxShadow: '0px -3px 10px rgba(0,0,0,0.1)' }" v-if="list.url">
+	<TabBar :customStyle="{boxShadow: '0px -3px 10px rgba(0,0,0,0.1)' }" >
 		<view class="u-flex u-flex-between u-flex-items-center u-p-l-20 u-p-r-20 u-font-28" style="height: 100%;">
 			<view class="item u-flex-1 u-m-r-20" >
-				<u-button type="primary" shape="circle" @click="goto"  >
+				<u-button type="primary" shape="circle" openType="share"  >
 					<view class="u-flex"> 
-						<text class="u-m-l-8 u-p-b-5 u-font-32">我要预约</text>
+						<text class="u-m-l-8 u-p-b-5 u-font-32">分享</text>
 					</view>
 				</u-button>
 			</view>
@@ -27,7 +27,7 @@
 				<view class="u-info">首页</view>
 			</view> 
 		</view>
-	</TabBar> 
+	</TabBar>
 </template>
 
 <script setup>

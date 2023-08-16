@@ -1,7 +1,7 @@
 <template>
 	<view class="wrapper u-p-l-20 u-p-r-20 ">
-		<navBar fixed bgColor="transparent" title="个人中心" ></navBar>
-		<u-status-bar></u-status-bar>
+		<navBar bgColor="transparent" title="个人中心" ></navBar>
+		<!-- <u-status-bar></u-status-bar> -->
 		<!-- <u-notify ref="notify"></u-notify> -->
 		<view class="step3 user u-flex u-flex-items-start u-p-20 u-p-t-50 u-m-b-26">
 			<template v-if="user.user.login == '0' || !user.user.login">
@@ -42,13 +42,228 @@
 			</template>
 			
 		</view>
-		 
-		<view class="u-flex u-flex-wrap">
-			<view class="u-p-10" @click="base.handleGoto({url: '/pages_user/address/addressList'})">
-				addr
+		  
+		<view class="user-item-box u-p-b-30 bg-white u-m-b-26"  > 
+			<view class="box-row other-menus u-flex u-flex-wrap u-flex-items-center u-p-t-20 ">
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages_user/address/addressList'})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">地址管理</text>
+				</view>
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages_user/address/addressList'})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">选品车</text>
+				</view> 
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages_user/address/addressList'})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">个人名片</text>
+				</view> 
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages_user/address/addressList'})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">企业名片</text>
+				</view> 
 			</view>
-			<view class="u-p-10" @click="base.handleGoto({url: '/pages_user/order/orderList'})">
-				order
+		</view>
+		<view class="user-item-box u-p-b-30 bg-white u-m-b-26"  >
+			<view class="box-header u-border-bottom u-flex u-flex-between u-p-20 u-p-l-30 u-p-r-30">
+				<view class=" u-flex u-flex-items-end u-flex-items-center">
+					<view class="u-font-34 u-flex u-flex-items-center"> 
+						<text>商城订单</text>
+					</view> 
+				</view>  
+			</view>
+			<view class="box-row other-menus u-flex u-flex-wrap u-flex-items-center u-p-t-20 ">
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages_user/order/orderList', params: {zt: ''}})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">全部订单</text>
+				</view>
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages_user/order/orderList', params: {zt: '1'}})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">待付款</text>
+				</view>
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages_user/order/orderList', params: {zt: '2'}})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">待收货</text>
+				</view>
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages_user/order/orderList', params: {zt: '3'}})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">已完成</text>
+				</view>
+			</view>
+		</view>
+		<view class="user-item-box u-p-b-30 bg-white u-m-b-26"  >
+			<view class="box-header u-border-bottom u-flex u-flex-between u-p-20 u-p-l-30 u-p-r-30">
+				<view class=" u-flex u-flex-items-end u-flex-items-center">
+					<view class="u-font-34 u-flex u-flex-items-center"> 
+						<text>网盛共享直播间</text>
+					</view> 
+				</view>  
+			</view>
+			<view class="box-row other-menus u-flex u-flex-wrap u-flex-items-center u-p-t-20 ">
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages/index/index'})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">首页</text>
+				</view>
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages/reservation/reservation'})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">我要预约</text>
+				</view>
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages_user/reservation_list/reservation_list'})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">我的预约</text>
+				</view>
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages/reservation_list/reservation_list'})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">预约列表</text>
+				</view>
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages/web_danye/web_danye', params: {id: '6'}})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">标准直播间</text>
+				</view>
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages/web_danye/web_danye', params: {id: '7'}})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">特色直播间</text>
+				</view>
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages/web_danye/web_danye', params: {id: '8'}})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">仓库直播间</text>
+				</view>
+			</view>
+		</view>
+		<view class="user-item-box u-p-b-30 bg-white u-m-b-26"  >
+			<view class="box-header u-border-bottom u-flex u-flex-between u-p-20 u-p-l-30 u-p-r-30">
+				<view class=" u-flex u-flex-items-end u-flex-items-center">
+					<view class="u-font-34 u-flex u-flex-items-center"> 
+						<text>融资中心</text>
+					</view> 
+				</view>  
+			</view>
+			<view class="box-row other-menus u-flex u-flex-wrap u-flex-items-center u-p-t-20 ">
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages_finance/account/account'})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">认证信息</text>
+				</view>
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages_finance/no_order_buyer/no_order_buyer'})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">借款人信息</text>
+				</view>
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages_finance/no_order_white_sell_list/no_order_white_sell_list'})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">卖家白名单</text>
+				</view>
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages_finance/query_product_list/query_product_list'})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">融资产品</text>
+				</view>
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages_finance/pacc_query_list/pacc_query_list'})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">授信记录</text>
+				</view>
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages_finance/order_rz_pay_list/order_rz_pay_list'})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">融资记录</text>
+				</view>
+			</view>
+		</view>
+		<view class="user-item-box u-p-b-30 bg-white u-m-b-26"  > 
+			<view class="box-row other-menus u-flex u-flex-wrap u-flex-items-center u-p-t-20 "> 
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages/web_danye/web_danye_2', params: {id: '9'}})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">数字人直播</text>
+				</view>
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages/web_danye/web_danye_2', params: {id: '4'}})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">选品基地</text>
+				</view>
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages/web_danye/web_danye_2', params: {id: '3'}})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">培训中心</text>
+				</view>
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages/web_danye/web_danye_2', params: {id: '2'}})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">直播基地</text>
+				</view>
+				<view 
+					class="item u-flex-column u-flex-items-center u-m-t-15" 
+					@click="base.handleGoto({url: '/pages/web_danye/web_danye_2', params: {id: '1'}})"
+					>
+					<u-icon name="list" size="22" color="#333"></u-icon> 
+					<text class="u-font-26 u-m-t-10 u-line-1 menus-name">供应链金融</text>
+				</view>
 			</view>
 		</view>
 		<!-- 客户管理 远程控制 --> 
@@ -221,10 +436,10 @@
 	}
 	.wrapper {
 		padding-bottom: 50px;
-		padding-top: 44px;
+		// padding-top: 44px;
 		min-height: 100vh;
 		box-sizing: border-box;
-		background-image: linear-gradient(45deg, #eef1f6 75%, #d5fdf6 95%);
+		background-image: linear-gradient(15deg, #f8f8f8 40%, #d6eafe 75%, #e4f5fe 95%);
 	}
 	.menus-name {
 		color: #666;
@@ -264,10 +479,10 @@
 			border-radius: 50%;
 			overflow: hidden;
 			margin-right: 10px;
-			background-color: #d0e7ff;
+			background-color: #00b8ff;
 			.custom-icon {
 				font-size: 22px;
-				color: #86b0f8;
+				color: #fff;
 			}
 		}
 		.user-info {
