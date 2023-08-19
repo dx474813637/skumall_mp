@@ -1,7 +1,12 @@
 .dx-transition {
 	transition: all .3s;
 }
-
+.text-thin {
+	font-weight: 300;
+}
+.text-bold {
+	font-weight: bold;
+}
 .page-bg2 {
 	background-color: $page-bg2!important;
 }

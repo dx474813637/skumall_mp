@@ -1,5 +1,5 @@
 <template>
-	<view class="card u-radius-8 uni-shadow-base bg-white" @click="gotoDetail">
+	<view class="card u-radius-8 uni-shadow-base bg-white" @click.stop="gotoDetail">
 		<view class="img-w">
 			<view class="img">
 				<u--image
@@ -19,7 +19,7 @@
 			<view class="u-line-1 u-m-b-10">
 				{{origin.name}}
 			</view>
-			<view class="u-flex u-flex-items-center u-info u-m-b-10"> 
+			<view class="u-flex u-flex-items-center u-info u-m-b-10" v-if="origin.company"> 
 				<view class="u-line-1">{{origin.company.company}}</view>
 			</view>
 		</view>

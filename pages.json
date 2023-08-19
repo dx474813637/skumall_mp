@@ -11,7 +11,8 @@
 			"path": "pages/home/home",
 			"style": {
 				"navigationBarTitleText": "首页",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#cee2ff"
 			}
 
 		},{
@@ -75,7 +76,16 @@
 			}
 
 		}
-	],
+	    ,{
+            "path" : "pages/shop/shop",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"subPackages": [{
 		"root": "pages_user",
 		"pages": [{
