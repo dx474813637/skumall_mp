@@ -7,7 +7,17 @@
 			"^u-([^-].*)": "uview-plus/components/u-$1/u-$1.vue"
 		}
 	},
-	"pages": [{
+	"pages": [
+        {
+            "path" : "pages/home/home2",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#b7d4fe"
+            }
+            
+        },{
 			"path": "pages/home/home",
 			"style": {
 				"navigationBarTitleText": "首页",
@@ -81,6 +91,33 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/index/index_51xp",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/forms/51xp_gys",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "参展供应商",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/forms/51xp_mcn",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "独立主播/MCN机构",
                 "enablePullDownRefresh": false
             }
             

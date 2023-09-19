@@ -133,10 +133,54 @@
 			}
 		});
 	}
-	function orderBuyBtn () {
-		
+	async function orderBuyBtn () {
+		uni.showLoading()
+		wxPay()
 	} 
-	
+	async function wxPay() {
+		let res = await $api.xcx_pay({
+			pay_price: list.value.list.total_fee * 100,
+			order_id: id.value, 
+		})
+		if(res.list.return_code == 'SUCCESS' && res.list.result_code == 'SUCCESS') {
+			uni.requestPayment({
+			    provider: 'wxpay',
+			    timeStamp: String(res.pay.timeStamp),
+			    nonceStr: res.pay.nonceStr,
+			    package: res.pay.package,
+			    signType: res.pay.signType,
+			    paySign: res.pay.paySign,
+			    success: async data => {
+			        console.log('success:' + JSON.stringify(data)); 
+					uni.showToast({
+						title: '支付成功',
+						icon: 'none'
+					})
+					uni.showLoading()
+					await getData()
+			    },
+			    fail: err =>{
+			        console.log(err);
+					if(err.errMsg == 'requestPayment:fail cancel') {
+						uni.showToast({
+							title: '用户取消支付',
+							icon: 'none'
+						})
+					}else {
+						uni.showToast({
+							title: '支付失败',
+							icon: 'none'
+						})
+					}
+			    }
+			});
+		}else { 
+			uni.showToast({
+				title: res.list.return_msg,
+				icon: 'none'
+			})
+		}
+	}
 	function showScoreBtn () {
 		
 	}

@@ -56,6 +56,9 @@ export const order_detail = (data = {}) => all_api(uni.$u.deepMerge(data, {param
 // orderConfirm 创建订单 地址参数 
 export const orderConfirm = (data) => http.get('orderConfirm', data)
 
+// xcx_pay  
+export const xcx_pay = (data, config={}) => http.post('xcx_pay', data, config)
+
 // 订单状态  0 待付款 1付款成功 2待收货 3订单完成 
 // 4评分完成 5支付中 6支付失败
 // 状态0或6的时候能发起支付 
@@ -101,3 +104,18 @@ export const web_tuijian2 = (data = {}) => all_api(uni.$u.deepMerge(data, {param
 export const web_login_shop = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'web_login_shop'}}))
 // web_home 首页推荐里的一些数据
 export const web_home = (data = {}) => all_api(uni.$u.deepMerge(data, {params: {api: 'web_home'}}))
+
+
+// home1  
+export const home1 = (data) => http.get('home1', data)
+// home2  
+export const home2 = (data) => http.get('home2', data)
+
+// add_sign 报名接口
+// `name`, `company`, `duties`职位, `phone`, `info`, `recommend1`推荐人, msgcode 验证码参数 
+// `recommend2`协办推荐, `remark`, `platform`平台 对选项逗号隔开的字符串 
+export const add_sign = (data, config={}) => http.post('add_sign', data, config)
+// sign_detail 报名详情
+export const sign_detail = (data) => http.get('sign_detail', data)
+// add_detail 报名页 下来菜单数据
+export const add_detail = (data) => http.get('add_detail', data) 
