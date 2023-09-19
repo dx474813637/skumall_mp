@@ -9,20 +9,25 @@
 			
 			<u-tabbar-item 
 				:text="item.name"  
-				v-for="item in menus" 
+				v-for="item in menusByMode" 
 				:key="item.name"
 				@click="tabsClick"
-			>
-				<image
-					class="u-page__item__slot-icon"
-					slot="active-icon"
-					:src="item[`white_icon_2`]"
-				></image>
-				<image
-					class="u-page__item__slot-icon"
-					slot="inactive-icon"
-					:src="item[`white_icon_1`]"
-				></image>
+			> 
+				<template #active-icon>
+					<image
+						class="u-page__item__slot-icon" 
+						:src="item.white_icon_2  || item.img"
+					></image>
+				</template>
+				
+				<template #inactive-icon>
+					<image
+						class="u-page__item__slot-icon" 
+						:src="item.white_icon_1  || item.img"
+					></image> 
+				</template>
+				
+				
 			</u-tabbar-item>
 				
 		</u-tabbar>
@@ -43,13 +48,23 @@
 	import { storeToRefs } from 'pinia' 
 	const base = baseStore()
 	const menusstore = menusStore()
-	const { menus, menusActive  } = storeToRefs(menusstore);
+	const { menus, menus_51xp, menusActive  } = storeToRefs(menusstore);
 	// const menusRef  = computed(() => menus.menus);
 	// const menusActiveRef = computed(() => menus.menusActive); 
 	const $api = inject('$api')  
-	menusstore.getMenusData() 
-	 
+	
+	const props = defineProps({
+		mode: {
+			type: String,
+			default: ''
+		}
+	})
+	const menusByMode = computed(() => { 
+		if(props.mode == '2') return menus_51xp.value
+		return menus.value
+	})
 	onMounted(() => {
+		menusstore.getMenusData() 
 		let routeObj = getCurrentPages()[getCurrentPages().length - 1]
 		// console.log(routeObj)
 		menusstore.saveCurPage({
@@ -59,14 +74,9 @@
 		// console.log(menusActive)
 	})
 	function tabsClick(index) {
-		const item = menus.value[index]
+		const item = menusByMode.value[index]
 		// console.log(item)
-		if(item.type == 1 ){
-			uni.reLaunch({
-				url: item.url
-			})
-		}
-		else if(item.type == 2 ){
+		if(item.type == 2 ){
 			uni.redirectTo({
 				url: item.url
 			})
@@ -86,6 +96,11 @@
 					console.log(res1);
 				}
 			});
+		}
+		else {
+			uni.reLaunch({
+				url: item.url
+			})
 		}
 	}
 	

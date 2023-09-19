@@ -65,7 +65,9 @@
 				</view>
 			</view>
 		</view>
+		<u-safe-bottom></u-safe-bottom>
 	</view>
+	<MenusBar mode="2"></MenusBar>
 </template>
 
 
@@ -101,6 +103,7 @@
 		position: relative;
 		padding: 15px;
 		padding-top: 140px;
+		padding-bottom: 60px;
 		.bg {
 			position: absolute;
 			z-index: 10;

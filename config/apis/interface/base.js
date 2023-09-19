@@ -119,3 +119,5 @@ export const add_sign = (data, config={}) => http.post('add_sign', data, config)
 export const sign_detail = (data) => http.get('sign_detail', data)
 // add_detail 报名页 下来菜单数据
 export const add_detail = (data) => http.get('add_detail', data) 
+//获取菜单
+export const memu = (data) => http.get('memu', data)

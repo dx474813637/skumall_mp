@@ -98,6 +98,7 @@ export const menusStore = defineStore('menus', {
 	state: () => {
 		return {  
 			menus: [], 
+			menus_51xp: [], 
 			menus_wd: [],
 			menus_wd_broker: {},
 			new_memu: [],
@@ -119,7 +120,7 @@ export const menusStore = defineStore('menus', {
 			this.currPage = data;
 		},
 		async getMenusData() {
-			uni.$u.sleep(1000)
+			await uni.$u.sleep(1000)
 			this.menus = [
 				{
 					name: "首页",
@@ -168,41 +169,43 @@ export const menusStore = defineStore('menus', {
 					route: ele.url.split('?')[0],
 					options: paramsObj
 				}
-			})  
-			try { 
+			})   
+			try {  
 				const res = await apis.memu()  
 				if(res.code == 1) { 
 					//获取搜索类型数据
-					this.cpy_type_origin = [res.type]
-					this.cpy_type =[ [{name: '全部', value: ''}, ...res.type.map(ele => {
-						return {
-							name: ele,
-							value: ele
-						}
-					})] ]
+					// this.cpy_type_origin = [res.type]
+					// this.cpy_type =[ [{name: '全部', value: ''}, ...res.type.map(ele => {
+					// 	return {
+					// 		name: ele,
+					// 		value: ele
+					// 	}
+					// })] ]
 					
 					//获取底部导航菜单
-					this.menus = res.list.map((ele, index) => {
-						let paramsStr = ele.url.split('?')[1] || ''
-						let paramsObj = {}
-						paramsStr && paramsStr.split('&').forEach(item => {
-							paramsObj[item.split('=')[0]] = item.split('=')[1]
-						})
+					// this.menus = res.list.map((ele, index) => {
+					// 	let paramsStr = ele.url.split('?')[1] || ''
+					// 	let paramsObj = {}
+					// 	paramsStr && paramsStr.split('&').forEach(item => {
+					// 		paramsObj[item.split('=')[0]] = item.split('=')[1]
+					// 	})
 						 
-						return {
-							...ele,
-							route: ele.url.split('?')[0],
-							options: paramsObj
-						}
-					})  
+					// 	return {
+					// 		...ele,
+					// 		route: ele.url.split('?')[0],
+					// 		options: paramsObj
+					// 	}
+					// })   
+					this.menus_51xp = res.list.memu
 					
-					//获取个人中心基础菜单
-					this.menus_wd = res.new_memu_wd
+					// 获取个人中心基础菜单
+					// this.menus_wd = res.list.new_memu_wd
+					
 					//获取个人中心broker菜单
-					this.menus_wd_broker = res.broker_memu
+					// this.menus_wd_broker = res.list.broker_memu
 					
-					this.new_memu = res.new_memu 
-					this.news = res.news
+					// this.new_memu = res.list.new_memu 
+					// this.news = res.list.news
 				}
 			} catch (error) { 
 				return error
